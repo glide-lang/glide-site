@@ -1,0 +1,21 @@
+# robots.txt for the Glide programming language website
+# https://glide-lang.org
+# Created by Murillo Deolino
+
+User-agent: *
+Allow: /
+
+# Major crawlers — explicit allow so they trust us.
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Be polite — no high-frequency hammering.
+Crawl-delay: 1
+
+Sitemap: https://glide-lang.org/sitemap.xml

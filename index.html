@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/js/lang.js"></script>
+  <title>Glide Programming Language — small, modern, memory-safe</title>
+  <meta name="description" content="Glide is a modern systems programming language by Murillo Deolino. Safe memory without lifetimes, real concurrency via M:N coroutines, inline assembly, self-hosted compiler. Glide lang compiles to native binaries through a portable C backend.">
+  <meta name="keywords" content="Glide, glide lang, glide language, glide programming language, Murillo Deolino, systems programming language, compiled language, M:N coroutines, errors as values, self-hosted compiler">
+  <meta name="author" content="Murillo Deolino">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="googlebot" content="index, follow">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/glide-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/glide-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/icons/glide-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
+
+  <meta property="og:site_name" content="Glide Programming Language">
+  <meta property="og:title" content="Glide Programming Language — small, modern, memory-safe">
+  <meta property="og:description" content="Glide is a modern systems programming language by Murillo Deolino. Safe memory, real concurrency, inline assembly. Native binaries through a portable C backend.">
+  <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Glide Programming Language — code sample on a dark background with the Glide logo">
+  <meta property="og:url" content="https://glide-lang.org/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="theme-color" content="#0b1020">
+
+  <link rel="canonical" href="https://glide-lang.org/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glide Programming Language — small, modern, memory-safe">
+  <meta name="twitter:description" content="Glide lang by Murillo Deolino. Safe memory, real concurrency, inline assembly. Native binaries through a portable C backend.">
+  <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css?v=5">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://glide-lang.org/#website",
+        "url": "https://glide-lang.org/",
+        "name": "Glide Programming Language",
+        "alternateName": ["Glide", "Glide Lang", "Glide Language"],
+        "description": "Glide is a modern systems programming language by Murillo Deolino.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://glide-lang.org/#author" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://glide-lang.org/#author",
+        "name": "Murillo Deolino",
+        "url": "https://github.com/Murilinho145SG",
+        "sameAs": ["https://github.com/Murilinho145SG"],
+        "jobTitle": "Creator of the Glide programming language"
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://glide-lang.org/#software",
+        "name": "Glide",
+        "alternateName": ["Glide Lang", "Glide Language", "Glide Programming Language"],
+        "headline": "Glide Programming Language",
+        "description": "Glide is a modern systems programming language. Safe memory without lifetimes, M:N coroutines, inline assembly, self-hosted compiler, native binaries through a portable C backend.",
+        "url": "https://glide-lang.org/",
+        "codeRepository": "https://github.com/glide-lang/Glide",
+        "programmingLanguage": { "@type": "ComputerLanguage", "name": "Glide" },
+        "runtimePlatform": "Native",
+        "operatingSystem": ["Linux", "macOS", "Windows"],
+        "license": "https://opensource.org/licenses/MIT",
+        "author": { "@id": "https://glide-lang.org/#author" },
+        "creator":{ "@id": "https://glide-lang.org/#author" },
+        "maintainer": { "@id": "https://glide-lang.org/#author" },
+        "softwareVersion": "0.4.1",
+        "datePublished": "2026-05-27",
+        "image": "https://glide-lang.org/assets/og-cover.png"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://glide-lang.org/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the Glide programming language?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Glide is a modern systems programming language. It targets the same niche as Rust, Go, and Zig: native binaries with predictable performance, but with a simpler memory model (scope-bound borrows, no lifetime annotations) and built-in M:N coroutines. The compiler is self-hosted and emits portable C, then a bundled toolchain produces machine code for Linux, macOS, and Windows."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who created Glide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Glide was created and is maintained by Murillo Deolino. The source code lives at github.com/glide-lang/Glide under the MIT license."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Glide lang open source?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Glide is MIT-licensed. The compiler, standard library, package manager, LSP, and documentation generator are all in one repository at github.com/glide-lang/Glide."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How is Glide different from Rust or Go?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Glide gives you Rust-grade memory safety (compile-time use-after-free and aliasing checks) without ever writing lifetime annotations. It gives you Go-grade concurrency (M:N coroutines, channels, select) without a separate runtime to choose. Errors are values via the !T type — no exceptions, no panic handlers. The whole language fits in your head."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What platforms does Glide support?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Glide ships native binaries for Linux x86_64, Linux aarch64, macOS Apple Silicon, and Windows x86_64. Cross-compilation to any target the bundled Zig-based C toolchain supports is built in via --target=<triple>."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I install Glide?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "On Linux or macOS: curl -fsSL https://glide-lang.org/install.sh | bash. On Windows PowerShell: iwr https://glide-lang.org/install.ps1 -UseB | iex. Both installers drop the toolchain in a per-user directory; no admin rights needed."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
+    <span>glide</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-icon"></span>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="#features">Features</a>
+    <a href="/tutorial">Tutorial</a>
+    <a href="/book">Book</a>
+    <a href="/examples">Examples</a>
+    <a href="/book/09-standard-library">Stdlib</a>
+    <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <a href="/" class="lang-opt active" hreflang="en">EN</a>
+      <a href="/pt/" class="lang-opt" hreflang="pt-BR">PT</a>
+    </div>
+</nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow" style="margin-bottom:12px;">The Glide programming language</p>
+      <h1>
+        A small systems language.<br>
+        <span class="accent">Safe memory</span>,
+        <span class="accent">real concurrency</span>,
+        <span class="accent">inline asm</span>.
+      </h1>
+      <p class="lede">
+        A modern systems programming language by
+        <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>.
+        Native binaries through a portable C backend.
+        Stdlib, toolchain, and LSP all in the box.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#install">Get started</a>
+        <a class="btn btn-ghost" href="https://github.com/glide-lang/Glide/releases/latest" rel="noopener">Download ↓</a>
+        <a class="btn btn-ghost" href="https://github.com/glide-lang/Glide" rel="noopener">View on GitHub →</a>
+      </div>
+      <p class="note">v0.4.1 — self-hosted compiler, native targets via Zig, <code>--release</code> / <code>--tiny</code> / <code>--no-std</code> build modes.</p>
+      <p class="note" style="opacity:.8;">This site documents Glide 0.4.1.</p>
+    </div>
+
+    <div class="hero-code" aria-hidden="false">
+      <div class="code-frame">
+        <div class="code-frame-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="code-frame-title">hello.glide</span>
+        </div>
+        <pre class="code"><code><span class="kw">import</span> stdlib::http::*;
+
+<span class="kw">fn</span> <span class="fn">handle</span>(req: *<span class="ty">HttpRequest</span>) -&gt; <span class="ty">HttpResponse</span> {
+    <span class="kw">if</span> req.path.eq(<span class="str">"/"</span>) {
+        <span class="kw">return</span> <span class="ty">HttpResponse</span>::ok().body(<span class="str">"hello!\n"</span>);
+    }
+    <span class="kw">return</span> <span class="ty">HttpResponse</span>::not_found();
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">i32</span> {
+    http_listen(<span class="num">8080</span>, handle);
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+      <p class="caption">This page is served by a Glide program close to the one above — TLS terminated by the binary itself.</p>
+    </div>
+  </section>
+
+  <section class="showcase">
+    <div class="showcase-head">
+      <span class="eyebrow">See it in action</span>
+      <h2 class="section-title">A worker pool, in 18 lines.</h2>
+      <p class="section-lede">
+        Channels, <code>spawn</code>, and errors-as-values compose without ceremony.
+        No async runtime to choose, no <code>Result&lt;T,E&gt;</code> to import — just shapes the language already gives you.
+      </p>
+    </div>
+
+    <div class="showcase-frame">
+      <div class="code-frame">
+        <div class="code-frame-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="code-frame-title">workers.glide</span>
+        </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">process</span>(n: <span class="ty">i32</span>) -&gt; !<span class="ty">i32</span> {
+    <span class="kw">if</span> n &lt; <span class="num">0</span> { <span class="kw">return</span> err(<span class="str">"negative: ${n}"</span>); }
+    <span class="kw">return</span> ok(n * n);
+}
+
+<span class="kw">fn</span> <span class="fn">worker</span>(jobs: <span class="ty">chan</span>&lt;<span class="ty">i32</span>&gt;, out: <span class="ty">chan</span>&lt;!<span class="ty">i32</span>&gt;) {
+    <span class="kw">while let</span> n = jobs.recv() {
+        out.send(process(n));
+    }
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">i32</span> {
+    <span class="kw">let</span> jobs: <span class="ty">chan</span>&lt;<span class="ty">i32</span>&gt;  = make_chan(<span class="num">8</span>);
+    <span class="kw">let</span> out:  <span class="ty">chan</span>&lt;!<span class="ty">i32</span>&gt; = make_chan(<span class="num">8</span>);
+
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="num">0</span>..<span class="num">4</span> { <span class="kw">spawn</span> worker(jobs, out); }
+    <span class="kw">for</span> n <span class="kw">in</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">-3</span>, <span class="num">4</span>, <span class="num">5</span>] { jobs.send(n); }
+    jobs.close();
+
+    <span class="kw">let mut</span> seen: <span class="ty">i32</span> = <span class="num">0</span>;
+    <span class="kw">while</span> seen &lt; <span class="num">5</span> {
+        <span class="kw">let</span> r: !<span class="ty">i32</span> = out.recv();
+        <span class="kw">if</span> r.ok { println!(<span class="str">"squared:"</span>, r.val); }
+        <span class="kw">else</span>    { println!(<span class="str">"skip:"</span>, r.err); }
+        seen = seen + <span class="num">1</span>;
+    }
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+      <ul class="showcase-callouts">
+        <li><span class="cn-tag">chan&lt;T&gt;</span> Typed, buffered channels — no shared mutable state.</li>
+        <li><span class="cn-tag">spawn</span> M:N coroutines, scheduled by the runtime. <code>spawn_thread</code> when you need OS threads.</li>
+        <li><span class="cn-tag">!T</span> Either a value or an error. <code>?</code> propagates, fields read like data.</li>
+        <li><span class="cn-tag">"${n}"</span> String interpolation built into the language.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="features-head">
+      <span class="eyebrow">Why Glide</span>
+      <h2 class="section-title">Six things Glide gets right.</h2>
+      <p class="section-lede">
+        Each idea below replaces a piece of pain you've probably written around in another language.
+        The whole language fits in your head — and these are most of it.
+      </p>
+    </div>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">&amp;T</span>
+        <h3>Borrows without lifetimes</h3>
+        <p>Scope-bound borrows (<code>&amp;T</code>, <code>&amp;mut T</code>) catch dangling references, aliased mutation, and use-after-free at compile time. You never write <code>'a</code>, <code>'b</code>, or <code>'static</code>. For owned heap objects there's <code>*T</code> with auto-drop at scope exit, plus <code>defer</code> and <code>defer_err</code> for arbitrary cleanups.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">memory.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">draw</span>() {
+    <span class="kw">let</span> p: *<span class="ty">Point</span> = <span class="ty">Point</span> { x: <span class="num">1</span>, y: <span class="num">2</span> };
+    render(p);
+}                                  <span class="cmt">// freed at scope exit</span>
+
+<span class="kw">fn</span> <span class="fn">parse_tree</span>() {
+    <span class="kw">let</span> arena: *<span class="ty">Arena</span> = <span class="ty">Arena</span>::new(<span class="num">4096</span>);
+    <span class="kw">defer</span> arena.free();
+    <span class="kw">let</span> n1: *<span class="ty">Node</span> = arena.create(<span class="ty">Node</span>);
+    <span class="kw">let</span> n2: *<span class="ty">Node</span> = arena.create(<span class="ty">Node</span>);
+}                                  <span class="cmt">// arena freed in one shot</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">!T</span>
+        <h3>Errors as values</h3>
+        <p><code>!T</code> is a result; <code>?T</code> is an option; <code>?!T</code> is the combined form. The postfix <code>?</code> operator propagates failures; <code>??</code> is the coalesce operator. No exceptions, no <code>Result&lt;T, Box&lt;dyn Error&gt;&gt;</code>, no panic handlers.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">errors.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">parse</span>(n: <span class="ty">i32</span>) -&gt; !<span class="ty">i32</span> {
+    <span class="kw">if</span> n &lt; <span class="num">0</span> { <span class="kw">return</span> err(<span class="str">"negative"</span>); }
+    <span class="kw">return</span> ok(n * <span class="num">2</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">pipeline</span>(n: <span class="ty">i32</span>) -&gt; !<span class="ty">i32</span> {
+    <span class="kw">let</span> v: <span class="ty">i32</span> = parse(n)?;
+    <span class="kw">return</span> ok(v + <span class="num">1</span>);
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">chan&lt;T&gt;</span>
+        <h3>Real concurrency, no callbacks</h3>
+        <p>M:N coroutines via <code>spawn</code>. Typed channels via <code>chan&lt;T&gt;</code>. The <code>select!</code> macro multiplexes over channel operations with optional <code>default</code> and close-aware arms. Need a kernel thread? <code>spawn_thread</code>. Shared-nothing by design.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">concurrency.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">worker</span>(c: <span class="ty">chan</span>&lt;<span class="ty">i32</span>&gt;) {
+    c.send(<span class="num">42</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">i32</span> {
+    <span class="kw">let</span> c: <span class="ty">chan</span>&lt;<span class="ty">i32</span>&gt; = make_chan(<span class="num">1</span>);
+    <span class="kw">spawn</span> worker(c);
+    <span class="kw">return</span> c.recv();
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">&lt;T&gt;</span>
+        <h3>Generics + traits</h3>
+        <p>Generics are monomorphised — one C fn per concrete <code>T</code>. Bounds use <code>T: Trait + Trait</code>. Traits support default method bodies and supertraits; <code>*dyn Trait</code> dispatches through a vtable for heterogeneous collections.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">traits.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">trait</span> <span class="ty">Render</span> { <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Self</span>) -&gt; <span class="ty">string</span>; }
+
+<span class="kw">impl</span> <span class="ty">Render</span> <span class="kw">for</span> <span class="ty">Box</span>    { <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Box</span>)    -&gt; <span class="ty">string</span> { <span class="kw">return</span> <span class="str">"Box"</span>; } }
+<span class="kw">impl</span> <span class="ty">Render</span> <span class="kw">for</span> <span class="ty">Circle</span> { <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Circle</span>) -&gt; <span class="ty">string</span> { <span class="kw">return</span> <span class="str">"Circle"</span>; } }
+
+<span class="kw">fn</span> <span class="fn">show</span>(r: *<span class="kw">dyn</span> <span class="ty">Render</span>) { println!(r.render()); }</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">@derive</span>
+        <h3>Metaprogramming, in the language</h3>
+        <p><code>macro_rules!</code>-style declarative macros with matchers (<code>$x:expr</code>, <code>$x:ident</code>, <code>$x:ty</code>) and the variadic form <code>$($x:expr),*</code>. Procedural macros — <code>@derive(Name)</code>, <code>@attr(...)</code>, <code>@name!(args)</code> — run in the compiler at expansion time via an embedded interpreter, manipulating the same AST nodes the compiler uses internally. No separate plugin toolchain.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">meta.glide</span>
+          </div>
+<pre class="code"><code>@derive(<span class="ty">JsonBind</span>)
+<span class="kw">struct</span> <span class="ty">User</span> { name: <span class="ty">string</span>, age: <span class="ty">i32</span> }
+
+<span class="kw">macro</span> sum!($($x:expr),*) {
+    <span class="kw">let mut</span> t: <span class="ty">i32</span> = <span class="num">0</span>;
+    $( t = t + $x; )*
+    <span class="kw">return</span> t;
+}
+
+<span class="kw">let</span> total: <span class="ty">i32</span> = sum!(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>);   <span class="cmt">// 10</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">asm</span>
+        <h3>Low-level controls when you need them</h3>
+        <p>Inline assembly with GCC-style operand constraints. <code>naked fn</code> drops the prologue/epilogue so you can lay down your own calling convention. <code>c_raw! { … }</code> injects literal C; <code>@cfg("posix" | "windows")</code> gates declarations per platform. The escape hatches don't compromise the safe defaults — they're explicit, local, and visible at the call site.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">tsc.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">read_tsc</span>() -&gt; <span class="ty">u64</span> {
+    <span class="kw">let</span> lo: <span class="ty">u32</span> = <span class="num">0</span>;
+    <span class="kw">let</span> hi: <span class="ty">u32</span> = <span class="num">0</span>;
+    <span class="kw">asm volatile</span> { <span class="str">"rdtsc"</span> : <span class="str">"=a"</span>(lo), <span class="str">"=d"</span>(hi) }
+    <span class="kw">return</span> ((hi <span class="kw">as</span> <span class="ty">u64</span>) &lt;&lt; <span class="num">32</span>) | (lo <span class="kw">as</span> <span class="ty">u64</span>);
+}</code></pre>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="showcase" id="stdlib">
+    <div class="showcase-head">
+      <span class="eyebrow">Bundled with the compiler</span>
+      <h2 class="section-title">The standard library is the platform.</h2>
+      <p class="section-lede">
+        No <code>crates.io</code>-style bootstrap. The pieces you reach for every day —
+        HTTP, TLS, JSON, channels, crypto — ship inside the toolchain. One install, one import.
+      </p>
+    </div>
+
+    <ul class="showcase-callouts">
+      <li><span class="cn-tag">collections</span> <code>vector</code>, <code>hashmap</code>, <code>set</code>, <code>iter</code>, <code>bytes</code></li>
+      <li><span class="cn-tag">strings + math</span> string methods, <code>utf8</code>, <code>math</code>, <code>base64</code>, <code>hex</code></li>
+      <li><span class="cn-tag">i/o + system</span> <code>io</code>, <code>fs</code>, <code>os</code>, <code>env</code>, <code>process</code>, <code>signal</code></li>
+      <li><span class="cn-tag">time + sync</span> <code>time</code>, <code>sync</code> (Mutex / Atomic / WaitGroup)</li>
+      <li><span class="cn-tag">crypto</span> SHA-256, HMAC, SHA-1, <code>compress</code> (gzip)</li>
+      <li><span class="cn-tag">net</span> TCP, UDP, DNS, IP, TLS, WebSockets</li>
+      <li><span class="cn-tag">http</span> server + client, router, middleware, cookies, JWT, multipart, SSE, HTTP/2</li>
+      <li><span class="cn-tag">mail</span> SMTP / POP3 / IMAP clients + RFC 5322 / MIME</li>
+      <li><span class="cn-tag">cli</span> <code>argparse</code>, <code>spinner</code>, <code>backtrace</code>, <code>bench</code>, <code>testing</code></li>
+      <li><span class="cn-tag">data</span> <code>json</code>, typed JSON binding, <code>@derive(JsonBind)</code>, <code>tar</code> (USTAR)</li>
+    </ul>
+  </section>
+
+  <section class="features" id="tooling">
+    <div class="features-head">
+      <span class="eyebrow">Tooling</span>
+      <h2 class="section-title">One binary. Everything you need.</h2>
+      <p class="section-lede">
+        Package manager, documentation generator, test runner, benchmarker, formatter, LSP — all the same <code>glide</code> command.
+      </p>
+    </div>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">pkg</span>
+        <h3>Package manager</h3>
+        <p><code>glide new</code>, <code>glide add</code>, <code>glide fetch</code>, <code>glide update</code>, <code>glide install</code>. Path deps + git deps (GitHub tarball fast-path, git-clone fallback for the rest). Minimum-version selection across the dep graph; SHA-256-locked cache.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">~ shell</span>
+          </div>
+<pre class="code"><code>$ glide new my_app
+$ cd my_app
+$ glide add http_x github.com/glide-lang/http_x v0.4.1
+$ glide run</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">doc</span>
+        <h3>Documentation generator</h3>
+        <p><code>glide doc</code> emits static HTML straight from <code>///</code> comments. <code>--serve</code> runs a local preview server; <code>--ai</code> additionally drops an <code>AGENTS.md</code> file and a flat <code>llms.txt</code> summary intended for AI ingestion.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">~ shell</span>
+          </div>
+<pre class="code"><code>$ glide doc --serve=8080
+$ glide doc --ai --stdlib
+doc: wrote 56 modules / 336 items -&gt; ./build/doc/index.html
+doc: wrote LLM-friendly summary -&gt; ./build/doc/llms.txt</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">test</span>
+        <h3>Test + bench runners</h3>
+        <p><code>glide test</code> discovers <code>*_test.glide</code> files and runs every <code>fn test_*</code> inside them; <code>--golden</code> does stdout diffing. <code>glide bench</code> auto-tunes iteration counts and reports ns/op.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">~ shell</span>
+          </div>
+<pre class="code"><code>$ glide test
+PASS test_parse_negative                  0.3ms
+PASS test_pipeline_propagates             0.4ms
+2 passed, 0 failed
+
+$ glide bench src/hash_bench.glide
+bench_sha256_1kb       8421 ns/op</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">build</span>
+        <h3>Build modes + C-flag passthrough</h3>
+        <p><code>glide build --release</code> strips symbols and runs linker dead-code GC (a hello world drops ~515KB&nbsp;→&nbsp;~87KB on Linux/macOS). <code>--tiny</code> goes further: programs that never <code>spawn</code> or use a <code>chan</code> dead-strip the whole M:N runtime (42KB&nbsp;→&nbsp;21KB), and it keeps the scheduler automatically when you do use concurrency. <code>--no-std</code> (alias <code>--freestanding</code>) drops libc and the runtime for bare-metal <code>kmain</code> kernels (~6KB ELF). Forward arbitrary C compile/link flags via repeatable <code>--cflag=</code> / <code>--ldflag=</code> (or <code>GLIDE_CFLAGS</code> / manifest <code>cflags</code>), with shortcuts <code>--opt=N</code>, <code>--lto</code>, <code>--static</code>, <code>--march=X</code>.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">~ shell</span>
+          </div>
+<pre class="code"><code>$ glide build --release       <span class="cmt"># strip + dead-code GC</span>
+$ glide build --tiny          <span class="cmt"># drops unused runtime</span>
+$ glide build --no-std        <span class="cmt"># bare-metal kmain kernel</span>
+$ glide build --opt=3 --cflag=-march=native --lto</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">lsp</span>
+        <h3>LSP server, editors first-class</h3>
+        <p><code>glide lsp</code> talks LSP on stdio: hover, completion, goto-definition (locals, params, fns, structs, enums, traits, macros, proc-macros, fields, import segments), references, rename, formatting, plus "did you mean&nbsp;X?" quickfixes — indexed across stdlib + dependencies. The same formatter backs <code>glide fmt</code> and format-on-save (faithfully preserving <code>!field</code>, <code>Self</code>, and <code>impl Trait for</code>), and <code>glide fix</code> applies suggestions from the CLI. Tree-sitter grammar, Zed extension, VS Code extension all live in the repo.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">~ shell</span>
+          </div>
+<pre class="code"><code>$ glide lsp                  <span class="cmt"># stdio LSP server</span>
+
+<span class="cmt"># in your editor:</span>
+<span class="cmt"># - hover any symbol -&gt; doc + signature</span>
+<span class="cmt"># - F12 on a stdlib fn -&gt; jumps into source</span>
+<span class="cmt"># - rename refactors across the dep graph</span></code></pre>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="showcase" id="compare">
+    <div class="showcase-head">
+      <span class="eyebrow">In context</span>
+      <h2 class="section-title">Glide vs Rust, Go, and Zig.</h2>
+      <p class="section-lede">
+        Glide picks a different point in the systems-language design space. Side-by-side write-ups of where it lands relative to the languages people already know.
+      </p>
+    </div>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4><a href="/vs-rust" style="color:inherit;">Glide vs Rust →</a></h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;">Memory safety without lifetime annotations. <code>!T</code> instead of <code>Result&lt;T, E&gt;</code>. Coroutines in the language, not a crate.</p>
+      </div>
+      <div class="install-card">
+        <h4><a href="/vs-go" style="color:inherit;">Glide vs Go →</a></h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;">Compile-time memory checks instead of GC. Generics + traits + sum types. Same M:N coroutines, same channel ergonomics.</p>
+      </div>
+      <div class="install-card">
+        <h4><a href="/vs-zig" style="color:inherit;">Glide vs Zig →</a></h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;">Borrow checker instead of <code>allocator</code> plumbing. Macros + traits. Channels and coroutines first-class.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="faq">
+    <div class="features-head">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">Frequently asked questions.</h2>
+      <p class="section-lede">
+        Short answers to what people most often ask about the Glide programming language.
+      </p>
+    </div>
+
+    <article class="feature-row">
+      <div class="feature-text" style="flex:1 1 100%;">
+        <h3>What is the Glide programming language?</h3>
+        <p>Glide is a modern systems programming language that targets the same niche as Rust, Go, and Zig: native binaries with predictable performance, but with a simpler memory model (scope-bound borrows, no lifetime annotations) and built-in M:N coroutines. The compiler is self-hosted and emits portable C; a bundled toolchain produces machine code for Linux, macOS, and Windows.</p>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text" style="flex:1 1 100%;">
+        <h3>Who created Glide?</h3>
+        <p>Glide was created and is maintained by <strong>Murillo Deolino</strong>. The source lives at <a href="https://github.com/glide-lang/Glide" rel="noopener">github.com/glide-lang/Glide</a> under the MIT license. The compiler, the standard library, the package manager, the LSP server, and the documentation generator are all in that single repository.</p>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text" style="flex:1 1 100%;">
+        <h3>How is Glide lang different from Rust or Go?</h3>
+        <p>Glide gives you Rust-grade memory safety (compile-time use-after-free and aliased-mutation checks) without ever writing lifetime annotations. It gives you Go-grade concurrency (M:N coroutines, channels, <code>select</code>) without a separate async runtime to choose. Errors are values via the <code>!T</code> type — no exceptions, no panic handlers. The whole language fits in your head; the tooling is one binary.</p>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text" style="flex:1 1 100%;">
+        <h3>What platforms does Glide support?</h3>
+        <p>Glide ships native binaries for <strong>Linux x86_64</strong>, <strong>Linux aarch64</strong>, <strong>macOS Apple Silicon</strong>, and <strong>Windows x86_64</strong>. Cross-compilation to any target the bundled Zig-based C toolchain supports is built into the compiler via <code>--target=&lt;triple&gt;</code>.</p>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text" style="flex:1 1 100%;">
+        <h3>Is Glide production-ready?</h3>
+        <p>Glide is at v0.4.1 — the language and standard library are stable enough to build real services (this site is served by a Glide binary), but the ecosystem is young. Use it for personal projects, internal tools, and CLI utilities today. Track the <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">changelog</a> for the path to 1.0.</p>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text" style="flex:1 1 100%;">
+        <h3>How do I install Glide?</h3>
+        <p>One-liner installers for Linux, macOS, and Windows below. They drop the toolchain in a per-user directory — no admin rights needed. See the <a href="#install">install section</a> for the exact commands.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="install" id="install">
+    <h2 class="section-title">Install</h2>
+    <p class="install-lede">Per-user install — no admin rights needed. Open a new shell once the installer finishes; <code>glide --version</code> should print the installed version.</p>
+
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Linux / macOS</h4>
+<pre class="code"><code>$ curl -fsSL https://glide-lang.org/install.sh | bash</code></pre>
+      </div>
+      <div class="install-card">
+        <h4>Windows (PowerShell)</h4>
+<pre class="code"><code>&gt; iwr https://glide-lang.org/install.ps1 -UseB | iex</code></pre>
+      </div>
+    </div>
+    <p class="install-foot" style="margin-top:16px;">
+      Prefer a manual download? Grab a prebuilt archive for your platform from the
+      <a href="https://github.com/glide-lang/Glide/releases/latest" rel="noopener">latest release</a> —
+      <code>glide-linux-x86_64</code>, <code>glide-macos-aarch64</code>, or <code>glide-windows-x86_64</code> —
+      then unpack it and put <code>glide</code> on your <code>PATH</code>.
+    </p>
+
+    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Quick start</h3>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Scaffold a project</h4>
+<pre class="code"><code>$ glide new my_app
+$ cd my_app
+$ glide run                  <span class="cmt"># build + run from manifest</span></code></pre>
+      </div>
+      <div class="install-card">
+        <h4>Or a library</h4>
+<pre class="code"><code>$ glide new my_lib --lib     <span class="cmt"># no `bin`, src/lib.glide</span>
+$ cd my_lib
+$ glide test</code></pre>
+      </div>
+    </div>
+
+    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Project layout</h3>
+<pre class="code"><code>my_app/
+├── glide.glide       <span class="cmt"># manifest: name, version, bin, deps</span>
+├── src/
+│   └── main.glide
+├── build/            <span class="cmt"># compiler output (auto-managed, gitignored)</span>
+├── glide_modules/    <span class="cmt"># fetched / linked dependencies</span>
+└── glide.lock        <span class="cmt"># resolved revs + content hashes</span></code></pre>
+
+    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Build from source</h3>
+    <p class="install-lede">Glide is self-hosting — there's no checked-in C seed. Bootstrap from a published release binary, then Glide builds itself.</p>
+<pre class="code"><code>$ git clone https://github.com/glide-lang/Glide.git
+$ cd Glide
+$ bash tools/install_toolchain.sh             <span class="cmt"># fetch the bundled C toolchain (zig)</span>
+
+<span class="cmt"># grab the latest release binary for your platform from</span>
+<span class="cmt">#   https://github.com/glide-lang/Glide/releases/latest</span>
+<span class="cmt"># and use it as the bootstrap compiler (glide_boot):</span>
+$ ./glide_boot build bootstrap/main.glide -o glide
+$ ./glide install .                           <span class="cmt"># into ~/.glide/bin</span></code></pre>
+
+    <p class="install-foot">
+      Cross-compile via <code>--target=&lt;triple&gt;</code> — any target the bundled C toolchain
+      supports: <code>x86_64-linux-{gnu,musl}</code>, <code>aarch64-linux-{gnu,musl}</code>,
+      <code>x86_64-windows-{gnu,msvc}</code>, <code>aarch64-macos</code>,
+      <code>riscv64-linux-musl</code>, and more.
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <div class="footer-brand">
+      <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
+      <div>
+        <strong>glide-lang.org</strong>
+        <p>A small systems programming language.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h5>Project</h5>
+        <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">License</a>
+      </div>
+      <div>
+        <h5>Learn</h5>
+        <a href="/tutorial">Tutorial</a>
+        <a href="/book">Book</a>
+        <a href="/examples">Examples</a>
+        <a href="/book/09-standard-library">Stdlib</a>
+      </div>
+      <div>
+        <h5>Compare</h5>
+        <a href="/vs-rust">Glide vs Rust</a>
+        <a href="/vs-go">Glide vs Go</a>
+        <a href="/vs-zig">Glide vs Zig</a>
+      </div>
+      <div>
+        <h5>Community</h5>
+        <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
+        <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contributing</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <p>© 2026 Glide Programming Language. Created and maintained by <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. MIT licensed. v0.4.1.</p>
+  </div>
+</footer>
+
+<script defer src="/js/nav.js?v=2"></script>
+
+</body>
+</html>

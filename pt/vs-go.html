@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/js/lang.js"></script>
+  <title>Glide vs Go — A linguagem de programação Glide.</title>
+  <meta name="description" content="Glide vs Go: como a linguagem de programação Glide de Murillo Deolino se compara ao Go em modelo de memória, concorrência, generics, erros e ferramentas. Exemplos de código lado a lado e uma comparação justa.">
+  <meta name="keywords" content="Glide vs Go, Glide ou Go, Glide linguagem vs Go, linguagem de programação Glide vs Go, alternativa ao Go, alternativa ao Golang, comparação de linguagens de sistemas">
+  <meta name="author" content="Murillo Deolino">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/glide-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/glide-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/icons/glide-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
+
+  <meta property="og:site_name" content="Glide Programming Language">
+  <meta property="og:title" content="Glide vs Go — A linguagem de programação Glide.">
+  <meta property="og:description" content="Como a linguagem de programação Glide se compara ao Go em modelo de memória, concorrência, generics, erros e ferramentas.">
+  <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://glide-lang.org/pt/vs-go">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="article:author" content="Murillo Deolino">
+  <meta name="theme-color" content="#0b1020">
+
+  <link rel="canonical" href="https://glide-lang.org/pt/vs-go">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glide vs Go — A linguagem de programação Glide.">
+  <meta name="twitter:description" content="Como a linguagem de programação Glide se compara ao Go, por Murillo Deolino.">
+  <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta name="twitter:url" content="https://glide-lang.org/pt/vs-go">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css?v=5">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "headline": "Glide vs Go — Comparação de Duas Linguagens de Programação de Sistemas",
+        "description": "Como a linguagem de programação Glide de Murillo Deolino se compara ao Go em modelo de memória, concorrência, generics, erros e ferramentas.",
+        "image": "https://glide-lang.org/assets/og-cover.png",
+        "author": { "@type": "Person", "name": "Murillo Deolino", "url": "https://github.com/Murilinho145SG" },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Glide Programming Language",
+          "logo": { "@type": "ImageObject", "url": "https://glide-lang.org/assets/icons/glide-256.png" }
+        },
+        "mainEntityOfPage": "https://glide-lang.org/pt/vs-go",
+        "inLanguage": "pt-BR",
+        "about": [
+          { "@type": "ComputerLanguage", "name": "Glide" },
+          { "@type": "ComputerLanguage", "name": "Go" }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/pt/" },
+          { "@type": "ListItem", "position": 2, "name": "Glide vs Go", "item": "https://glide-lang.org/pt/vs-go" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="/pt/">
+    <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
+    <span>glide</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-icon"></span>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="/pt/#features">Recursos</a>
+    <a href="/pt/tutorial">Tutorial</a>
+    <a href="/pt/examples">Exemplos</a>
+    <a href="/book/pt/09-standard-library">Stdlib</a>
+    <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <a href="/vs-go" class="lang-opt" hreflang="en">EN</a>
+      <a href="/pt/vs-go" class="lang-opt active" hreflang="pt-BR">PT</a>
+    </div>
+</nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow" style="margin-bottom:12px;">Comparação</p>
+      <h1>
+        Glide vs <span class="accent">Go</span>.<br>
+        Uma comparação justa.
+      </h1>
+      <p class="lede">
+        As duas linguagens oferecem corrotinas M:N, canais e uma
+        toolchain de binário único. A <strong>linguagem de programação Glide</strong>
+        de <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>
+        adota padrões diferentes do Go em quatro pontos: segurança de memória
+        (em tempo de compilação vs GC), generics + traits, erros como valores e
+        a expressividade do sistema de tipos.
+      </p>
+    </div>
+  </section>
+
+  <section class="features">
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">gc</span>
+        <h3>Sem coletor de lixo</h3>
+        <p>Go depende de um GC de rastreamento concorrente — conveniente para o desenvolvedor, mas com sobrecarga constante de CPU e picos ocasionais de latência que importam em loops críticos, sistemas de baixa latência e alvos com pouca memória. Glide usa empréstimos delimitados por escopo e arenas: o compilador rastreia a posse em tempo de compilação, a liberação acontece ao sair do bloco, sem rastreamento em tempo de execução. O modelo mental é mais próximo de Rust do que de Go, mas sem necessidade de escrever anotações de tempo de vida.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">parse_tree</span>() {
+    <span class="kw">let</span> arena: *<span class="ty">Arena</span> = <span class="ty">Arena</span>::new(<span class="num">4096</span>);
+    <span class="kw">defer</span> arena.free();
+    <span class="kw">let</span> n1: *<span class="ty">Node</span> = arena.create(<span class="ty">Node</span>);
+    <span class="kw">let</span> n2: *<span class="ty">Node</span> = arena.create(<span class="ty">Node</span>);
+}                              <span class="cmt">// arena liberada de uma só vez</span></code></pre>
+        </div>
+        <div class="code-frame" style="margin-top:12px;">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">go.go</span>
+          </div>
+<pre class="code"><code><span class="kw">func</span> <span class="fn">parseTree</span>() {
+    n1 := &amp;<span class="ty">Node</span>{}
+    n2 := &amp;<span class="ty">Node</span>{}
+    _ = n1; _ = n2
+}                              <span class="cmt">// GC coleta quando quiser</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">!T</span>
+        <h3>Erros como valores, mas tipados</h3>
+        <p>O modelo de erros do Go é "retorne um valor e um erro, verifique <code>if err != nil</code> em cada linha". O padrão funciona, mas é verboso, e o sistema de tipos não o impõe — você pode ignorar um erro e o compilador fica em silêncio. O <code>!T</code> do Glide é um único valor, o sufixo <code>?</code> propaga falhas em um único caractere, e o compilador trata um <code>!T</code> não tratado como erro grave. Mesma semântica, um terço do código repetitivo.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">read_all</span>(p: <span class="ty">string</span>) -&gt; !<span class="ty">string</span> {
+    <span class="kw">let</span> data: <span class="ty">string</span> = fs_read(p)?;
+    <span class="kw">let</span> trimmed: <span class="ty">string</span> = data.trim();
+    <span class="kw">return</span> ok(trimmed);
+}</code></pre>
+        </div>
+        <div class="code-frame" style="margin-top:12px;">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">go.go</span>
+          </div>
+<pre class="code"><code><span class="kw">func</span> <span class="fn">readAll</span>(p <span class="ty">string</span>) (<span class="ty">string</span>, <span class="ty">error</span>) {
+    data, err := os.ReadFile(p)
+    <span class="kw">if</span> err != nil {
+        <span class="kw">return</span> <span class="str">""</span>, err
+    }
+    <span class="kw">return</span> strings.TrimSpace(string(data)), nil
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">&lt;T&gt;</span>
+        <h3>Generics reais + traits, monomorfinizados</h3>
+        <p>Go adicionou generics na versão 1.18, mas são limitados (sem parâmetros de tipo em nível de método, sem tipos associados, sem especialização), e a implementação usa passagem de dicionário para tipos não compatíveis com shape — sobrecarga em tempo de execução. Os generics do Glide são monomorfinizados em tempo de compilação (uma função C por tipo concreto) com traits, supertraits, métodos padrão, tipos associados e despacho via vtable com <code>*dyn Trait</code> — mais próximo de Rust do que de Go, com total expressividade em nível de tipos.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">trait</span> <span class="ty">Render</span> {
+    <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Self</span>) -&gt; <span class="ty">string</span>;
+}
+
+<span class="kw">impl</span> <span class="ty">Render</span> <span class="kw">for</span> <span class="ty">Box</span> {
+    <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Box</span>) -&gt; <span class="ty">string</span> {
+        <span class="kw">return</span> <span class="str">"Box"</span>;
+    }
+}
+
+<span class="kw">fn</span> <span class="fn">show</span>&lt;<span class="ty">T</span>: <span class="ty">Render</span>&gt;(v: *<span class="ty">T</span>) {
+    println!(v.render());
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">chan</span>
+        <h3>Concorrência, a forma que você já conhece</h3>
+        <p>É aqui que Glide se inspirou mais no Go: corrotinas M:N via <code>spawn</code> (equivalente ao <code>go</code> do Go), canais tipados via <code>chan&lt;T&gt;</code>, multiplexação de múltiplos canais via <code>select!</code> (equivalente ao <code>select</code> do Go), e recebimentos com detecção de fechamento via <code>while let v = c.recv()</code>. Se você é programador Go, a superfície de concorrência parecerá familiar — apenas a sintaxe é ligeiramente diferente.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">producer</span>(c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;) {
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="num">0</span>..<span class="num">3</span> { c.send(i); }
+    c.close();
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">2</span>);
+    <span class="kw">spawn</span> producer(c);
+    <span class="kw">while let</span> v = c.recv() { println!(v); }
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="install">
+    <h2 class="section-title">Quando escolher cada um</h2>
+    <p class="install-lede">Os dois oferecem ciclos de iteração rápidos e boa concorrência. Escolha com base no que te prejudica em produção.</p>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Escolha Go se…</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
+          Você precisa do ecossistema massivo (Kubernetes, Docker, toda ferramenta CNCF).
+          Está montando uma equipe que precisa aprender em dias, não semanas.
+          Pausas do GC são aceitáveis para sua carga de trabalho (~99% dos serviços).
+          Você valoriza estabilidade de ferramentas acima de expressividade da linguagem.
+        </p>
+      </div>
+      <div class="install-card">
+        <h4>Escolha Glide se…</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
+          Você quer concorrência no estilo Go sem pausas de GC ou sobrecarga de runtime.
+          Precisa de generics e traits de verdade, não apenas funções parametrizadas por tipo.
+          Quer a ergonomia do <code>if err != nil</code> sem a verbosidade.
+          Está visando binários menores e menor uso de memória.
+        </p>
+      </div>
+    </div>
+
+    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Experimente Glide</h3>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Linux / macOS</h4>
+<pre class="code"><code>$ curl -fsSL https://glide-lang.org/install.sh | bash</code></pre>
+      </div>
+      <div class="install-card">
+        <h4>Windows (PowerShell)</h4>
+<pre class="code"><code>&gt; iwr https://glide-lang.org/install.ps1 -UseB | iex</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <div class="footer-brand">
+      <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
+      <div>
+        <strong>glide-lang.org</strong>
+        <p>Uma pequena linguagem de programação de sistemas.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h5>Projeto</h5>
+        <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">Licença</a>
+      </div>
+      <div>
+        <h5>Aprender</h5>
+        <a href="/pt/tutorial">Tutorial</a>
+        <a href="/pt/examples">Exemplos</a>
+        <a href="/book/pt/09-standard-library">Stdlib</a>
+      </div>
+      <div>
+        <h5>Comparar</h5>
+        <a href="/pt/vs-rust">Glide vs Rust</a>
+        <a href="/pt/vs-go">Glide vs Go</a>
+        <a href="/pt/vs-zig">Glide vs Zig</a>
+      </div>
+      <div>
+        <h5>Comunidade</h5>
+        <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
+        <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contribuindo</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <p>© 2026 Glide Programming Language. Criada e mantida por <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. Licença MIT. v0.4.1.</p>
+  </div>
+</footer>
+
+<script defer src="/js/nav.js?v=2"></script>
+
+</body>
+</html>

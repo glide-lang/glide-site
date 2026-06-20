@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/js/lang.js"></script>
+  <title>404 — The Glide programming language.</title>
+  <meta name="description" content="The page you're looking for doesn't exist on the Glide programming language website.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="author" content="Murillo Deolino">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/glide-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/glide-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/icons/glide-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
+
+  <meta name="theme-color" content="#0b1020">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css?v=5">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
+    <span>glide</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-icon"></span>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="/#features">Features</a>
+    <a href="/tutorial">Tutorial</a>
+    <a href="/examples">Examples</a>
+    <a href="/book/09-standard-library">Stdlib</a>
+    <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>
+        <span class="accent">404</span>.<br>
+        That route<br>
+        didn't compile.
+      </h1>
+      <p class="lede">
+        Nothing lives at that path. Maybe the URL is stale, or maybe
+        the page hasn't been written yet — Glide is young, and the
+        site is too.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/">Back home</a>
+        <a class="btn btn-ghost" href="/tutorial">Read the tutorial →</a>
+      </div>
+    </div>
+
+    <div class="hero-code" aria-hidden="false">
+      <div class="code-frame">
+        <div class="code-frame-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="code-frame-title">router.glide</span>
+        </div>
+<pre class="code"><code><span class="kw">import</span> stdlib::fs::*;
+<span class="kw">import</span> stdlib::http::*;
+
+<span class="kw">fn</span> <span class="fn">handle</span>(req: *<span class="ty">HttpRequest</span>) -&gt; <span class="ty">HttpResponse</span> {
+    <span class="kw">if</span> req.path.eq(<span class="str">"/"</span>)         { <span class="kw">return</span> home(req); }
+    <span class="kw">if</span> req.path.eq(<span class="str">"/tutorial"</span>) { <span class="kw">return</span> tutorial(req); }
+    <span class="kw">if</span> req.path.eq(<span class="str">"/examples"</span>) { <span class="kw">return</span> examples(req); }
+    <span class="kw">return</span> <span class="ty">HttpResponse</span>::not_found()
+                   .body(fs_read(<span class="str">"static/404.html"</span>));
+}</code></pre>
+      </div>
+      <p class="caption">This page is what the final <code>return</code> above serves.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <div class="footer-brand">
+      <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
+      <div>
+        <strong>glide-lang.org</strong>
+        <p>A small systems programming language.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h5>Project</h5>
+        <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">License</a>
+      </div>
+      <div>
+        <h5>Learn</h5>
+        <a href="/tutorial">Tutorial</a>
+        <a href="/examples">Examples</a>
+        <a href="/book/09-standard-library">Stdlib</a>
+      </div>
+      <div>
+        <h5>Compare</h5>
+        <a href="/vs-rust">Glide vs Rust</a>
+        <a href="/vs-go">Glide vs Go</a>
+        <a href="/vs-zig">Glide vs Zig</a>
+      </div>
+      <div>
+        <h5>Community</h5>
+        <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
+        <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contributing</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <p>© 2026 Glide Programming Language. Created and maintained by <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. MIT licensed. v0.4.1.</p>
+  </div>
+</footer>
+
+<script defer src="/js/nav.js?v=2"></script>
+
+</body>
+</html>

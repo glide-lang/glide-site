@@ -1,0 +1,1605 @@
+/* ------------------------------------------------------------------
+   THE GLIDE BOOK — editorial documentation
+   ------------------------------------------------------------------
+   Treats the docs like a real programming book, not a CMS template:
+   - Fraunces serif display for chapter titles and section headings;
+     a real typeface earns the page its gravitas.
+   - Inter for UI prose; JetBrains Mono for chapter numbers, metadata,
+     navigation labels, and code (already loaded by style.css).
+   - Three-column shell on wide screens: persistent chapter nav (left),
+     reading column ~70ch wide (center), in-page mini-TOC (right).
+   - Reading-progress bar pinned under the site header.
+   - Copy-to-clipboard buttons attached to every <pre class="code">
+     by the inline script at the bottom of the chapter page.
+   ------------------------------------------------------------------ */
+
+:root {
+  --serif: 'Fraunces', 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  --doc-sidebar-w: 264px;
+  --doc-toc-w: 220px;
+  --doc-content-max: 720px;
+  --doc-shell-max: 1440px;
+  --doc-header-h: 72px;
+  /* Sticky columns must clear the site header (72px) AND the 2px reading
+     progress bar fixed just under it. This offset is the single source of
+     truth for both `top:` and the `max-height` of the sticky asides, plus
+     the heading scroll-margin so anchored headings land below the bar. */
+  --doc-sticky-top: 78px;
+  --book-accent-soft: rgba(107, 138, 253, 0.12);
+  --book-accent-line: rgba(107, 138, 253, 0.22);
+  --book-rule: rgba(107, 138, 253, 0.14);
+}
+
+/* style.css sets `overflow-x: hidden` on BOTH <html> and <body>. On <body>
+   that silently turns the body into a scroll container (overflow-y computes
+   to `auto`), which kills `position: sticky` on the nav, sidebar, and TOC —
+   they scroll away instead of pinning. Use `overflow-x: clip` instead: it
+   clips horizontal overflow WITHOUT establishing a scroll container, so the
+   viewport stays the scroller and sticky works. Must override BOTH. */
+html { overflow-x: clip; overflow-y: visible; }
+body { overflow-x: clip; overflow-y: visible; }
+
+/* Full-width sticky bar that wraps the existing `header.nav`. The inner
+   header keeps its centered max-width; the wrapper carries the sticky
+   positioning, blur, and bottom border so content scrolls cleanly
+   underneath. */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 16, 32, 0.78);
+  border-bottom: 1px solid var(--border-soft);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+}
+.site-nav .nav {
+  /* Strip the original padding-y so the band can hug the nav contents,
+     and trim it slightly tighter while sticky. */
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+/* ==================================================================
+   INDEX  /book
+   ================================================================== */
+
+.book-index {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 56px 32px 120px;
+}
+
+.book-index-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: end;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--border-soft);
+  margin-bottom: 64px;
+}
+@media (max-width: 860px) {
+  .book-index-hero { grid-template-columns: 1fr; gap: 28px; }
+}
+
+.book-index-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 22px;
+}
+.book-index-eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.book-index-hero h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(44px, 5.4vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin: 0;
+  color: var(--text);
+}
+.book-index-hero h1 em {
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 100;
+  background: linear-gradient(110deg, #8eaaff 0%, #6b8afd 60%, #4a6dff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.book-index-lede {
+  font-size: 17.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 28px 0 0;
+  max-width: 540px;
+}
+.book-index-lede code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88em;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--book-accent-soft);
+  border: 1px solid var(--book-accent-line);
+  color: #c4d0ff;
+}
+.book-index-lede a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--book-accent-line);
+}
+.book-index-lede a:hover { border-bottom-color: currentColor; }
+
+.book-index-stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 22px 0;
+}
+.book-index-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 16px;
+  border-right: 1px solid var(--border-soft);
+}
+.book-index-stats > div:last-child { border-right: 0; }
+.book-index-stats > div:first-child { padding-left: 0; }
+.book-index-stats dt {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 60;
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.book-index-stats dd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* ---- thematic sections ---- */
+
+.book-index-section { margin-bottom: 72px; }
+.book-index-section:last-child { margin-bottom: 0; }
+
+.book-index-section-header {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 28px;
+  align-items: baseline;
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--book-rule);
+}
+.book-section-num {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 0.85;
+  color: var(--accent);
+  opacity: 0.8;
+  letter-spacing: -0.02em;
+}
+.book-index-section-header h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 30;
+  font-weight: 500;
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+.book-index-section-header p {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+  max-width: 580px;
+}
+
+.book-index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.book-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto;
+  gap: 12px;
+  padding: 24px 24px 22px;
+  background: linear-gradient(180deg, rgba(30, 42, 94, 0.22), rgba(15, 21, 48, 0.5));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: border-color 200ms ease, transform 200ms ease, background 220ms ease;
+}
+.book-card::before {
+  /* subtle gradient sheen on the top edge — picks up on hover */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--book-accent-line), transparent);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.book-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, rgba(40, 56, 124, 0.28), rgba(15, 21, 48, 0.6));
+}
+.book-card:hover::before { opacity: 1; }
+
+.book-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.book-card-num {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 96, "SOFT" 30;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.book-card-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.book-card h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 60, "SOFT" 30;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 0;
+}
+
+.book-card > p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.book-card-topics {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.book-card-topics li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: -0.005em;
+  color: var(--text-dim);
+  padding: 4px 9px;
+  background: rgba(107, 138, 253, 0.06);
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+}
+
+.book-card-arrow {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: var(--accent);
+  transition: transform 220ms ease;
+  opacity: 0;
+}
+.book-card:hover .book-card-arrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* ==================================================================
+   CHAPTER PAGE  /book/<slug>
+   ================================================================== */
+
+.doc-shell {
+  display: grid;
+  grid-template-columns: var(--doc-sidebar-w) minmax(0, 1fr) var(--doc-toc-w);
+  gap: 56px;
+  max-width: var(--doc-shell-max);
+  margin: 0 auto;
+  padding: 0 32px 80px;
+  align-items: start;
+  position: relative;
+}
+
+/* ---- left sidebar ---- */
+
+.doc-sidebar {
+  position: sticky;
+  top: var(--doc-sticky-top);
+  align-self: start;
+  /* Independent scroll region: with chapter 10's 16 H2 sub-list, the nav is
+     taller than the viewport — clamp it and let it scroll on its own. */
+  max-height: calc(100vh - var(--doc-sticky-top) - 12px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 28px 12px 28px 0;
+  border-right: 1px solid var(--border-soft);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.doc-sidebar::-webkit-scrollbar { width: 6px; }
+.doc-sidebar::-webkit-scrollbar-track { background: transparent; }
+.doc-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-soft);
+  border-radius: 6px;
+}
+.doc-sidebar::-webkit-scrollbar-thumb:hover { background: var(--border); }
+
+.doc-sidebar-brand {
+  padding: 0 8px 24px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.doc-sidebar-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+.doc-sidebar-sub {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 24, "SOFT" 50;
+  font-style: italic;
+  font-size: 14.5px;
+  color: var(--text-dim);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.doc-nav { display: flex; flex-direction: column; gap: 22px; }
+
+.doc-nav-section h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 8px;
+  padding: 0 8px;
+}
+.doc-nav-section > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.doc-nav-section > ul > li > a {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 7px 8px;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: 5px;
+  border-left: 2px solid transparent;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.doc-nav-section > ul > li > a > .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.doc-nav-section > ul > li > a:hover {
+  background: var(--book-accent-soft);
+  color: var(--text);
+}
+.doc-nav-section > ul > li > a:hover > .num { opacity: 0.85; color: var(--accent); }
+
+.doc-nav-section > ul > li.active > a {
+  color: var(--text);
+  background: var(--book-accent-soft);
+  border-left-color: var(--accent);
+  font-weight: 500;
+}
+.doc-nav-section > ul > li.active > a > .num {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/* nested sub-items (H2s of the active chapter) */
+.doc-nav-section ul.sub {
+  list-style: none;
+  padding: 4px 0 8px 32px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-left: 1px dashed var(--border-soft);
+  margin-left: 11px;
+}
+.doc-nav-section ul.sub li a {
+  display: block;
+  padding: 5px 10px;
+  font-size: 13px;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+.doc-nav-section ul.sub li a:hover {
+  color: var(--text);
+  background: rgba(107, 138, 253, 0.05);
+}
+/* current in-page section (set by scroll-spy if/when it tags the sidebar) */
+.doc-nav-section ul.sub li a.active {
+  color: var(--accent);
+  background: var(--book-accent-soft);
+}
+/* keyboard focus for every actionable nav link */
+.doc-nav-section a:focus-visible,
+.doc-nav-section ul.sub li a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: 5px;
+}
+
+/* ---- center (main) ---- */
+
+.doc-main {
+  min-width: 0;
+  position: relative;
+  padding-top: 28px;
+}
+
+/* Reading-progress bar — pinned just under the sticky site header. The
+   track is transparent so it doesn't draw a second hairline directly below
+   the nav's bottom border (which read as a doubled separator); only the
+   accent fill shows as you scroll. */
+.doc-progress {
+  position: fixed;
+  top: var(--doc-header-h);
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 49;
+  pointer-events: none;
+}
+.doc-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #8eaaff);
+  transition: width 80ms linear;
+}
+
+.doc-article {
+  max-width: var(--doc-content-max);
+  margin: 0 auto 0 0;
+}
+
+/* ---- chapter header ---- */
+
+.doc-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0 0 28px;
+}
+.doc-breadcrumb a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+.doc-breadcrumb a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--book-accent-line);
+}
+.doc-breadcrumb .doc-bc-sep { color: var(--border); }
+.doc-breadcrumb .doc-bc-current { color: var(--text); }
+
+.doc-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+.doc-chap-num {
+  color: var(--accent);
+  font-weight: 500;
+}
+.doc-sep {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  opacity: 0.5;
+}
+.doc-read-time { color: var(--text-dim); }
+
+.doc-title {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-weight: 400;
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 0 0 44px;
+}
+
+/* ---- chapter body (the rendered markdown) ---- */
+
+.doc-body { color: var(--text); }
+
+/* The first paragraph acts as the lede — bigger, with a serif drop cap. */
+.doc-body > p:first-of-type {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0 0 32px;
+}
+.doc-body > p:first-of-type::first-letter {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-weight: 500;
+  float: left;
+  font-size: 4em;
+  line-height: 0.88;
+  margin: 4px 12px 0 0;
+  color: var(--accent);
+}
+
+.doc-body p {
+  font-size: 16.5px;
+  line-height: 1.78;
+  margin: 0 0 20px;
+  color: var(--text);
+}
+
+.doc-body h2,
+.doc-body h2.section-title {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 72, "SOFT" 30;
+  font-weight: 500;
+  font-size: clamp(24px, 2.4vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 56px 0 18px;
+  padding-top: 36px;
+  border-top: 1px solid var(--book-rule);
+  /* clear the sticky header + progress bar + the section's own top padding
+     so a clicked/scroll-spied heading isn't hidden under the top nav. */
+  scroll-margin-top: calc(var(--doc-sticky-top) + 24px);
+}
+.doc-body h2:first-child,
+.doc-body h2.section-title:first-child {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 24px;
+}
+
+.doc-body h3 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 30;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin: 32px 0 12px;
+  scroll-margin-top: calc(var(--doc-sticky-top) + 24px);
+}
+.doc-body h4 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: #e8ecff;
+  margin: 26px 0 10px;
+  scroll-margin-top: calc(var(--doc-sticky-top) + 24px);
+}
+
+/* Language tag on the right of a title-less code frame's bar (sh / text /
+   output …), so the bar reads as intentional rather than empty. */
+.code-frame-lang {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Any other element that carries an id anchor (e.g. anchored list items,
+   callouts deep-linked from the TOC) also needs to clear the sticky header. */
+.doc-body [id] { scroll-margin-top: calc(var(--doc-sticky-top) + 24px); }
+
+.doc-body ul, .doc-body ol {
+  font-size: 16.5px;
+  line-height: 1.78;
+  padding-left: 24px;
+  margin: 0 0 22px;
+  color: var(--text);
+}
+.doc-body li { margin-bottom: 6px; }
+.doc-body li::marker { color: var(--accent); }
+
+.doc-body blockquote {
+  position: relative;
+  margin: 28px 0;
+  padding: 16px 22px 16px 26px;
+  border-left: 2px solid var(--accent);
+  background: linear-gradient(90deg, var(--book-accent-soft), transparent 60%);
+  border-radius: 0 6px 6px 0;
+}
+.doc-body blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -8px;
+  left: 6px;
+  font-family: var(--serif);
+  font-size: 48px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.doc-body blockquote p {
+  margin: 0;
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 24, "SOFT" 40;
+  font-style: italic;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.doc-body hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--book-accent-line) 30%,
+    var(--book-accent-line) 70%,
+    transparent 100%);
+  margin: 48px 0;
+}
+
+.doc-body a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--book-accent-line);
+  transition: border-color 140ms ease, color 140ms ease;
+}
+.doc-body a:hover {
+  color: #8eaaff;
+  border-bottom-color: currentColor;
+}
+
+/* inline code (not the pre.code block) */
+.doc-body :not(pre) > code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.87em;
+  padding: 1.5px 6px;
+  border-radius: 5px;
+  background: var(--book-accent-soft);
+  border: 1px solid var(--book-accent-line);
+  color: #c4d0ff;
+  /* A long inline token (URL, path, header name) must wrap inside the
+     column instead of widening the page and triggering horizontal scroll. */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Long unbroken tokens in prose (URLs, header values) wrap rather than
+   blow out the ~720px reading column. */
+.doc-body p,
+.doc-body li { overflow-wrap: break-word; }
+
+/* ---- markdown tables (the HTTP chapter has several wide ones) ---- */
+.doc-body table {
+  width: 100%;
+  margin: 24px 0 28px;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  line-height: 1.55;
+  /* Block layout lets the table scroll horizontally on its own when the
+     columns are wider than the reading column, instead of overflowing the
+     page. table-layout:fixed isn't used because column widths vary. */
+  display: block;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.doc-body table::-webkit-scrollbar { height: 6px; }
+.doc-body table::-webkit-scrollbar-track { background: transparent; }
+.doc-body table::-webkit-scrollbar-thumb {
+  background: var(--border-soft);
+  border-radius: 6px;
+}
+.doc-body thead th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--book-accent-line);
+  white-space: nowrap;
+}
+.doc-body tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text);
+  vertical-align: top;
+}
+.doc-body tbody tr:last-child td { border-bottom: 0; }
+.doc-body tbody tr:hover td { background: rgba(107, 138, 253, 0.04); }
+.doc-body table code { white-space: nowrap; }
+
+/* ---- code block: language tag + copy button ---- */
+
+.doc-body .code-frame {
+  margin: 24px 0 28px;
+  position: relative;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 26px 64px -42px rgba(59, 91, 219, 0.55);
+}
+.doc-body .code-frame pre.code {
+  font-size: 13.5px;
+  line-height: 1.7;
+  padding: 22px 24px;
+  /* The HTTP chapter has very long code lines — scroll inside the frame
+     (which clips overflow) rather than stretching the page. Restated here
+     so this rule's specificity can't drop the base pre.code behaviour. */
+  overflow-x: auto;
+}
+
+.code-copy {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  background: rgba(11, 16, 32, 0.7);
+  border: 1px solid var(--border-soft);
+  border-radius: 5px;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 140ms ease, color 140ms ease, border-color 140ms ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.code-frame:hover .code-copy { opacity: 1; }
+.code-copy:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.code-copy:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  opacity: 1;
+}
+.code-copy.copied { color: var(--accent); border-color: var(--accent); opacity: 1; }
+.code-copy-icon { font-size: 13px; line-height: 1; }
+
+/* ---- chapter footer (feedback + pager) ---- */
+
+.doc-footer {
+  margin-top: 80px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.doc-feedback {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 20px 22px;
+  background: linear-gradient(180deg, rgba(30, 42, 94, 0.22), rgba(15, 21, 48, 0.45));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+}
+.doc-feedback h4 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 24, "SOFT" 40;
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--text);
+  margin: 0;
+  margin-right: auto;
+}
+.doc-fb-buttons {
+  display: flex;
+  gap: 8px;
+}
+.doc-fb-btn {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+}
+.doc-fb-btn:hover {
+  border-color: var(--accent);
+  background: var(--book-accent-soft);
+}
+.doc-fb-btn.selected {
+  border-color: var(--accent);
+  background: var(--book-accent-soft);
+  color: var(--accent);
+}
+.doc-fb-thanks {
+  width: 100%;
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -0.005em;
+}
+
+.doc-edit {
+  margin: 0 0 36px;
+  font-size: 13.5px;
+}
+.doc-edit a {
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+.doc-edit a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--book-accent-line);
+}
+
+/* prev/next pager */
+.doc-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 700px) { .doc-pager { grid-template-columns: 1fr; } }
+
+.doc-pager-link {
+  display: grid;
+  gap: 4px;
+  padding: 18px 22px;
+  background: linear-gradient(180deg, rgba(30, 42, 94, 0.2), rgba(15, 21, 48, 0.4));
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 200ms ease, transform 200ms ease, background 200ms ease;
+}
+.doc-pager-link:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(40, 56, 124, 0.28), rgba(15, 21, 48, 0.55));
+}
+.doc-pager-link.next { text-align: right; }
+
+.doc-pager-dir {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.doc-pager-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.doc-pager-title {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 36, "SOFT" 30;
+  font-weight: 500;
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.doc-pager-spacer { display: block; }
+
+/* ---- right "on this page" mini-TOC ---- */
+
+.doc-toc {
+  position: sticky;
+  top: var(--doc-sticky-top);
+  align-self: start;
+  /* Chapter 10 has 16 H2 + many H3 — the "On this page" list overflows the
+     viewport. Scroll it independently with a slim scrollbar matching the
+     left sidebar so the bottom entries stay reachable. */
+  max-height: calc(100vh - var(--doc-sticky-top) - 12px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 28px 0;
+  border-left: 1px solid var(--border-soft);
+  padding-left: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.doc-toc::-webkit-scrollbar { width: 6px; }
+.doc-toc::-webkit-scrollbar-track { background: transparent; }
+.doc-toc::-webkit-scrollbar-thumb {
+  background: var(--border-soft);
+  border-radius: 6px;
+}
+.doc-toc::-webkit-scrollbar-thumb:hover { background: var(--border); }
+.doc-toc h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0 0 14px;
+}
+.doc-toc ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.doc-toc li a {
+  display: block;
+  padding: 5px 0 5px 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-left: 1px solid var(--border-soft);
+  transition: color 120ms ease, border-color 120ms ease;
+}
+.doc-toc li.sub a {
+  padding-left: 22px;
+  font-size: 12.5px;
+}
+.doc-toc li a:hover {
+  color: var(--text);
+  border-left-color: var(--text-dim);
+}
+.doc-toc li a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+.doc-toc li a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+  color: var(--text);
+}
+
+/* ==================================================================
+   RESPONSIVE
+   ================================================================== */
+
+@media (max-width: 1180px) {
+  .doc-shell {
+    grid-template-columns: var(--doc-sidebar-w) minmax(0, 1fr);
+    gap: 48px;
+  }
+  .doc-toc { display: none; }
+}
+
+@media (max-width: 920px) {
+  .doc-shell {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 0 20px 64px;
+  }
+  .doc-sidebar {
+    position: static;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-soft);
+    padding: 24px 0;
+    margin-bottom: 12px;
+  }
+  .doc-progress { display: none; }
+  .doc-title { font-size: 38px; }
+  .doc-body > p:first-of-type::first-letter {
+    font-size: 3em;
+    margin: 2px 8px 0 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .book-index { padding: 32px 18px 80px; }
+  .book-index-stats { grid-template-columns: 1fr; }
+  .book-index-stats > div {
+    border-right: 0;
+    border-bottom: 1px solid var(--border-soft);
+    padding: 12px 0;
+  }
+  .book-index-stats > div:last-child { border-bottom: 0; }
+  .book-index-section-header { grid-template-columns: 60px minmax(0, 1fr); gap: 18px; }
+  .book-section-num { font-size: 48px; }
+}
+
+/* ==================================================================
+   CALLOUTS  (> [!learn] / [!try] / [!tip] / [!mistake] / [!note] / [!recap])
+   ================================================================== */
+
+.doc-callout {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin: 28px 0;
+  padding: 18px 22px 16px;
+  border: 1px solid var(--callout-border, var(--book-accent-line));
+  border-left: 3px solid var(--callout-accent, var(--accent));
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--callout-bg-1, rgba(107, 138, 253, 0.07)), var(--callout-bg-2, rgba(15, 21, 48, 0.4)));
+  position: relative;
+}
+
+.doc-callout-icon {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  margin-top: 2px;
+  border-radius: 6px;
+  background: var(--callout-icon-bg, rgba(107, 138, 253, 0.18));
+  color: var(--callout-accent, var(--accent));
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.doc-callout-body h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--callout-accent, var(--accent));
+  margin: 0 0 6px;
+}
+
+.doc-callout-body p {
+  margin: 0;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-style: normal;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text);
+}
+.doc-callout-body p code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.87em;
+  padding: 1.5px 6px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-soft);
+  color: #c4d0ff;
+}
+
+/* learn — primary blue. The default; what the chapter is about to teach. */
+.doc-callout-learn {
+  --callout-accent: #6b8afd;
+  --callout-border: rgba(107, 138, 253, 0.25);
+  --callout-icon-bg: rgba(107, 138, 253, 0.16);
+  --callout-bg-1: rgba(107, 138, 253, 0.06);
+  --callout-bg-2: rgba(15, 21, 48, 0.45);
+}
+
+/* try — green. Hands-on prompt for the reader. */
+.doc-callout-try {
+  --callout-accent: #4ade80;
+  --callout-border: rgba(74, 222, 128, 0.28);
+  --callout-icon-bg: rgba(74, 222, 128, 0.16);
+  --callout-bg-1: rgba(74, 222, 128, 0.06);
+  --callout-bg-2: rgba(15, 21, 48, 0.45);
+}
+
+/* tip — violet. Optional but helpful side-note. */
+.doc-callout-tip {
+  --callout-accent: #a78bfa;
+  --callout-border: rgba(167, 139, 250, 0.28);
+  --callout-icon-bg: rgba(167, 139, 250, 0.16);
+  --callout-bg-1: rgba(167, 139, 250, 0.06);
+  --callout-bg-2: rgba(15, 21, 48, 0.45);
+}
+
+/* mistake — amber. Pitfalls and gotchas. */
+.doc-callout-mistake {
+  --callout-accent: #fbbf24;
+  --callout-border: rgba(251, 191, 36, 0.32);
+  --callout-icon-bg: rgba(251, 191, 36, 0.16);
+  --callout-bg-1: rgba(251, 191, 36, 0.06);
+  --callout-bg-2: rgba(15, 21, 48, 0.45);
+}
+
+/* note — neutral grey. Background info. */
+.doc-callout-note {
+  --callout-accent: #94a3b8;
+  --callout-border: rgba(148, 163, 184, 0.28);
+  --callout-icon-bg: rgba(148, 163, 184, 0.14);
+  --callout-bg-1: rgba(148, 163, 184, 0.05);
+  --callout-bg-2: rgba(15, 21, 48, 0.45);
+}
+
+/* recap — teal. End-of-chapter summary. */
+.doc-callout-recap {
+  --callout-accent: #5eead4;
+  --callout-border: rgba(94, 234, 212, 0.28);
+  --callout-icon-bg: rgba(94, 234, 212, 0.16);
+  --callout-bg-1: rgba(94, 234, 212, 0.06);
+  --callout-bg-2: rgba(15, 21, 48, 0.45);
+}
+
+/* ==================================================================
+   SIDEBAR INTERACTIVITY
+   ================================================================== */
+
+/* ---- progress meter at top of sidebar ---- */
+
+.doc-nav-progress {
+  padding: 0 8px 18px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.doc-nav-progress-track {
+  height: 3px;
+  background: var(--border-soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.doc-nav-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #8eaaff);
+  transition: width 320ms ease-out;
+}
+.doc-nav-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.doc-nav-progress-label { color: var(--text-dim); }
+.doc-nav-progress-count {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- filter input ---- */
+
+.doc-nav-filter-wrap {
+  position: relative;
+  padding: 0 8px 18px;
+  display: flex;
+  align-items: center;
+}
+.doc-nav-filter-icon {
+  position: absolute;
+  left: 20px;
+  top: calc(50% - 9px);
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: color 140ms ease;
+}
+.doc-nav-filter {
+  width: 100%;
+  padding: 9px 30px 9px 34px;
+  background: rgba(11, 16, 32, 0.6);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  letter-spacing: -0.005em;
+  outline: none;
+  transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+.doc-nav-filter::placeholder { color: var(--text-dim); }
+.doc-nav-filter:focus {
+  border-color: var(--accent);
+  background: rgba(11, 16, 32, 0.85);
+  box-shadow: 0 0 0 3px var(--book-accent-soft);
+}
+.doc-nav-filter-wrap:focus-within .doc-nav-filter-icon { color: var(--accent); }
+/* Hide the native search clear/cancel button so our layout stays clean. */
+.doc-nav-filter::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+
+/* ---- collapsible section toggle ---- */
+
+.doc-nav-section-toggle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  margin: 0 0 4px;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: color 140ms ease;
+}
+.doc-nav-section-toggle:focus { outline: 0; }
+.doc-nav-section-toggle:hover { color: var(--text); }
+.doc-nav-section-toggle:hover h4 { color: var(--text); }
+.doc-nav-section-toggle:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.doc-nav-section-toggle h4 {
+  /* Override the bare h4 style above; the toggle owns spacing now. */
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+  padding: 0;
+  transition: color 140ms ease;
+}
+.doc-nav-section-chevron {
+  font-size: 10px;
+  color: var(--text-dim);
+  opacity: 0.7;
+  transform: rotate(0deg);
+  transition: transform 200ms ease;
+  display: inline-block;
+  width: 12px;
+}
+.doc-nav-section.collapsed .doc-nav-section-chevron { transform: rotate(-90deg); }
+.doc-nav-section.collapsed .doc-nav-section-list { display: none; }
+
+/* ---- per-chapter checkmark + read state ---- */
+
+.doc-nav-item > a {
+  /* Override the earlier grid template — add the checkmark slot. */
+  display: grid !important;
+  grid-template-columns: 18px 22px minmax(0, 1fr) !important;
+  align-items: baseline;
+  gap: 8px !important;
+}
+.doc-nav-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  font-size: 9px;
+  line-height: 1;
+  color: transparent;
+  background: transparent;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  align-self: center;
+}
+.doc-nav-item[data-read] .doc-nav-check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.doc-nav-item[data-read].active .doc-nav-check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.doc-nav-item[data-read] > a > .title {
+  color: var(--text-dim);
+  text-decoration: line-through;
+  text-decoration-color: rgba(148, 163, 184, 0.3);
+  text-decoration-thickness: 1px;
+}
+.doc-nav-item[data-read].active > a > .title {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* ==================================================================
+   INDEX CARDS — read state
+   ================================================================== */
+
+.book-card-check {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-soft);
+  border-radius: 50%;
+  background: rgba(11, 16, 32, 0.7);
+  color: transparent;
+  font-size: 11px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 200ms ease, background 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+.book-card[data-read] .book-card-check {
+  opacity: 1;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.book-card[data-read] {
+  border-color: rgba(107, 138, 253, 0.2);
+}
+.book-card[data-read] h3 { color: var(--text-dim); }
+.book-card[data-read] .book-card-num { opacity: 0.6; }
+
+/* ==================================================================
+   MOBILE DRAWER
+   ================================================================== */
+
+.doc-mobile-bar {
+  display: none;
+}
+.doc-mobile-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 20, 0.7);
+  backdrop-filter: blur(2px);
+  /* Above the sticky site-nav (z-index:50) so the whole viewport dims when
+     the drawer is open; the drawer itself (z-index:60 on mobile) sits on top. */
+  z-index: 55;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+body.doc-mobile-open .doc-mobile-backdrop {
+  display: block;
+  opacity: 1;
+}
+
+.doc-mobile-toggle {
+  appearance: none;
+  background: rgba(15, 21, 48, 0.85);
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  transition: border-color 140ms ease;
+}
+.doc-mobile-toggle:hover { border-color: var(--accent); }
+.doc-mobile-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.doc-mobile-toggle-icon {
+  position: relative;
+  width: 14px;
+  height: 12px;
+  display: inline-block;
+}
+.doc-mobile-toggle-icon::before,
+.doc-mobile-toggle-icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 1px;
+  transition: transform 200ms ease, top 200ms ease, bottom 200ms ease;
+}
+.doc-mobile-toggle-icon::before { top: 1px; }
+.doc-mobile-toggle-icon::after { bottom: 1px; }
+.doc-mobile-toggle-icon {
+  background:
+    linear-gradient(var(--text), var(--text)) center / 100% 1.5px no-repeat;
+}
+body.doc-mobile-open .doc-mobile-toggle-icon::before {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+body.doc-mobile-open .doc-mobile-toggle-icon::after {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+body.doc-mobile-open .doc-mobile-toggle-icon {
+  background-image: none;
+}
+
+/* ==================================================================
+   RESPONSIVE OVERRIDES (mobile drawer kicks in <920px)
+   ================================================================== */
+
+@media (max-width: 920px) {
+  .doc-mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-soft);
+    background: rgba(11, 16, 32, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: sticky;
+    top: var(--doc-header-h);
+    z-index: 30;
+  }
+  .doc-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 86vw);
+    max-height: 100vh;
+    /* Above the backdrop (55) and the site-nav (50) when open. */
+    z-index: 60;
+    background: linear-gradient(180deg, var(--bg-2), var(--bg));
+    border-right: 1px solid var(--border-soft);
+    border-bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 240ms ease;
+    padding: 24px 18px 24px 22px;
+    overflow-y: auto;
+    margin-bottom: 0;
+  }
+  body.doc-mobile-open .doc-sidebar {
+    transform: translateX(0);
+  }
+  /* lock the page behind the open drawer — scoped to the mobile breakpoint
+     so the `?open` debug param can't freeze desktop scrolling. */
+  body.doc-mobile-open { overflow: hidden; }
+}
+
+@media (max-width: 600px) {
+  .doc-callout {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 16px 14px;
+  }
+  .doc-callout-icon { width: 22px; height: 22px; font-size: 12px; }
+  .doc-callout-body h4 { font-size: 11px; }
+}
+
+/* ------------------------------------------------------------------
+   LANGUAGE SWITCHER  (EN | PT)  — sits at the end of the top nav
+   ------------------------------------------------------------------ */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.lang-switch .lang-opt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  padding: 3px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  color: var(--text-dim);
+  border-radius: 999px;
+  border: 0;
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.lang-switch .lang-opt:hover { color: var(--text); }
+.lang-switch .lang-opt.active {
+  color: #c4d0ff;
+  background: var(--book-accent-soft);
+  box-shadow: inset 0 0 0 1px var(--book-accent-line);
+}
+@media (max-width: 860px) {
+  .lang-switch { margin-top: 8px; }
+}
+

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/js/lang.js"></script>
+  <title>Glide vs Zig — The Glide programming language.</title>
+  <meta name="description" content="Glide vs Zig: how the Glide programming language by Murillo Deolino compares to Zig on memory safety, concurrency, errors, generics, and tooling. Side-by-side code samples and a fair head-to-head.">
+  <meta name="keywords" content="Glide vs Zig, Glide or Zig, Glide language vs Zig, Glide programming language vs Zig, Zig alternative, systems language comparison">
+  <meta name="author" content="Murillo Deolino">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/glide-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/glide-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/icons/glide-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
+
+  <meta property="og:site_name" content="Glide Programming Language">
+  <meta property="og:title" content="Glide vs Zig — The Glide programming language.">
+  <meta property="og:description" content="How the Glide programming language compares to Zig on memory safety, concurrency, errors, generics, and tooling.">
+  <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://glide-lang.org/vs-zig">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="Murillo Deolino">
+  <meta name="theme-color" content="#0b1020">
+
+  <link rel="canonical" href="https://glide-lang.org/vs-zig">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glide vs Zig — The Glide programming language.">
+  <meta name="twitter:description" content="How the Glide programming language compares to Zig by Murillo Deolino.">
+  <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css?v=5">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "headline": "Glide vs Zig — Comparison of Two Systems Programming Languages",
+        "description": "How the Glide programming language by Murillo Deolino compares to Zig on memory safety, concurrency, errors, generics, and tooling.",
+        "image": "https://glide-lang.org/assets/og-cover.png",
+        "author": { "@type": "Person", "name": "Murillo Deolino", "url": "https://github.com/Murilinho145SG" },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Glide Programming Language",
+          "logo": { "@type": "ImageObject", "url": "https://glide-lang.org/assets/icons/glide-256.png" }
+        },
+        "mainEntityOfPage": "https://glide-lang.org/vs-zig",
+        "inLanguage": "en",
+        "about": [
+          { "@type": "ComputerLanguage", "name": "Glide" },
+          { "@type": "ComputerLanguage", "name": "Zig" }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/" },
+          { "@type": "ListItem", "position": 2, "name": "Glide vs Zig", "item": "https://glide-lang.org/vs-zig" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="/">
+    <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
+    <span>glide</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-icon"></span>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="/#features">Features</a>
+    <a href="/tutorial">Tutorial</a>
+    <a href="/examples">Examples</a>
+    <a href="/book/09-standard-library">Stdlib</a>
+    <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <a href="/vs-zig" class="lang-opt active" hreflang="en">EN</a>
+      <a href="/pt/vs-zig" class="lang-opt" hreflang="pt-BR">PT</a>
+    </div>
+</nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow" style="margin-bottom:12px;">Comparison</p>
+      <h1>
+        Glide vs <span class="accent">Zig</span>.<br>
+        A fair head-to-head.
+      </h1>
+      <p class="lede">
+        Both languages compile to native code through portable C-like
+        infrastructure and ship one binary toolchain. The
+        <strong>Glide programming language</strong> by
+        <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>
+        diverges from Zig on three big axes: memory safety (compile-time
+        checks vs explicit allocator passing), concurrency (built-in coroutines
+        vs none), and macro / trait systems.
+      </p>
+    </div>
+  </section>
+
+  <section class="features">
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">&amp;T</span>
+        <h3>A borrow checker, not allocator plumbing</h3>
+        <p>Zig's memory story is "pass an allocator everywhere". Functions that allocate take an <code>Allocator</code> parameter; you decide where memory comes from at every call site. It's explicit and powerful, but it means every helper has an allocator argument, and use-after-free is your problem at runtime. Glide tracks ownership at compile time: scope-bound borrows catch use-after-free and aliased mutation before the program runs. You still get arenas when you want them, just without an allocator parameter on every fn.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">load</span>(path: <span class="ty">string</span>) -&gt; !<span class="ty">string</span> {
+    <span class="kw">return</span> ok(fs_read(path)?);
+}                              <span class="cmt">// no allocator arg</span></code></pre>
+        </div>
+        <div class="code-frame" style="margin-top:12px;">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">zig.zig</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">load</span>(alloc: Allocator, path: []<span class="kw">const</span> <span class="ty">u8</span>) ![]<span class="ty">u8</span> {
+    <span class="kw">return</span> std.fs.cwd().readFileAlloc(alloc, path, <span class="num">1</span>&lt;&lt;<span class="num">20</span>);
+}                              <span class="cmt">// alloc threaded through</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">spawn</span>
+        <h3>Concurrency in the language</h3>
+        <p>Zig's async/await was removed from the language ahead of 0.11 and is still being redesigned — for the moment, concurrency is OS threads or std.Thread.Pool plus manual coordination. Glide ships M:N coroutines, typed channels, and <code>select!</code> in the compiler itself. <code>spawn fn()</code> kicks off a green thread; the runtime is a small work-stealing scheduler that's been the language design from day one.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">worker</span>(c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;) {
+    c.send(<span class="num">42</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">1</span>);
+    <span class="kw">spawn</span> worker(c);
+    <span class="kw">return</span> c.recv();
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">trait</span>
+        <h3>Traits, not <code>comptime</code> duck typing</h3>
+        <p>Zig's generics work via <code>comptime</code> — a function that takes a <code>type</code> parameter and uses it. There's no formal interface; constraints are checked by attempting compilation. Glide uses explicit traits with method signatures, default bodies, supertraits, and <code>*dyn Trait</code> for vtable dispatch. The compiler enforces bounds at the call site, before monomorphisation — fewer surprises, cleaner errors, better LSP completions.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">trait</span> <span class="ty">Render</span> {
+    <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Self</span>) -&gt; <span class="ty">string</span>;
+}
+
+<span class="kw">impl</span> <span class="ty">Render</span> <span class="kw">for</span> <span class="ty">Box</span>    {
+    <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Box</span>) -&gt; <span class="ty">string</span> {
+        <span class="kw">return</span> <span class="str">"Box"</span>;
+    }
+}
+
+<span class="kw">fn</span> <span class="fn">show</span>(r: *<span class="kw">dyn</span> <span class="ty">Render</span>) {
+    println!(r.render());
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse">
+      <div class="feature-text">
+        <span class="feature-tag">@derive</span>
+        <h3>Macros + procedural derives</h3>
+        <p>Zig uses <code>comptime</code> for compile-time programming — powerful but limited to evaluating regular Zig code at build time. Glide has both <code>macro_rules!</code>-style declarative macros (with <code>$x:expr</code>, <code>$x:ident</code>, <code>$x:ty</code> matchers, variadics) AND procedural macros (<code>@derive(Name)</code>, <code>@attr(...)</code>, <code>@name!(args)</code>) that run inside the compiler at expansion time. The proc-macro interpreter manipulates the same AST the compiler uses internally.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">glide.glide</span>
+          </div>
+<pre class="code"><code>@derive(<span class="ty">JsonBind</span>)
+<span class="kw">struct</span> <span class="ty">User</span> {
+    name: <span class="ty">string</span>,
+    age:  <span class="ty">int</span>,
+}                              <span class="cmt">// parse + emit generated</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">tool</span>
+        <h3>Shared lineage on the C backend</h3>
+        <p>Zig's most famous feature outside the language itself is the bundled C/C++ toolchain — <code>zig cc</code> is genuinely useful as a cross-compiler. Glide uses the same Zig-based toolchain under the hood to compile its C output, so cross-compilation, libc selection (glibc/musl), and target triples work the same way. <code>--target=x86_64-linux-musl</code> works on both, with the same toolchain underneath.</p>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="install">
+    <h2 class="section-title">When to pick which</h2>
+    <p class="install-lede">Two languages with similar goals and different opinions about safety.</p>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Pick Zig if…</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
+          You want absolute control over allocation — every byte, every call site.
+          You're replacing C in an existing codebase and need seamless C interop.
+          You enjoy explicit allocator passing and prefer it to a borrow checker.
+          You don't need built-in concurrency primitives.
+        </p>
+      </div>
+      <div class="install-card">
+        <h4>Pick Glide if…</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
+          You want compile-time memory safety without passing allocators around.
+          You need M:N coroutines and channels in the language, not the OS layer.
+          You want traits + procedural macros, not <code>comptime</code> duck typing.
+          You like Zig's toolchain ergonomics and want the same on a higher-level surface.
+        </p>
+      </div>
+    </div>
+
+    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Try Glide</h3>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Linux / macOS</h4>
+<pre class="code"><code>$ curl -fsSL https://glide-lang.org/install.sh | bash</code></pre>
+      </div>
+      <div class="install-card">
+        <h4>Windows (PowerShell)</h4>
+<pre class="code"><code>&gt; iwr https://glide-lang.org/install.ps1 -UseB | iex</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <div class="footer-brand">
+      <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
+      <div>
+        <strong>glide-lang.org</strong>
+        <p>A small systems programming language.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h5>Project</h5>
+        <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">License</a>
+      </div>
+      <div>
+        <h5>Learn</h5>
+        <a href="/tutorial">Tutorial</a>
+        <a href="/examples">Examples</a>
+        <a href="/book/09-standard-library">Stdlib</a>
+      </div>
+      <div>
+        <h5>Compare</h5>
+        <a href="/vs-rust">Glide vs Rust</a>
+        <a href="/vs-go">Glide vs Go</a>
+        <a href="/vs-zig">Glide vs Zig</a>
+      </div>
+      <div>
+        <h5>Community</h5>
+        <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
+        <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contributing</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <p>© 2026 Glide Programming Language. Created and maintained by <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. MIT licensed. v0.4.1.</p>
+  </div>
+</footer>
+
+<script defer src="/js/nav.js?v=2"></script>
+
+</body>
+</html>

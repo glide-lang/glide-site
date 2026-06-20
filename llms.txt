@@ -1,0 +1,3400 @@
+# Glide API reference (LLM ingest)
+
+Auto-generated from `///` doc comments by `glide doc --ai`.
+Each module section lists its `pub` items in source order with
+the signature on one line and the raw docstring (markdown)
+immediately after.
+
+## mcp::mcp_core
+source: ./mcp/mcp_core.glide
+
+Handle one JSON-RPC request body. Returns the response string, or "" for a
+
+### const const SERVER_NAME: string
+
+### const const SERVER_VERSION: string
+
+### const const PROTOCOL_VERSION: string
+
+### fn fn language_quickref() -> string
+
+### fn fn handle_rpc_body(body: string) -> string
+Handle one JSON-RPC request body. Returns the response string, or "" for a
+notification (no response is sent for those).
+
+## build_book
+source: ./src/build_book.glide
+
+Render api/*.md into static/api/*.html. No-op if there's no api/ dir yet.
+
+### fn fn index_of_from_glide(s: string, sub: string, from: i32) -> i32
+
+### fn fn build_api() -> i32
+Render api/*.md into static/api/*.html. No-op if there's no api/ dir yet.
+
+### fn fn build_book() -> i32
+
+## stdlib::argparse
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/argparse.glide
+package: stdlib
+
+### struct struct StrFlag
+
+### struct struct IntFlag
+
+### struct struct BoolFlag
+
+### struct struct ArgParser
+
+## stdlib::backtrace
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/backtrace.glide
+package: stdlib
+
+Return the current call stack, one frame per element. The first
+
+### fn fn stack_trace() -> *Vector<string>
+Return the current call stack, one frame per element. The first
+entry is `stack_trace`'s caller; the unwinder itself is filtered
+out. Returns an empty vector when the platform can't walk the
+stack (typically -O2 with frame pointers omitted).
+
+```glide
+fn buggy() {
+    for f in stack_trace() { println!(f); }
+}
+```
+
+### fn fn stack_trace_skip(n: i32) -> *Vector<string>
+Same as `stack_trace` but skips the first `n` frames closest to
+the caller. Useful when the caller is itself a thin shim (e.g. a
+`log_error!` macro expansion) that should be hidden.
+
+## stdlib::base64
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/base64.glide
+package: stdlib
+
+Standard Base64 encode (RFC 4648, with `=` padding). Each group of
+
+### fn fn b64_encode(s: string) -> string
+Standard Base64 encode (RFC 4648, with `=` padding). Each group of
+three input bytes becomes four output characters; the last group is
+padded so the output is always a multiple of four.
+
+```glide
+b64_encode("Hello");      // "SGVsbG8="
+b64_encode("foobar");     // "Zm9vYmFy"
+b64_encode("");           // ""
+```
+
+### fn fn b64_decode(s: string) -> !string
+Inverse of `b64_encode`. Validates padding and alphabet; rejects
+stray characters (whitespace included) with `err`.
+
+```glide
+let r: !string = b64_decode("SGVsbG8=");
+if r.ok { println!(r.val); }      // "Hello"
+
+let bad: !string = b64_decode("***");
+if !bad.ok { println!(bad.err); } // "invalid base64 character"
+```
+
+## stdlib::bench
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/bench.glide
+package: stdlib
+
+Run one named bench with an auto-tuned iteration count.
+
+### struct struct Bencher
+
+### fn fn bench_run(name: string, f: fn(*Bencher))
+Run one named bench with an auto-tuned iteration count.
+`f` receives the Bencher; the user's loop must respect `b.n`.
+
+```glide
+bench_run("bench_concat", bench_concat);
+```
+
+### fn fn bench_summary() -> i32
+Final summary line — total benches run.
+Returns the count of failed benches for an exit-code-friendly main.
+
+## stdlib::bytes
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/bytes.glide
+package: stdlib
+
+### struct struct ByteBuffer
+
+## stdlib::compress
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/compress.glide
+package: stdlib
+
+Decompress a gzip-wrapped or zlib-wrapped buffer.
+
+### fn fn gzip_decode(input: string, in_len: i32, out_len: *i32) -> *void
+Decompress a gzip-wrapped or zlib-wrapped buffer.
+
+Returns the decoded bytes as a *void buffer plus the byte count
+through `out_len`. On any decode error the buffer is null and
+`out_len` is zero. Caller is responsible for `free`ing the buffer
+(or wrapping it via `__glide_string_from_buf` and letting the GC
+take ownership).
+
+```glide
+let mut out_len: i32 = 0;
+let buf: *void = gzip_decode(payload, payload.len(), &out_len);
+if buf != null {
+    let decoded: string = __glide_string_from_buf(buf, out_len);
+    free(buf);
+}
+```
+
+## stdlib::crypto
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/crypto.glide
+package: stdlib
+
+SHA-256 over `data`, returned as a 32-byte raw string. Useful when
+
+### fn fn sha256(data: string) -> string
+SHA-256 over `data`, returned as a 32-byte raw string. Useful when
+you need to feed the digest into another binary protocol; for human
+display use `sha256_hex`.
+
+**Caveat:** treats `data` as a NUL-terminated cstring, so embedded
+NUL bytes truncate the input. Hash binary blobs with embedded NULs
+via a future `sha256_bytes(*ByteBuffer)` once that's wired.
+
+```glide
+let raw: string = sha256("hello");
+hex_encode(raw);   // 2cf24dba...8b9824 (32 bytes)
+```
+
+### fn fn sha256_hex(data: string) -> string
+SHA-256 over `data`, returned as 64 lowercase hex chars. Same NUL
+caveat as `sha256`.
+
+```glide
+sha256_hex("");      // e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+sha256_hex("abc");   // ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+```
+
+### fn fn hmac_sha256(key: string, msg: string) -> string
+HMAC-SHA-256 with `key`, message `msg`. Returns the 32-byte raw MAC.
+
+Same NUL caveat as `sha256` — both `key` and `msg` are read until
+the first NUL. RFC 2104.
+
+```glide
+let mac: string = hmac_sha256("secret", "payload");
+hex_encode(mac);    // 32 raw bytes as hex
+```
+
+### fn fn hmac_sha256_hex(key: string, msg: string) -> string
+HMAC-SHA-256, hex-encoded.
+
+```glide
+hmac_sha256_hex("key", "The quick brown fox jumps over the lazy dog");
+-> f7bc83f430538424b13298e6aa6fb143ef4d59a14946175997479dbc2d1a3cd8
+```
+
+### fn fn sha1(data: string) -> string
+SHA-1 of `data`. Returns 20 raw bytes. **Cryptographically broken**
+— use only for legacy protocols that mandate SHA-1 (notably the
+RFC 6455 WebSocket handshake). For everything else, prefer SHA-256.
+
+```glide
+let raw: string = sha1("abc");
+hex_encode(raw);   // a9993e36...c9cd0d89 (20 bytes)
+```
+
+### fn fn sha1_hex(data: string) -> string
+SHA-1 of `data`, returned as 40 lowercase hex chars. Same caveat
+as `sha1`.
+
+```glide
+sha1_hex("");      // da39a3ee5e6b4b0d3255bfef95601890afd80709
+sha1_hex("abc");   // a9993e364706816aba3e25717850c26c9cd0d89d
+```
+
+## stdlib::env
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/env.glide
+package: stdlib
+
+Number of CLI arguments. Index `0` is the program path; user args
+
+### fn fn env_args_count() -> i32
+Number of CLI arguments. Index `0` is the program path; user args
+start at `1`, mirroring C's `argc`.
+
+```glide
+for let i: i32 = 0; i < env_args_count(); i++ {
+    println!(i, env_args_at(i));
+}
+```
+
+### fn fn env_args_at(i: i32) -> string
+CLI argument at index `i`. Returns `""` for out-of-range indices.
+
+```glide
+let prog: string = env_args_at(0);   // program path
+let first: string = env_args_at(1);  // first user arg, "" if missing
+```
+
+### fn fn env_args() -> *Vector<string>
+All user-supplied CLI args as a `Vector<string>`, skipping the
+program path at index `0`.
+
+```glide
+let args: *Vector<string> = env_args();
+for let i: i32 = 0; i < args.len(); i++ { println!(args.get(i)); }
+```
+
+### fn fn env_get(name: string) -> string
+Look up environment variable `name`. Returns `""` when unset.
+Use `env_has` if you need to distinguish "unset" from "empty value".
+
+```glide
+let path: string = env_get("PATH");
+let dirs: *Vector<string> = path.split(os_path_list_sep());
+```
+
+### fn fn env_has(name: string) -> bool
+`true` if the variable is set with a non-empty value.
+
+```glide
+if env_has("DEBUG") { println!("verbose mode on"); }
+```
+
+### fn fn env_exit(code: i32)
+Terminate the process with `code`. Skips Glide-side cleanup — `defer`
+blocks and auto-drops in higher stack frames will NOT run.
+
+```glide
+if !cfg.ok { eprintln(cfg.err); env_exit(1); }
+```
+
+### fn fn env_set(name: string, value: string) -> !void
+Set environment variable `name` to `value`. Overwrites any existing
+value. Returns `Err` if the OS rejects the call (very rare — typically
+a name with `=` in it, or a system-level limit).
+
+```glide
+let r: ! = env_set("LANG", "en_US.UTF-8");
+if !r.ok { eprintln(r.err); }
+env_get("LANG");   // "en_US.UTF-8"
+```
+
+### fn fn env_unset(name: string) -> !void
+Remove environment variable `name`. Idempotent — calling on an unset
+var is not an error.
+
+```glide
+env_unset("DEBUG");
+env_has("DEBUG");   // false
+```
+
+### struct struct EnvKV
+One entry of the process environment, decomposed into key and value.
+Returned by `env_all()`.
+
+### fn fn env_all() -> *Vector<EnvKV>
+Snapshot of the entire process environment. The list is taken at call
+time and is a copy — mutating env via `env_set` / `env_unset` after
+this call does NOT update the returned vector.
+
+```glide
+let all: *Vector<EnvKV> = env_all();
+for let i: i32 = 0; i < all.len(); i++ {
+    let kv: EnvKV = all.get(i);
+    println!(kv.key, "=", kv.value);
+}
+```
+
+### fn fn env_expand(s: string) -> string
+Expand `$VAR`, `${VAR}` and `%VAR%` references in `s` to their current
+env values. Unknown vars expand to empty string. Literal `$` followed
+by a non-name character (or `%X` without closing `%`) is preserved.
+
+```glide
+env_expand("home is $HOME");          // POSIX style
+env_expand("home is ${HOME}/cache");  // POSIX braces
+env_expand("data: %APPDATA%\\app");   // Windows style
+```
+
+## stdlib::fs
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/fs.glide
+package: stdlib
+
+Read the entire contents of `path` into a heap-allocated string.
+
+### fn fn fs_read(path: string) -> string
+Read the entire contents of `path` into a heap-allocated string.
+Returns `""` on any error (missing file, permission denied, …).
+Use `fs_exists` first when you need to distinguish "missing" from
+"empty file".
+
+```glide
+let body: string = fs_read("config.toml");
+if body.eq("") { eprintln("config missing or empty"); }
+```
+
+### fn fn fs_write(path: string, content: string) -> bool
+Write `content` to `path`, replacing any existing file. Returns
+`true` on success.
+
+```glide
+if !fs_write("out.txt", "hello\n") {
+    eprintln("write failed");
+}
+```
+
+### fn fn fs_exists(path: string) -> bool
+`true` if `path` is openable for reading. Cheap stat-style check —
+returns `false` for missing files and unreadable ones alike.
+
+```glide
+if fs_exists("cache.bin") {
+skip the slow recompute
+}
+```
+
+### fn fn fs_size(path: string) -> i64
+Size of a file on disk in bytes. Returns -1 if the path doesn't
+exist or stat fails. Cheap — one stat syscall, no file open.
+
+```glide
+let n: i64 = fs_size("favicon.ico");
+if n > 0 { /* serve it */ }
+```
+
+### fn fn fs_list(dir: string, suffix: string) -> *Vector<string>
+List filenames directly under `dir` (no recursion). Returns names
+only, not full paths. Filter by suffix (e.g. `".glide"`); pass `""`
+to keep all. Sorted ascending so output is stable across platforms.
+
+```glide
+let files: *Vector<string> = fs_list("src/stdlib", ".glide");
+defer files.free();
+for i in 0..files.len() {
+    println!("- ", files.get(i));
+}
+```
+
+### fn fn fs_read_lines(path: string) -> *Vector<string>
+Read `path` and split on `\n`. The trailing empty entry caused by a
+final newline is dropped, so iterating is straightforward and
+`len()` matches the user's intuitive line count.
+
+```glide
+let lines: *Vector<string> = fs_read_lines("words.txt");
+defer lines.free();
+for i in 0..lines.len() {
+    let w: string = lines.get(i).trim();
+    if w.len() >= 5 { println!(w); }
+}
+```
+
+### fn fn fs_basename(path: string) -> string
+Last path component (everything after the final `/` or `\`).
+Returns the input untouched when there's no separator.
+
+```glide
+fs_basename("src/stdlib/fs.glide");          // "fs.glide"
+fs_basename("/usr/local/bin/glide");         // "glide"
+fs_basename("C:\\Program Files\\Glide\\bin"); // "bin"
+fs_basename("noslash.txt");                  // "noslash.txt"
+```
+
+### fn fn fs_extension(path: string) -> string
+File extension *without* the leading dot, lower-case. Handles names
+with multiple dots (`archive.tar.gz` → `gz`) and returns `""` when
+there's no extension at all.
+
+```glide
+fs_extension("config.toml");        // "toml"
+fs_extension("archive.tar.gz");     // "gz"
+fs_extension("Makefile");           // ""
+fs_extension(".bashrc");            // ""    (leading dot only)
+```
+
+### fn fn fs_lines_count(path: string) -> i32
+Number of `\n` characters in the file plus one if the file is
+non-empty and lacks a trailing newline. Cheaper than
+`fs_read_lines(path).len()` because it doesn't allocate a vector.
+Returns `0` for empty / missing files.
+
+```glide
+let n: i32 = fs_lines_count("README.md");
+println!("readme has", n, "lines");
+```
+
+### fn fn fs_read_or_default(path: string, fallback: string) -> string
+Read `path` if it exists, otherwise return `fallback`. Distinguishes
+"missing file" from "file exists but empty" — `fs_read` collapses
+both into `""`.
+
+```glide
+let cfg: string = fs_read_or_default("config.toml", "verbose=false\n");
+```
+
+### fn fn fs_mkdir_p(path: string) -> bool
+Create `path` and any missing parent directories. Idempotent — a
+pre-existing directory at any step is treated as success. Returns
+`false` only on a real error (permissions, file-in-the-way, …).
+
+```glide
+if !fs_mkdir_p("cache/sub/leaf") { eprintln("can't make cache"); }
+```
+
+### fn fn fs_is_dir(path: string) -> bool
+`true` if `path` is an existing directory. Distinguishes "directory"
+from "file" — `fs_exists` returns true for either.
+
+```glide
+if fs_is_dir(".git") { /* it's a repo */ }
+```
+
+### fn fn fs_write_bytes(path: string, data: *void, n: i32) -> bool
+Write `n` bytes from `data` to `path` in binary mode, replacing any
+existing file. Returns `true` on success. Use this instead of
+`fs_write` when the payload contains embedded NULs (binary data,
+gzip output, …).
+
+```glide
+fs_write_bytes("out.bin", buf, 1024);
+```
+
+### fn fn fs_write_slice(path: string, data: string, offset: i32, n: i32) -> bool
+Write a length-bounded slice of `data` (`n` bytes starting at
+`offset`) to `path` in binary mode. Use for extracting binary
+content from an in-memory archive without copying through Glide-side
+`substring` (which would force an extra alloc).
+
+```glide
+fs_write_slice("out/file.bin", archive_bytes, header_end, file_size);
+```
+
+### fn fn fs_read_bytes(path: string, out_len: *i32) -> string
+Read `path` as raw bytes, returning a Glide string that survives
+embedded NULs (unlike `fs_read`, which truncates at the first 0x00).
+`out_len` receives the exact byte count. Returns `""` and 0 on
+failure.
+
+```glide
+let mut n: i32 = 0;
+let buf: string = fs_read_bytes("archive.tar.gz", &n);
+if n > 0 { /* hand off to tar / gzip helpers */ }
+```
+
+### fn fn fs_symlink(target: string, link: string) -> bool
+Make `link` a directory-shaped symlink to `target`. Idempotent —
+existing links are left alone. POSIX uses `symlink(2)`; Windows
+uses a directory junction (`mklink /J`), which doesn't require
+admin privileges. Returns `true` on success or when `link` already
+exists.
+
+```glide
+fs_symlink("/cache/abc123", "./glide_modules/auth");
+```
+
+### fn fn fs_remove_file(path: string) -> bool
+Delete a single file. Returns `true` on success or when the file
+is already absent (idempotent). Returns `false` only on a real
+I/O error (permissions, mount issues).
+
+```glide
+fs_remove_file("glide.lock");
+```
+
+### fn fn fs_remove_dir_rec(path: string) -> bool
+Recursively delete `path` and everything under it. Idempotent —
+missing paths report success. Shells out to `rm -rf` (POSIX) or
+`rmdir /S /Q` (Windows) so the implementation stays small.
+
+```glide
+fs_remove_dir_rec("glide_modules");
+```
+
+### fn fn fs_copy_file(src: string, dst: string) -> bool
+Binary-safe file copy. Overwrites the destination if it exists.
+Returns `false` on any I/O error (missing source, write-protected
+destination, …).
+
+```glide
+fs_copy_file("target/my_app", "/usr/local/bin/my_app");
+```
+
+### fn fn fs_copy_dir_rec(src: string, dst: string) -> bool
+Recursively copy `src` directory into `dst`, creating `dst` if
+missing. Shells out to `cp -r` (POSIX) or `xcopy /S` (Windows).
+Returns `false` on any I/O error.
+
+```glide
+fs_copy_dir_rec("src", "/install/dir/src");
+```
+
+### fn fn fs_list_rec(dir: string, suffix: string) -> *Vector<string>
+Recursively list every file under `dir` whose name ends in
+`suffix` (pass `""` to keep all). Returns full relative paths,
+not basenames. Skips dot-prefixed directories (`.git`,
+`.glide_*`) plus `glide_modules/` and `target/` so doc / lint
+passes don't crawl deps or build output. Sorted ascending so
+output is stable across platforms.
+
+```glide
+let files: *Vector<string> = fs_list_rec("src", ".glide");
+```
+
+## stdlib::hashmap
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/hashmap.glide
+package: stdlib
+
+A hash map from `string` keys to `V` values.
+
+### struct struct HashMap
+A hash map from `string` keys to `V` values.
+
+Implemented with open addressing and linear probing on a power-of-two
+table. Resizes automatically when the load factor reaches 75%. Keys are
+stored by value so the caller's strings can be freed independently.
+
+All operations except `resize` are amortised O(1). Resize is O(n).
+
+```glide
+let m: *HashMap<i32> = HashMap::new();
+defer m.free();
+
+m.insert("one", 1);
+m.insert("two", 2);
+
+if m.contains("one") {
+    println!("one ->", m.get("one"));   // 1
+}
+
+m.remove("one");
+println!("len:", m.len());              // 1
+```
+
+## stdlib::hex
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/hex.glide
+package: stdlib
+
+Lowercase hex of every byte. Two hex digits per input byte.
+
+### fn fn hex_encode(s: string) -> string
+Lowercase hex of every byte. Two hex digits per input byte.
+
+```glide
+hex_encode("ABC");    // "414243"
+hex_encode("");       // ""
+```
+
+### fn fn hex_decode(s: string) -> !string
+Inverse of `hex_encode`. Accepts upper- and lower-case digits; both
+`"414243"` and `"414243".to_upper()` round-trip the same. Rejects
+odd-length input or non-hex bytes with `err`.
+
+```glide
+let r: !string = hex_decode("414243");
+if r.ok { println!(r.val); }      // "ABC"
+
+let bad: !string = hex_decode("xy");
+if !bad.ok { println!(bad.err); } // "non-hex char"
+```
+
+## stdlib::http
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http.glide
+package: stdlib
+
+One incoming HTTP request, fully buffered. Lifetime is tied to the
+
+### struct struct HttpRequest
+One incoming HTTP request, fully buffered. Lifetime is tied to the
+handler call that receives it; do not stash the pointer.
+
+`headers_block` is the raw `Name: Value\r\n…` text from the wire.
+Use `req.header("name")` for case-insensitive lookups instead of
+poking at it directly.
+
+### trait trait ChunkSource
+Source of body chunks for a streaming response. The server polls
+`next_chunk` repeatedly and writes each return value as one
+`Transfer-Encoding: chunked` chunk; `none()` ends the stream.
+
+Implementors hold their own state — the server doesn't snapshot
+anything between calls. Glide has no closures, so the typical
+pattern is a struct with cursor / iterator fields plus an
+`impl ChunkSource for MyStruct` that walks them.
+
+```glide
+pub struct Counter { pub idx: i32, pub total: i32 }
+
+impl ChunkSource for Counter {
+    fn next_chunk(self: *Counter) -> ?string {
+        if self.idx >= self.total { return none(); }
+        self.idx = self.idx + 1;
+        return some("tick=".concat(self.idx.to_string()).concat("\n"));
+    }
+}
+```
+
+### struct struct HttpResponse
+Outgoing response. Build with `HttpResponse::ok()` /
+`HttpResponse::with_status(n)` then chain the setters; status codes
+fall back to a generic reason phrase when unknown.
+
+`stream_src` is `null` for buffered responses (the common case).
+Set it via `.stream(source)` when the body should flow over the
+wire one chunk at a time — the server emits
+`Transfer-Encoding: chunked` and ignores `body`.
+
+### fn fn parse_http_request(raw: string) -> !HttpRequest
+Parse a complete HTTP/1.1 request. Returns `err(msg)` on a malformed
+or partial request; the server loop drops the connection in that
+case. Headers are case-folded to lower-case so `req.headers.get
+("content-length")` always works.
+
+```glide
+let r: !HttpRequest = parse_http_request("GET / HTTP/1.1\r\nHost: x\r\n\r\n");
+if r.ok { println!(r.val.method, r.val.path); }
+```
+
+### fn fn _write_response(c: *Conn, resp: *HttpResponse, keep: bool)
+Pick the right wire-emit path based on whether the response carries
+a stream source. Buffered responses go through the C builder
+(single static buffer, single write); streamed responses emit
+header bytes manually then pump chunks. `pub` because the sibling
+`http::router` module drives its own accept loop and reuses it; the
+`_` prefix still marks it package-internal (not for end users).
+
+### fn fn format_http_response(r: *HttpResponse) -> string
+Render a response as wire bytes. Used by the server loop; exposed
+so callers can pipe responses elsewhere (a logger, a recorder).
+Always emits `Connection: close` — the in-process keep-alive path
+in `http_listen` calls the internal renderer directly.
+
+```glide
+let bytes: string = format_http_response(&HttpResponse::ok().body("hi"));
+```
+
+### fn fn http_listen(port: i32, handler: fn(*HttpRequest) -> HttpResponse) -> !i32
+Listen on `port` and dispatch every request through `handler`. The
+fn returns `err` on bind failure and never returns on success — the
+server loop runs until the process exits.
+
+Concurrency model:
+  * Linux: reactor.c registers each fd with epoll and parks the
+    calling coro on EAGAIN. The body of the loop spawns a coro per
+    accepted connection so thousands of clients share a single
+    OS thread.
+  * Windows / macOS / BSD: there's no reactor yet, so the per-conn
+    spawn would block its worker on the first sync read and starve
+    other coros. The loop runs **serially** until IOCP / kqueue
+    land. Behaviour is correct on every platform; throughput on
+    non-Linux is the obvious one-conn-at-a-time.
+
+```glide
+fn root(req: *HttpRequest) -> HttpResponse {
+    return HttpResponse::ok().body("hello, ".concat(req.path));
+}
+
+fn main() -> i32 {
+    http_listen(8080, root);
+    return 0;
+}
+```
+
+### fn fn https_listen(port: i32, cert_path: string, key_path: string, handler: fn(*HttpRequest) -> HttpResponse) -> !i32
+Listen for HTTPS connections on `port` with `cert_path` and
+`key_path` (both PEM). Each accepted client is dispatched to
+`handler` after the TLS handshake succeeds.
+
+```glide
+fn root(req: *HttpRequest) -> HttpResponse {
+    return HttpResponse::ok().body("hello over TLS!");
+}
+
+fn main() -> i32 {
+    https_listen(8443, "cert.pem", "key.pem", root);
+    return 0;
+}
+```
+
+### fn fn http_listen_workers(port: i32, n: i32, handler: fn(*HttpRequest) -> HttpResponse) -> !i32
+Multi-worker HTTP/1.1 server — the standard, fast path.
+
+Each worker is a real pthread running its own epoll loop + per-conn
+state machine in C. The handler is invoked inline on the worker's
+epoll thread — no coroutine spawn, no per-conn stack page, no
+ctx_switch. Reaches ~84% of Axum/Tokio on hello-world HTTP/1.1
+(~159k req/s on a 4-core box).
+
+**Handlers must be non-blocking.** That means: no `chan.send` /
+`chan.recv`, no `sleep_ms`, no I/O that parks (TCP/HTTP client
+calls, file reads via the async reactor, etc). If the handler
+tries to block, the runtime aborts with a friendly message
+pointing at `http_listen_workers_blocking` — a coroutine-per-conn
+variant that accepts handlers which do park, at lower throughput
+(~107k req/s).
+
+Linux only for the fast path (epoll-based). On macOS / *BSD /
+Windows the function automatically routes to the blocking variant.
+
+```glide
+fn root(req: *HttpRequest) -> HttpResponse {
+    return HttpResponse::ok().body("hello, ".concat(req.path));
+}
+
+fn main() -> i32 {
+    http_listen_workers(8080, 4, root);
+    return 0;
+}
+```
+
+### fn fn http_listen_workers_blocking(port: i32, n: i32, handler: fn(*HttpRequest) -> HttpResponse) -> !i32
+Coroutine-per-conn HTTP/1.1 server — the **blocking-capable** path
+for handlers that genuinely need to park inside the request flow
+(database queries, downstream HTTP, chan synchronisation, etc).
+Spawns a coro per accepted connection so blocking ops inside the
+handler are safe — they park that connection's coro, not the
+underlying worker thread. Slower than `http_listen_workers`
+(~107k vs ~159k req/s on the reference 4-core box) but unrestricted.
+
+Two strategies depending on whether the OS kernel actually
+load-balances accepts when N processes bind with SO_REUSEPORT:
+Linux balances → each worker owns its own listener; macOS /
+*BSD / Windows share a single listener fd across N accept
+threads.
+
+### fn fn http_listen_sm_hello(port: i32) -> !i32
+Coroutine-free hello-world HTTP/1.1 server. Bench baseline for the
+cost of the coro layer in `http_listen`. Linux only; returns `err`
+elsewhere.
+
+### fn fn http_listen_sm_hello_workers(port: i32, n: i32) -> !i32
+Multi-worker variant. Spawns `n` pthread workers, each with its own
+SO_REUSEPORT listener + epoll loop; the kernel load-balances accepts.
+
+### fn fn http_listen_sm_workers(port: i32, n: i32, h: fn(string, string) -> string) -> !i32
+Coroutine-free HTTP/1.1 server with a user `@leaf` handler. The
+handler runs inline on each worker's epoll thread when a request
+is parsed; it MUST be marked `@leaf` (no chan / sleep / I/O — the
+runtime aborts if it parks). The framing emits a 200 OK +
+text/plain response wrapping the returned body.
+
+Trade-off vs `http_listen_workers`: ~70% faster on hello-world
+workloads (no coro spawn, no stack page commit, no ctx_switch),
+at the cost of handler restrictions and no per-request state.
+Use for hot health checks, JSON endpoints, static-ish responses.
+
+Linux only. Errors on macOS / *BSD / Windows until SM lands there.
+
+```glide
+@leaf
+fn hello(method: string, _path: string) -> string {
+    return "hello\n";
+}
+
+fn main() -> i32 {
+    http_listen_sm_workers(8080, 4, hello);
+    return 0;
+}
+```
+
+## stdlib::http_status
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http_status.glide
+package: stdlib
+
+Return the standard reason phrase for an HTTP status code.
+
+### fn fn status_text(code: i32) -> string
+Return the standard reason phrase for an HTTP status code.
+Unknown or unassigned codes return `"Unknown"`.
+
+```glide
+status_text(200);  // "OK"
+status_text(404);  // "Not Found"
+status_text(599);  // "Unknown"
+```
+
+### fn fn is_ok(code: i32) -> bool
+Return `true` for HTTP success status codes.
+
+```glide
+is_ok(204);   // true
+is_ok(404);   // false
+```
+
+### fn fn is_redirect(code: i32) -> bool
+Return `true` for HTTP redirection status codes.
+
+```glide
+is_redirect(301);  // true
+is_redirect(200);  // false
+```
+
+### fn fn is_client_error(code: i32) -> bool
+Return `true` for HTTP client error status codes.
+
+```glide
+is_client_error(404);  // true
+is_client_error(503);  // false
+```
+
+### fn fn is_server_error(code: i32) -> bool
+Return `true` for HTTP server error status codes.
+
+```glide
+is_server_error(503);  // true
+is_server_error(404);  // false
+```
+
+## stdlib::io
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/io.glide
+package: stdlib
+
+Read one line from stdin, including the trailing newline if present.
+
+### fn fn read_line() -> string
+Read one line from stdin, including the trailing newline if present.
+Returns `""` on EOF — callers can disambiguate empty input from EOF
+only by checking the file descriptor state externally.
+
+```glide
+import stdlib::io::*;
+
+io_write("name? ");
+flush();
+let name: string = read_line();
+println!("hello,", name.trim());
+```
+
+### fn fn prompt(msg: string) -> string
+Write a prompt, flush stdout, then read one line from stdin.
+The returned string does not include a trailing newline.
+
+```glide
+import stdlib::io::*;
+
+let name: string = prompt("name? ");
+println!("hello,", name);
+```
+
+### fn fn read_int() -> !i32
+Read one line from stdin and parse it as an integer.
+Whitespace is trimmed before parsing.
+
+```glide
+import stdlib::io::*;
+
+let n: !i32 = read_int();
+if n.ok { println!("number:", n.val); }
+else { println!("not an i32:", n.err); }
+```
+
+### fn fn read_yes_no(prompt_msg: string) -> bool
+Prompt for a yes/no response.
+Returns true when the trimmed response starts with `y` or `Y`.
+
+```glide
+import stdlib::io::*;
+
+if read_yes_no("continue? ") {
+    println!("continuing");
+}
+```
+
+### fn fn read_bytes(n: i32) -> string
+Read up to `n` raw bytes from stdin. The returned string is the actual
+chunk read (may be shorter than `n` near EOF). Caller owns the memory.
+
+```glide
+let chunk: string = read_bytes(4096);   // tail of the stdin pipe
+```
+
+### fn fn io_write(s: string)
+Write `s` to stdout without buffering a newline. Cheaper than `print!`
+when you don't need format inference. Named `io_write` (not `write`) so
+it doesn't collide with the libc `write(2)` declaration in `<io.h>`.
+
+```glide
+io_write("loading ");
+for i in 0..3 { io_write("."); flush(); sleep_ms(200); }
+io_write(" done\n");
+```
+
+### fn fn io_write_bytes(s: string, n: i32)
+Write exactly `n` bytes from `s` to stdout. Use this for binary payloads
+where the string may contain embedded NULs.
+
+```glide
+Echo a 16-byte header verbatim.
+io_write_bytes(buf, 16);
+```
+
+### fn fn flush()
+Force-flush the stdout buffer. Stdout is line-buffered when attached to
+a TTY but block-buffered when piped, so explicit `flush()` matters for
+progress indicators and interactive REPLs.
+
+```glide
+io_write("> ");   // no newline — without flush, prompt won't show
+flush();
+let cmd: string = read_line();
+```
+
+### fn fn eprintln(s: string)
+Write `s` to stderr with a trailing newline. Stderr is unbuffered, so
+no flush is needed. Use this for log lines that must not interleave
+with normal `println!` stdout output.
+
+```glide
+eprintln("warning: missing config file, using defaults");
+```
+
+## stdlib::iter
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/iter.glide
+package: stdlib
+
+Apply `f` to each element, returning a new Vector.
+
+### trait trait Iterator
+
+### fn fn iter_map(v: *Vector<T>, f: fn(T) -> U) -> *Vector<U>
+Apply `f` to each element, returning a new Vector.
+
+```glide
+fn double(x: i32) -> i32 { return x * 2; }
+let v: *Vector<i32> = iter_range(1, 4);     // [1, 2, 3]
+let m: *Vector<i32> = iter_map(v, double);  // [2, 4, 6]
+```
+
+### fn fn iter_filter(v: *Vector<T>, p: fn(T) -> bool) -> *Vector<T>
+Keep only elements where `p` returns true.
+
+```glide
+fn keep_pos(x: i32) -> bool { return x > 0; }
+let v: *Vector<i32> = iter_range(-2, 3);          // [-2, -1, 0, 1, 2]
+let pos: *Vector<i32> = iter_filter(v, keep_pos); // [1, 2]
+```
+
+### fn fn iter_take(v: *Vector<T>, n: i32) -> *Vector<T>
+First `n` elements (or all if `n` exceeds length).
+
+```glide
+let v: *Vector<i32> = iter_range(0, 10);
+iter_take(v, 3);    // [0, 1, 2]
+iter_take(v, 99);   // entire 10-element vector
+```
+
+### fn fn iter_skip(v: *Vector<T>, n: i32) -> *Vector<T>
+Drop first `n` elements; return the rest.
+
+```glide
+let v: *Vector<i32> = iter_range(0, 5);   // [0,1,2,3,4]
+iter_skip(v, 2);                          // [2, 3, 4]
+```
+
+### fn fn iter_take_while(v: *Vector<T>, p: fn(T) -> bool) -> *Vector<T>
+Take elements until `p` returns false (then stop).
+
+```glide
+fn lt3(x: i32) -> bool { return x < 3; }
+let v: *Vector<i32> = iter_range(0, 6);   // [0,1,2,3,4,5]
+iter_take_while(v, lt3);                  // [0, 1, 2]
+```
+
+### fn fn iter_skip_while(v: *Vector<T>, p: fn(T) -> bool) -> *Vector<T>
+Skip elements while `p` returns true; keep the rest from first false.
+
+```glide
+fn lt3(x: i32) -> bool { return x < 3; }
+let v: *Vector<i32> = iter_range(0, 6);   // [0,1,2,3,4,5]
+iter_skip_while(v, lt3);                  // [3, 4, 5]
+```
+
+### fn fn iter_fold(v: *Vector<T>, init: U, f: fn(U, T) -> U) -> U
+Fold over the vector. `f(acc, item)` returns the new accumulator.
+
+```glide
+fn add(acc: i32, x: i32) -> i32 { return acc + x; }
+let v: *Vector<i32> = iter_range(1, 5);   // [1,2,3,4]
+iter_fold(v, 0, add);                     // 10
+iter_fold(v, 100, add);                   // 110
+```
+
+### fn fn iter_count(v: *Vector<T>) -> i32
+Number of elements. Same as `v.len()`; provided for API symmetry.
+
+```glide
+iter_count(iter_range(0, 5));   // 5
+```
+
+### fn fn iter_any(v: *Vector<T>, p: fn(T) -> bool) -> bool
+`true` if any element matches `p`. Short-circuits on first hit.
+
+```glide
+fn is_neg(x: i32) -> bool { return x < 0; }
+let v: *Vector<i32> = iter_range(-1, 3);   // [-1, 0, 1, 2]
+iter_any(v, is_neg);                       // true
+```
+
+### fn fn iter_all(v: *Vector<T>, p: fn(T) -> bool) -> bool
+`true` if all elements match `p`. Short-circuits on first miss.
+Empty vector returns `true` (vacuous truth).
+
+```glide
+fn is_pos(x: i32) -> bool { return x > 0; }
+let v: *Vector<i32> = iter_range(1, 4);   // [1, 2, 3]
+iter_all(v, is_pos);                      // true
+```
+
+### fn fn iter_find(v: *Vector<T>, p: fn(T) -> bool) -> ?T
+First element matching `p`, or `none` if no match.
+
+```glide
+fn is_even(x: i32) -> bool { return x % 2 == 0; }
+let v: *Vector<i32> = iter_range(1, 5);   // [1,2,3,4]
+match iter_find(v, is_even) {
+    some(x) => println!(x),               // 2
+    none()  => {},
+}
+```
+
+### fn fn iter_sum_int(v: *Vector<i32>) -> i32
+Sum of `int` elements.
+
+```glide
+let v: *Vector<i32> = iter_range(1, 5);   // [1,2,3,4]
+iter_sum_int(v);                          // 10
+```
+
+### fn fn iter_max_int(v: *Vector<i32>) -> ?i32
+Max of `int` elements; `none` for empty vector.
+
+```glide
+let v: *Vector<i32> = Vector::new();  defer v.free();
+v.push_all!(3, 7, 2, 9, 4);
+iter_max_int(v);   // some(9)
+```
+
+### fn fn iter_min_int(v: *Vector<i32>) -> ?i32
+Min of `int` elements; `none` for empty vector.
+
+```glide
+let v: *Vector<i32> = Vector::new();  defer v.free();
+v.push_all!(3, 7, 2, 9, 4);
+iter_min_int(v);   // some(2)
+```
+
+### fn fn iter_range(start: i32, end: i32) -> *Vector<i32>
+`[start, end)` as a `Vector<int>`. Empty if `end <= start`.
+
+```glide
+iter_range(0, 5);    // [0, 1, 2, 3, 4]
+iter_range(3, 3);    // []
+iter_range(2, 6);    // [2, 3, 4, 5]
+```
+
+### fn fn iter_range_step(start: i32, end: i32, step: i32) -> *Vector<i32>
+`[start, start+step, start+2*step, ...)` up to (but not including) `end`.
+Returns empty if `step <= 0` or `end <= start`.
+
+```glide
+iter_range_step(0, 10, 2);    // [0, 2, 4, 6, 8]
+iter_range_step(10, 0, 1);    // []   (end <= start)
+iter_range_step(0, 5, 0);     // []   (step <= 0)
+```
+
+### fn fn iter_repeat(value: T, n: i32) -> *Vector<T>
+`n` copies of `value`. Empty if `n <= 0`.
+
+```glide
+iter_repeat(0, 4);            // [0, 0, 0, 0]
+iter_repeat("x", 3);          // ["x", "x", "x"]
+iter_repeat(true, 0).len();   // 0
+```
+
+## stdlib::json
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/json.glide
+package: stdlib
+
+Two-way JSON binding. User structs that implement this trait can
+
+### const const JSON_NULL: i32
+
+### const const JSON_BOOL: i32
+
+### const const JSON_INT: i32
+
+### const const JSON_FLOAT: i32
+
+### const const JSON_STRING: i32
+
+### const const JSON_ARRAY: i32
+
+### const const JSON_OBJECT: i32
+
+### struct struct JsonValue
+
+### struct struct JsonParser
+
+### trait trait JsonBind
+Two-way JSON binding. User structs that implement this trait can
+flow through the typed handler helpers (`json_respond`,
+`HttpResponse::ok().json_of(...)`, the `@handler` proc macro)
+without hand-rolling the parse and emit ceremony.
+
+```glide
+struct Pet {
+    pub name: string,
+    pub age:  ?i32,
+}
+
+impl JsonBind for Pet {
+    fn from_json(v: *JsonValue) -> !Pet {
+        if v.kind != JSON_OBJECT { return err("expected object"); }
+        return ok(Pet {
+            name: v.get_string("name")?,
+            age:  v.opt_int("age"),
+        });
+    }
+    fn to_json(self: *Pet) -> *JsonValue {
+        let v: *JsonValue = JsonValue::object();
+        v.obj_set("name", JsonValue::string(self.name));
+        if self.age.has {
+            v.obj_set("age", JsonValue::int(self.age.val));
+        }
+        return v;
+    }
+}
+```
+
+## stdlib::lint
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/lint.glide
+package: stdlib
+
+Build the canonical `lint:<category>` code from a category name.
+
+### const const LINT_DEPRECATED_FN: string
+
+### const const LINT_UNSTABLE_FN: string
+
+### const const LINT_UNFREED_ALLOC: string
+
+### const const LINT_ARENA_NOT_FREED: string
+
+### const const LINT_UNUSED_VAR: string
+
+### const const LINT_UNUSED_PARAM: string
+
+### const const LINT_UNUSED_FN: string
+
+### const const LINT_UNNECESSARY_MUT: string
+
+### fn fn lint_code(category: string) -> string
+Build the canonical `lint:<category>` code from a category name.
+Useful when an editor or build tool wants to filter / format
+custom-lint diagnostics programmatically.
+
+```glide
+let code: string = lint_code("blocking_io");
+result: "lint:blocking_io"
+```
+
+## stdlib::log
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/log.glide
+package: stdlib
+
+human-readable
+
+### const const LOG_TRACE: i32
+
+### const const LOG_DEBUG: i32
+
+### const const LOG_INFO: i32
+
+### const const LOG_WARN: i32
+
+### const const LOG_ERROR: i32
+
+### const const LOG_FATAL: i32
+
+### const const LOG_OFF: i32
+
+### const const LOG_FMT_TEXT: i32
+
+### const const LOG_FMT_KV: i32
+human-readable
+
+### const const LOG_FMT_JSON: i32
+logfmt: key=val key=val
+
+### const const LOG_TS_NONE: i32
+
+### const const LOG_TS_ISO: i32
+
+### const const LOG_TS_UNIX: i32
+2026-05-23T15:30:45Z
+
+### const const LOG_TS_UNIX_MS: i32
+1716480000
+
+### const const LOG_TS_RELATIVE: i32
+1716480000123
+
+### const const SINK_STDOUT: i32
+Sink kinds.
+
+### const const SINK_STDERR: i32
+
+### const const SINK_FILE: i32
+
+### const const SINK_ROTATING: i32
+
+### const const SINK_SYSLOG: i32
+
+### const const SINK_CALLBACK: i32
+
+### struct struct LogField
+
+### struct struct LogEntry
+
+### struct struct LogSink
+
+### struct struct Logger
+
+### struct struct LoggerBuilder
+
+### fn fn log_set_level(lvl: i32)
+Set the global level. Convenience over `Logger::global().level = lvl`.
+
+### fn fn log_set_format(fmt: i32)
+Set the global format.
+
+### fn fn at(lvl: i32, msg: string)
+Convenience: log at `lvl` through the global logger.
+
+```glide
+import stdlib::log;
+log::at(LOG_INFO, "ready");
+```
+
+### fn fn trace(msg: string)
+Log `msg` at TRACE through the global logger. `log::trace("…")`.
+
+### fn fn debug(msg: string)
+Log `msg` at DEBUG through the global logger. `log::debug("…")`.
+
+### fn fn info(msg: string)
+Log `msg` at INFO through the global logger. `log::info("…")`.
+
+### fn fn warn(msg: string)
+Log `msg` at WARN through the global logger. `log::warn("…")`.
+
+### fn fn error(msg: string)
+Log `msg` at ERROR through the global logger. `log::error("…")`.
+
+### fn fn fatal(msg: string)
+Log `msg` at FATAL through the global logger. `log::fatal("…")`.
+
+### fn fn trace_now_ns() -> i64
+Monotonic timestamp (nanoseconds) for measuring a call's duration.
+
+### fn fn trace_since_str(start_ns: i64) -> string
+Elapsed time since a `trace_now_ns()` mark, scaled to a readable unit
+(`340ns` / `12.3us` / `4.5ms` / `1.2s`) with one fractional digit.
+
+### struct struct LogLine
+Structured-log builder. Use when you want to attach key=value pairs
+without binding them on a child logger:
+
+  LogLine::info("server started")
+      .kv("port", "8080")
+      .kv("workers", "4")
+      .emit();
+
+## stdlib::math
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/math.glide
+package: stdlib
+
+Square root. Returns NaN for negative input.
+
+### fn fn sqrt(x: f64) -> f64
+Square root. Returns NaN for negative input.
+
+```glide
+sqrt(2.0);    // 1.4142135623730951
+sqrt(9.0);    // 3.0
+```
+
+### fn fn pow(x: f64, y: f64) -> f64
+`x^y` as a float. For integer exponents prefer `ipow` to avoid
+floating-point drift.
+
+```glide
+pow(2.0, 10.0);   // 1024.0
+pow(3.0, 0.5);    // sqrt(3) = 1.7320508...
+```
+
+### fn fn floor(x: f64) -> f64
+Round toward `-∞`.
+
+```glide
+floor(2.7);     //  2.0
+floor(-2.3);    // -3.0
+```
+
+### fn fn ceil(x: f64) -> f64
+Round toward `+∞`.
+
+```glide
+ceil(2.1);     //  3.0
+ceil(-2.7);    // -2.0
+```
+
+### fn fn round(x: f64) -> f64
+Round to nearest, ties away from zero.
+
+```glide
+round(2.5);     //  3.0
+round(-2.5);    // -3.0
+round(2.4);     //  2.0
+```
+
+### fn fn fabs(x: f64) -> f64
+Absolute value (float). Use `abs_int` for ints.
+
+```glide
+fabs(-1.5);     // 1.5
+fabs(0.0);      // 0.0
+```
+
+### fn fn sin(x: f64) -> f64
+Sine. Argument is in radians.
+
+```glide
+sin(0.0);          // 0.0
+sin(PI / 2.0);     // 1.0
+```
+
+### fn fn cos(x: f64) -> f64
+Cosine. Argument is in radians.
+
+```glide
+cos(0.0);     // 1.0
+cos(PI);      // -1.0
+```
+
+### fn fn tan(x: f64) -> f64
+Tangent. Argument is in radians.
+
+```glide
+tan(PI / 4.0);   // 1.0
+```
+
+### fn fn log(x: f64) -> f64
+Natural log (base e). Domain `x > 0`.
+
+```glide
+log(E);         // 1.0
+log(1.0);       // 0.0
+```
+
+### fn fn log2(x: f64) -> f64
+Log base 2.
+
+```glide
+log2(8.0);      // 3.0
+log2(1024.0);   // 10.0
+```
+
+### fn fn log10(x: f64) -> f64
+Log base 10.
+
+```glide
+log10(1000.0);   // 3.0
+log10(1.0);      // 0.0
+```
+
+### fn fn exp(x: f64) -> f64
+`e^x`.
+
+```glide
+exp(0.0);    // 1.0
+exp(1.0);    // E (≈ 2.71828)
+```
+
+### fn fn atan2(y: f64, x: f64) -> f64
+Two-argument arctangent: full-circle angle of point `(x, y)` in radians.
+Use this instead of `atan(y / x)` when you need the right quadrant.
+
+```glide
+atan2(1.0, 0.0);    // PI / 2  (point straight up)
+atan2(0.0, 1.0);    // 0       (point along +X)
+atan2(0.0, -1.0);   // PI      (point along -X)
+```
+
+### const const PI: f64
+
+### const const E: f64
+
+### fn fn min_int(a: i32, b: i32) -> i32
+Smaller of two ints.
+
+```glide
+let a: i32 = min_int(7, 3);   // 3
+```
+
+### fn fn max_int(a: i32, b: i32) -> i32
+Larger of two ints.
+
+```glide
+let a: i32 = max_int(7, 3);   // 7
+```
+
+### fn fn abs_int(a: i32) -> i32
+Absolute value for ints. Note: `abs_int(INT_MIN)` overflows on
+two's-complement platforms; callers handling user input should clamp.
+
+```glide
+abs_int(-5);   // 5
+abs_int(0);    // 0
+```
+
+### fn fn sign_int(a: i32) -> i32
+Sign of an int: `-1`, `0`, or `+1`.
+
+```glide
+sign_int(-9);  // -1
+sign_int(0);   //  0
+sign_int(42);  //  1
+```
+
+### fn fn clamp_int(x: i32, lo: i32, hi: i32) -> i32
+Clamp `x` into the inclusive range `[lo, hi]`. Behaviour is undefined
+when `lo > hi`; the caller is expected to keep the range well-formed.
+
+```glide
+clamp_int(15, 0, 10);   // 10
+clamp_int(-3, 0, 10);   //  0
+clamp_int(5,  0, 10);   //  5
+```
+
+### fn fn min_f64(a: f64, b: f64) -> f64
+Smaller of two f64s. NaN behaviour follows libc semantics
+(an operand of NaN propagates).
+
+```glide
+min_f64(1.5, 2.5);   // 1.5
+```
+
+### fn fn max_f64(a: f64, b: f64) -> f64
+Larger of two f64s.
+
+```glide
+max_f64(1.5, 2.5);   // 2.5
+```
+
+### fn fn clamp_f64(x: f64, lo: f64, hi: f64) -> f64
+f64 clamp into `[lo, hi]`. See `clamp_int` for caveats.
+
+```glide
+clamp_f64(0.5, 0.0, 1.0);   // 0.5
+clamp_f64(2.0, 0.0, 1.0);   // 1.0
+```
+
+### fn fn ipow(a: i32, b: i32) -> i32
+Integer pow: `a^b` for non-negative `b`, computed by repeated squaring
+in O(log b). Wraps on overflow following two's-complement.
+
+```glide
+ipow(2, 10);   // 1024
+ipow(3, 4);    // 81
+ipow(5, 0);    // 1   (any^0)
+```
+
+### fn fn gcd(a: i32, b: i32) -> i32
+Greatest common divisor via Euclidean algorithm. Always returns
+a non-negative value: `gcd(0, 0) == 0`, `gcd(-12, 8) == 4`.
+
+```glide
+gcd(12, 18);   // 6
+gcd(100, 75);  // 25
+```
+
+### fn fn lcm(a: i32, b: i32) -> i32
+Least common multiple. Returns `0` when either argument is `0`.
+Computed as `|a / gcd(a,b) * b|` to reduce overflow risk on the
+intermediate product.
+
+```glide
+lcm(4, 6);    // 12
+lcm(15, 20);  // 60
+```
+
+## stdlib::os
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/os.glide
+package: stdlib
+
+OS family the binary was compiled for. `"linux"`, `"windows"`, `"macos"`,
+
+### fn fn os_name() -> string
+OS family the binary was compiled for. `"linux"`, `"windows"`, `"macos"`,
+`"freebsd"`, `"openbsd"`, `"netbsd"`, or `"unknown"`.
+
+```glide
+if os_name().eq("linux") { /* linux-only path */ }
+```
+
+### fn fn os_arch() -> string
+CPU architecture: `"x86_64"`, `"aarch64"`, `"arm"`, `"x86"`, `"riscv64"`,
+or `"unknown"`. Reflects the build target.
+
+```glide
+println!("running on", os_arch());   // e.g. "running on x86_64"
+```
+
+### fn fn os_is_windows() -> bool
+`true` on Windows, `false` everywhere else.
+
+```glide
+if os_is_windows() { use_crlf(); } else { use_lf(); }
+```
+
+### fn fn os_is_posix() -> bool
+`true` on POSIX-y systems (Linux, macOS, *BSD), `false` on Windows.
+
+```glide
+if os_is_posix() { send_signal(); }
+```
+
+### fn fn os_is_linux() -> bool
+`true` only on Linux.
+
+```glide
+if os_is_linux() { read_proc_meminfo(); }
+```
+
+### fn fn os_has_async_io() -> bool
+`true` when the async I/O reactor (epoll on Linux, kqueue on
+macOS/BSD) is wired and parking coroutines on socket readiness.
+`false` on Windows and any other platform where the reactor
+falls back to blocking sync I/O.
+
+HTTP servers branch on this to decide whether to spawn a coroutine
+per connection (safe with a reactor) or serve serially inline (the
+only correct behaviour when read/write block the calling thread).
+
+```glide
+if os_has_async_io() { spawn handle(c); }
+else                 { handle(c); }
+```
+
+### fn fn os_has_reuseport_balance() -> bool
+`true` when `SO_REUSEPORT` on this OS actually load-balances accepts
+across multiple listeners bound to the same port (Linux only today).
+`false` on macOS / *BSD / Windows where the syscall either has
+last-write-wins semantics or doesn't exist - in those cases a worker
+pool should bind one shared listener and have N threads `accept()`
+on it instead of each owning its own bind.
+
+```glide
+if os_has_reuseport_balance() {
+each worker binds with bind_reuseport, kernel balances
+} else {
+bind once, share the listener across N accept threads
+}
+```
+
+### fn fn os_is_macos() -> bool
+`true` only on macOS / Darwin. `os_is_posix()` is also true.
+
+```glide
+if os_is_macos() { open_url_via("open"); }
+```
+
+### fn fn os_path_sep() -> string
+Path component separator: `\\` on Windows, `/` elsewhere.
+
+```glide
+let full: string = format!("{}{}{}", base, os_path_sep(), name);
+```
+
+### fn fn os_line_sep() -> string
+Line ending convention: `"\r\n"` on Windows, `"\n"` elsewhere.
+
+```glide
+let line: string = format!("hello{}", os_line_sep());
+```
+
+### fn fn os_path_list_sep() -> string
+PATH-list separator: `;` on Windows, `:` elsewhere. Use this when parsing
+`$PATH` / `%PATH%`.
+
+```glide
+let path: string = env_get("PATH");
+let dirs: *Vector<string> = path.split(os_path_list_sep());
+```
+
+### fn fn os_pid() -> i32
+Current process ID. Always returns a positive value; getpid never fails.
+
+```glide
+println!("pid:", os_pid());
+```
+
+### fn fn os_ppid() -> !i32
+Parent process ID. POSIX returns `getppid()`; on Windows, returns
+`Err("ppid not available")` because the API doesn't expose it cheaply.
+
+```glide
+let r: !i32 = os_ppid();
+if r.ok { println!("parent:", r.val); }
+```
+
+### fn fn os_uid() -> !i32
+POSIX user ID. `Err` on Windows (no numeric UID concept).
+
+```glide
+let u: !i32 = os_uid();
+if u.ok && u.val == 0 { println!("running as root"); }
+```
+
+### fn fn os_gid() -> !i32
+POSIX group ID. `Err` on Windows.
+
+```glide
+let g: !i32 = os_gid();
+if g.ok { println!("gid:", g.val); }
+```
+
+### fn fn os_username() -> !string
+Login name of the current user. POSIX checks `$USER` then `getpwuid`;
+Windows uses `GetUserNameA`.
+
+```glide
+let r: !string = os_username();
+if r.ok { println!("hello,", r.val); }
+```
+
+### fn fn os_hostname() -> !string
+Host name (machine name). `gethostname()` on POSIX, `GetComputerNameA`
+on Windows.
+
+```glide
+let r: !string = os_hostname();
+if r.ok { println!("on host", r.val); }
+```
+
+### fn fn os_kernel_version() -> !string
+Kernel/OS version string. POSIX returns `uname -r` (e.g. `5.15.0-91`);
+Windows returns `<major>.<minor>.<build>`.
+
+```glide
+let r: !string = os_kernel_version();
+if r.ok { println!("kernel:", r.val); }
+```
+
+### fn fn os_cwd() -> !string
+Current working directory of the process, no trailing separator.
+
+```glide
+let r: !string = os_cwd();
+if r.ok { println!("cwd:", r.val); }
+```
+
+### fn fn os_chdir(path: string) -> !void
+Change the process's working directory. Returns `Ok` on success, `Err`
+on failure (path missing, no permission, etc.). The success branch
+carries no value — callers just check `r.ok`.
+
+```glide
+let r: ! = os_chdir("/tmp");
+if !r.ok { eprintln(r.err); }
+```
+
+### fn fn os_exe_path() -> !string
+Absolute path of the running executable.
+
+```glide
+let r: !string = os_exe_path();
+if r.ok { println!("running from:", r.val); }
+```
+
+### fn fn os_exe_dir() -> !string
+Directory portion of `os_exe_path`, without trailing separator.
+
+```glide
+let r: !string = os_exe_dir();
+if r.ok { println!("install dir:", r.val); }
+```
+
+### fn fn os_cpu_count() -> !i32
+Number of logical CPUs available to the process.
+
+```glide
+let r: !i32 = os_cpu_count();
+if r.ok { println!(r.val, "threads"); }
+```
+
+### fn fn os_cpu_count_physical() -> !i32
+Number of physical cores. Falls back to `os_cpu_count()` when the
+platform doesn't expose a clean count (e.g. some Linux containers).
+
+```glide
+let r: !i32 = os_cpu_count_physical();
+if r.ok { println!(r.val, "physical cores"); }
+```
+
+### fn fn os_page_size() -> !i32
+Virtual memory page size in bytes. Typically 4096; can be 16384 on
+Apple Silicon and some ARM Linux.
+
+```glide
+let r: !i32 = os_page_size();
+if r.ok { println!("page:", r.val, "bytes"); }
+```
+
+### fn fn os_memory_total() -> !u64
+Total physical RAM in bytes.
+
+```glide
+let r: !u64 = os_memory_total();
+if r.ok { println!("RAM:", (r.val / 1024 / 1024) as i32, "MiB"); }
+```
+
+### fn fn os_memory_free() -> !u64
+Available physical RAM in bytes (snapshot at call time).
+Best-effort on macOS / BSD where the metric needs mach-specific calls.
+
+```glide
+let r: !u64 = os_memory_free();
+if r.ok { println!("free:", (r.val / 1024 / 1024) as i32, "MiB"); }
+```
+
+### fn fn os_uptime_secs() -> !u64
+Seconds since system boot.
+
+```glide
+let r: !u64 = os_uptime_secs();
+if r.ok { println!("up", r.val, "seconds"); }
+```
+
+### fn fn os_loadavg_1m() -> !f64
+1-minute load average. POSIX-only — `Err` on Windows.
+
+```glide
+let r: !f64 = os_loadavg_1m();
+if r.ok { println!("load:", r.val); }
+```
+
+### fn fn os_temp_dir() -> !string
+Per-user temporary dir. POSIX: `$TMPDIR` or `/tmp`. Windows: `%TEMP%`.
+
+```glide
+let r: !string = os_temp_dir();
+if r.ok { fs_write(format!("{}/scratch.txt", r.val), "..."); }
+```
+
+### fn fn os_home_dir() -> !string
+User home directory. POSIX: `$HOME` (fallback `getpwuid->pw_dir`).
+Windows: `%USERPROFILE%`.
+
+```glide
+let r: !string = os_home_dir();
+if r.ok { println!("home:", r.val); }
+```
+
+### fn fn os_config_dir() -> !string
+Per-user config dir (base — caller appends app name).
+Linux: `$XDG_CONFIG_HOME` or `~/.config`.
+macOS: `~/Library/Application Support`.
+Windows: `%APPDATA%`.
+
+```glide
+let r: !string = os_config_dir();
+if r.ok { fs_read(format!("{}/myapp/cfg.toml", r.val)); }
+```
+
+### fn fn os_cache_dir() -> !string
+Per-user cache dir (base).
+Linux: `$XDG_CACHE_HOME` or `~/.cache`.
+macOS: `~/Library/Caches`.
+Windows: `%LOCALAPPDATA%`.
+
+```glide
+let r: !string = os_cache_dir();
+if r.ok { /* write rebuildable artifacts under r.val/myapp/ */ }
+```
+
+### fn fn os_data_dir() -> !string
+Per-user data dir (base).
+Linux: `$XDG_DATA_HOME` or `~/.local/share`.
+macOS: `~/Library/Application Support`.
+Windows: `%APPDATA%`.
+
+```glide
+let r: !string = os_data_dir();
+if r.ok { /* persistent state under r.val/myapp/ */ }
+```
+
+### fn fn os_is_tty(fd: i32) -> bool
+`true` if the descriptor is a terminal. `fd`: 0=stdin, 1=stdout, 2=stderr.
+Use this before emitting ANSI color escapes — output piped to a file
+or other process should stay plain.
+
+```glide
+if os_is_tty(1) { println!("\x1b[32mok\x1b[0m"); }
+else            { println!("ok"); }
+```
+
+### fn fn os_shell(cmd: string) -> !i32
+Run `cmd` through the OS shell (`cmd /c` on Windows, `/bin/sh -c`
+elsewhere). Returns `Ok(exit_code)` (0 = success) or `Err` if the shell
+itself failed to launch. Output streams are inherited; capture requires
+shell-level redirection in the command string.
+
+**Prefer `stdlib::process::Command`** for anything beyond a one-liner:
+it gives argv-level control, captured stdout/stderr, env override, cwd,
+stdin piping, and avoids shell-injection hazards. `os_shell` stays as
+a 1-liner convenience for trivial cases (`os_shell("ls -la > out")`).
+
+```glide
+let r: !i32 = os_shell("ls -la");
+if r.ok { println!("exited", r.val); }
+```
+
+## stdlib::process
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/process.glide
+package: stdlib
+
+Result of a finished subprocess run.
+
+### struct struct ProcessResult
+Result of a finished subprocess run.
+
+### struct struct Command
+Builder for a subprocess command. Chain methods to configure, then call
+`.run()` to execute synchronously or `.spawn()` for non-blocking start.
+
+### struct struct ChildStdin
+Handle to the child's stdin pipe (when `Command::pipe_stdin()` was used).
+
+### struct struct ChildStdout
+Handle to the child's stdout pipe (when `Command::pipe_stdout()` was used).
+
+### struct struct ChildStderr
+Handle to the child's stderr pipe (when `Command::pipe_stderr()` was used).
+
+### struct struct Child
+Handle to a spawned (still-running) child process. The pipe handles are
+non-null only when the corresponding `Command::pipe_*` builder was called.
+
+### fn fn process_kill(pid: i32, sig: i32) -> !void
+Send signal `sig` to PID. POSIX: kill(pid, sig). Windows: TerminateProcess
+(sig is ignored).
+
+```glide
+let r: ! = process_kill(1234, 15);   // SIGTERM
+if !r.ok { eprintln(r.err); }
+```
+
+### fn fn process_exists(pid: i32) -> bool
+`true` if a process with this PID is alive. POSIX: `kill(pid, 0)`. Windows:
+`OpenProcess` + `GetExitCodeProcess(STILL_ACTIVE)`.
+
+```glide
+if process_exists(1234) { println!("still running"); }
+```
+
+## stdlib::random
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/random.glide
+package: stdlib
+
+### struct struct Rng
+
+## stdlib::regex
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/regex.glide
+package: stdlib
+
+Opcodes for the bytecode VM.
+
+### const const RX_OP_CHAR: i32
+Opcodes for the bytecode VM.
+
+### const const RX_OP_ANY: i32
+arg_a: byte
+
+### const const RX_OP_ANY_NL: i32
+any byte except '\n'
+
+### const const RX_OP_CLASS: i32
+any byte (dot-all)
+
+### const const RX_OP_BOL: i32
+arg_a: class id
+
+### const const RX_OP_EOL: i32
+^
+
+### const const RX_OP_STR_BEG: i32
+$
+
+### const const RX_OP_STR_END: i32
+\A
+
+### const const RX_OP_WORDB: i32
+\z
+
+### const const RX_OP_NWORDB: i32
+\b
+
+### const const RX_OP_JMP: i32
+\B
+
+### const const RX_OP_SPLIT: i32
+arg_a: target pc
+
+### const const RX_OP_SAVE: i32
+try arg_a first, on backtrack arg_b
+
+### const const RX_OP_BACKREF: i32
+arg_a: capture slot
+
+### const const RX_OP_ASSERT: i32
+arg_a: group #
+
+### const const RX_OP_ASRT_END: i32
+arg_a: kind, arg_b: end_pc
+
+### const const RX_OP_MATCH: i32
+assertion body terminator
+
+### const const RX_FLAG_I: i32
+Flags.
+
+### const const RX_FLAG_M: i32
+case-insensitive
+
+### const const RX_FLAG_S: i32
+^/$ match around \n
+
+### const const RX_FLAG_X: i32
+. matches \n
+
+### const const RX_FLAG_U: i32
+extended (whitespace + # comments ignored)
+
+### const const RX_AHEAD_POS: i32
+Assertion kinds.
+
+### const const RX_AHEAD_NEG: i32
+
+### const const RX_BEHIND_POS: i32
+
+### const const RX_BEHIND_NEG: i32
+
+### const const RX_MAX_GROUPS: i32
+
+### struct struct CharClass
+`ranges` stores [lo1, hi1, lo2, hi2, ...] inclusive byte ranges.
+
+### const const RX_AST_LIT: i32
+
+### const const RX_AST_ANY: i32
+
+### const const RX_AST_CLASS: i32
+
+### const const RX_AST_CONCAT: i32
+
+### const const RX_AST_ALT: i32
+
+### const const RX_AST_QUANT: i32
+
+### const const RX_AST_GROUP: i32
+
+### const const RX_AST_ANCHOR: i32
+
+### const const RX_AST_BACK: i32
+
+### const const RX_AST_LOOK: i32
+
+### struct struct RxNode
+
+### struct struct RxParser
+
+### struct struct RxCompiler
+
+### struct struct Regex
+
+### struct struct Match
+
+### fn fn regex_matches(pat: string, s: string) -> bool
+Shorthand for `Regex::compile(pat).val.matches(s)`. Compiles on every
+call — prefer keeping a `*Regex` around for hot loops.
+
+### fn fn regex_find(pat: string, s: string) -> ?*Match
+Shorthand for `Regex::compile(pat).val.find(s)`.
+
+### fn fn regex_replace_all(pat: string, s: string, repl: string) -> string
+Shorthand for `Regex::compile(pat).val.replace_all(s, repl)`.
+
+## stdlib::set
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/set.glide
+package: stdlib
+
+A set of strings backed by `HashMap<bool>`.
+
+### struct struct StringSet
+A set of strings backed by `HashMap<bool>`.
+
+```glide
+let s: *StringSet = StringSet::new();
+defer s.free();
+
+assert!(s.insert("one"));
+assert_not!(s.insert("one"));
+assert!(s.contains("one"));
+```
+
+## stdlib::signal
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/signal.glide
+package: stdlib
+
+Internal helper called from the c_raw reader thread to push signum onto
+
+### enum enum Signal
+
+### fn fn _signal_push(c: chan<Signal>, n: i32)
+Internal helper called from the c_raw reader thread to push signum onto
+the typed chan<Signal>. Defined Glide-side so c_raw doesn't need
+Signal's private struct layout to construct the value.
+
+### fn fn signal_chan(s: Signal) -> chan<Signal>
+Subscribe to `s`. Each occurrence pushes the same `Signal` onto the
+returned channel. Idempotent — repeated calls for the same signal
+return the same chan. Buffer = 64 (delivered-faster-than-consumed
+signals beyond that are dropped — typical for shutdown signals which
+deliver once).
+
+```glide
+let intr: chan<Signal> = signal_chan(Signal::Int);
+loop {
+    select! {
+        sig = intr.recv() => {
+            println!("got", sig.name());
+            break;
+        }
+    }
+}
+```
+
+### fn fn signal_default(s: Signal) -> !void
+Restore the default OS handler for `s`. The chan returned by a previous
+`signal_chan(s)` stops receiving.
+
+```glide
+signal_default(Signal::Int);   // Ctrl+C now terminates again
+```
+
+### fn fn signal_ignore(s: Signal) -> !void
+Discard `s` (no chan, no default behavior). Useful for SIGPIPE on
+servers that handle disconnect at the read/write level.
+
+```glide
+signal_ignore(Signal::Pipe);   // writes to closed sockets won't kill us
+```
+
+### fn fn signal_raise(s: Signal) -> !void
+Raise `s` against the current process. If a subscription is active,
+the signal is pushed directly to the chan (cross-platform reliable,
+no OS round-trip). Otherwise falls back to `raise(sig)` (POSIX) or
+`GenerateConsoleCtrlEvent` (Windows) — Windows can only raise SIGINT
+and SIGTERM at OS level, but in-process raise via subscription works
+for any signum.
+
+```glide
+Useful in tests: subscribe + raise to drive a select! arm.
+let usr1: chan<Signal> = signal_chan(Signal::Usr1);
+signal_raise(Signal::Usr1);
+let s: Signal = usr1.recv();   // gets Signal::Usr1
+```
+
+## stdlib::spinner
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/spinner.glide
+package: stdlib
+
+Start a spinner with `msg` as the initial status. Replaces any
+
+### fn fn spinner_start(msg: string)
+Start a spinner with `msg` as the initial status. Replaces any
+active spinner. On a non-TTY stderr the animation is skipped and
+`msg` prints as a plain line; `spinner_finish` still emits its
+final line so log scrapers see the result.
+
+```glide
+spinner_start("compiling…");
+```
+
+### fn fn spinner_set(msg: string)
+Update the live spinner's status text. No-op when no spinner is
+active. On non-TTY stderrs this emits a fresh status line.
+
+```glide
+spinner_set("linking…");
+```
+
+### fn fn spinner_finish(ok: bool, msg: string)
+Stop the animator (joining its pthread), clear the spinner line,
+then print `✓ msg` (when `ok`) or `✗ msg` (when not). Pass an empty
+`msg` to suppress the final line — useful when an enclosing pass
+will print its own summary.
+
+```glide
+spinner_finish(true,  "built target/my_app");
+spinner_finish(false, "compile failed");
+```
+
+## stdlib::strings
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/strings.glide
+package: stdlib
+
+Concatenate every element of `parts` with `sep` between them.
+
+### fn fn string_join(parts: *Vector<string>, sep: string) -> string
+Concatenate every element of `parts` with `sep` between them.
+Equivalent to the `Vector<string>::join` method; provided as a free
+function for callers that prefer the procedural form.
+
+```glide
+let v: *Vector<string> = Vector::new();
+v.push_all!("a", "b", "c");
+string_join(v, ", ");   // "a, b, c"
+string_join(v, "");     // "abc"
+```
+
+## stdlib::sync
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/sync.glide
+package: stdlib
+
+A mutex protecting a value of type T. Use `.with()` for the common
+
+### struct struct Mutex
+A mutex protecting a value of type T. Use `.with()` for the common
+load-mutate-store pattern, or `.lock()` / `.get()` / `.set()` /
+`.unlock()` for explicit control.
+
+Re-entering the lock from the same coro / thread that already holds it
+is undefined behaviour — pthread mutexes are not recursive.
+
+### struct struct Atomic
+A lock-free i64. Use for shared counters, flags, sequence numbers,
+or any case where Mutex<int> would dominate the contention picture.
+
+### struct struct WaitGroup
+A counter you can wait to reach zero. Mirrors Go's sync.WaitGroup:
+`add(n)` before spawning, `done()` from each worker, `wait()` from
+the parent. Calling `add(n)` concurrently with `wait()` is racy —
+add ahead of spawning.
+
+## stdlib::tar
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/tar.glide
+package: stdlib
+
+Extract a tar archive in memory into `out_dir`. Returns the number
+
+### fn fn tar_extract(data: string, n: i32, out_dir: string, strip_components: i32) -> i32
+Extract a tar archive in memory into `out_dir`. Returns the number
+of regular files written, or -1 if the archive looks malformed.
+`strip_components` is identical to GNU tar's `--strip-components`.
+
+```glide
+let n: i32 = tar_extract(decoded_bytes, decoded_bytes.len(),
+                         "/tmp/extract", 1);
+if n < 0 { eprintln("bad archive"); }
+```
+
+## stdlib::testing
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/testing.glide
+package: stdlib
+
+Fails the current test if `cond` is false. The macro evaluates `cond`
+
+### fn fn _test_begin(name: string)
+
+### fn fn _test_pass()
+
+### fn fn _test_fail(msg: string)
+
+### fn fn _test_summary() -> i32
+
+### fn fn _test_count_passed() -> i32
+
+### fn fn _test_count_failed() -> i32
+
+### macro macro assert!
+Fails the current test if `cond` is false. The macro evaluates `cond`
+once; build descriptive context into the expression itself or use
+`assert_eq!` / `assert_str_eq!` for tailored failure messages.
+
+```glide
+assert!(v.len() > 0);
+assert!(user.age >= 18);
+```
+
+### macro macro assert_msg!
+Like `assert!` but takes a custom failure message. The message is a
+regular string expression, so string interpolation works:
+
+```glide
+let n: i32 = compute();
+assert_msg!(n > 0, "expected positive, got ${n}");
+```
+
+### macro macro assert_eq!
+Numeric / boolean / char equality. Uses C `==`, so DON'T use this for
+strings — reach for `assert_str_eq!` instead. On failure, prints both
+values via `format!`'s type-aware formatter.
+
+```glide
+assert_eq!(parse_int("42").val, 42);
+assert_eq!(true, !false);
+```
+
+### macro macro assert_str_eq!
+String equality via `.eq()`. `assert_eq!` would compare pointers and
+almost always fail; use this whenever either side is a `string`.
+
+```glide
+assert_str_eq!(name.to_lower(), "alice");
+```
+
+### macro macro assert_not!
+Convenience for `assert!(!cond)` with a clearer failure message.
+
+### fn fn test_begin(name: string)
+Mark the start of a test. The `glide test` driver emits this before
+calling each `test_*` function; manual callers don't need it. Public
+so the synthesised driver code can reach it across modules.
+
+### fn fn test_pass()
+Tick the per-test pass counter. Called by the driver after a test
+returns without any failed assertion.
+
+### fn fn test_summary() -> i32
+Print the run summary (`N passed, M failed`) and return the number
+of failed tests. The driver uses the return as the process exit code.
+
+### fn fn test_counts() -> *Vector<i32>
+`(passed, failed)` for the current run. Useful for self-tests of
+the framework.
+
+## stdlib::time
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/time.glide
+package: stdlib
+
+Monotonic-clock stopwatch. Reads `now_ns()` (the runtime's monotonic
+
+### const const NANOS_PER_MICRO: i64
+
+### const const NANOS_PER_MILLI: i64
+
+### const const NANOS_PER_SEC: i64
+
+### const const NANOS_PER_MIN: i64
+
+### const const NANOS_PER_HOUR: i64
+
+### const const NANOS_PER_DAY: i64
+
+### const const MICROS_PER_SEC: i64
+
+### const const MILLIS_PER_SEC: i64
+
+### const const SECS_PER_MIN: i64
+
+### const const SECS_PER_HOUR: i64
+
+### const const SECS_PER_DAY: i64
+
+### const const MINS_PER_HOUR: i32
+
+### const const HOURS_PER_DAY: i32
+
+### const const DAYS_PER_WEEK: i32
+
+### enum enum Weekday
+
+### enum enum Month
+
+### struct struct Duration
+
+### struct struct Time
+
+### struct struct Stopwatch
+Monotonic-clock stopwatch. Reads `now_ns()` (the runtime's monotonic
+clock — not affected by wall-clock changes) on `start` / `reset` and
+reports the elapsed Duration on demand.
+
+### fn fn after(d: Duration) -> chan<i64>
+Spawn a coroutine that sleeps for `d` then sends `now_ns()` on the
+returned chan. Useful as a timeout sentinel:
+```glide
+let timeout = after(Duration::from_secs(1));
+... select between work and `timeout.recv()` ...
+```
+
+### fn fn tick(d: Duration) -> chan<i64>
+Spawn a coroutine that emits `now_ns()` on the returned chan every `d`.
+The coroutine runs forever — there's no `stop()` yet, so use this for
+process-lifetime tickers (heartbeats, periodic flushes, etc.).
+
+```glide
+let beat = tick(Duration::from_secs(5));
+loop {
+    select! {
+        t = beat.recv() => { flush_metrics(); }
+        msg = work.recv() => { handle(msg); }
+    }
+}
+```
+
+### fn fn time_now_ns() -> i64
+Monotonic-clock timestamp in nanoseconds. The Stopwatch struct wraps
+this; reach for it directly when you want a single-int handle.
+
+```glide
+let t0: i64 = time_now_ns();
+work();
+println!("ns:", time_now_ns() - t0);
+```
+
+### fn fn time_now_us() -> i64
+Same as `time_now_ns` but in microseconds.
+
+### fn fn time_now_ms() -> i64
+Same as `time_now_ns` but in milliseconds.
+
+### fn fn time_since_ns(start_ns: i64) -> i64
+Nanoseconds elapsed since `start_ns`. Clamps to 0 if the monotonic
+clock somehow ran backwards (e.g. a debugger pause).
+
+```glide
+let t0: i64 = time_now_ns();
+work();
+println!(time_since_ns(t0), "ns");
+```
+
+### fn fn time_since_us(start_ns: i64) -> i64
+Microseconds elapsed since `start_ns`.
+
+### fn fn time_since_ms(start_ns: i64) -> i64
+Milliseconds elapsed since `start_ns`.
+
+## stdlib::url
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/url.glide
+package: stdlib
+
+Percent-encode `s` for use in a URL component. Unreserved characters
+
+### fn fn url_encode(s: string) -> string
+Percent-encode `s` for use in a URL component. Unreserved characters
+(RFC 3986 §2.3 — letters, digits, `-`, `_`, `.`, `~`) pass through;
+everything else becomes `%XX` with upper-case hex.
+
+```glide
+url_encode("hello world");        // "hello%20world"
+url_encode("a&b=c");              // "a%26b%3Dc"
+url_encode("café");               // "caf%C3%A9"
+```
+
+### fn fn url_decode(s: string) -> !string
+Inverse of `url_encode`. Replaces every `%XX` with the corresponding
+byte. Returns `err` on a malformed escape (`%` at end-of-string or
+followed by non-hex digits).
+
+```glide
+let r: !string = url_decode("hello%20world");
+if r.ok { println!(r.val); }       // "hello world"
+
+let bad: !string = url_decode("%ZZ");
+if !bad.ok { println!(bad.err); }  // "url_decode: malformed percent escape"
+```
+
+## stdlib::http::client
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/client.glide
+package: stdlib
+
+A request being assembled — mutable holder; not the same shape as
+
+### struct struct HttpClientRequest
+A request being assembled — mutable holder; not the same shape as
+the server-side `HttpRequest` (which is parsed-from-wire).
+
+### struct struct HttpClient
+Persistent client config. Keep one around to share defaults across
+many requests; for one-shot calls use the `http_get` / `http_post*`
+free functions which build a default client per call.
+
+### fn fn http_get(url: string) -> !*HttpResponse
+One-shot GET with a default client. For multiple calls or shared
+state (cookies, timeouts), use `HttpClient::new()` once and reuse.
+
+```glide
+let r: !*HttpResponse = http_get("https://example.com/");
+if r.ok && r.val.status == 200 { println!(r.val.body.len(), "bytes"); }
+```
+
+### fn fn http_post_json(url: string, body: string) -> !*HttpResponse
+One-shot JSON POST with a default client.
+
+```glide
+let r: !*HttpResponse = http_post_json("https://api/login",
+                                       "{\"user\":\"a\",\"pass\":\"b\"}");
+```
+
+### struct struct ParsedUrl
+
+## stdlib::http::compress
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/compress.glide
+package: stdlib
+
+### fn fn gzip_mw(req: *HttpRequest, c: *Chain) -> HttpResponse
+
+## stdlib::http::cookies
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/cookies.glide
+package: stdlib
+
+### struct struct Cookie
+
+### struct struct CookieJar
+
+## stdlib::http::cors
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/cors.glide
+package: stdlib
+
+### struct struct CorsConfig
+
+### fn fn install_cors(cfg: CorsConfig)
+
+### fn fn cors_mw(req: *HttpRequest, c: *Chain) -> HttpResponse
+
+## stdlib::http::extract
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/extract.glide
+package: stdlib
+
+Pull a typed value out of an incoming request. Implementors decide
+
+### trait trait FromRequest
+Pull a typed value out of an incoming request. Implementors decide
+(a) how to extract, (b) what HTTP status to return when extraction
+fails (encoded as a `"<status>:<msg>"` prefix on the err string).
+
+```glide
+pub struct ApiKey { pub key: string }
+
+impl FromRequest for ApiKey {
+    fn from_request(req: *HttpRequest) -> !ApiKey {
+        let v: string = req.header("X-Api-Key");
+        if v.len() == 0 { return err("401:missing X-Api-Key"); }
+        return ok(ApiKey { key: v });
+    }
+}
+
+Now usable as a handler param:
+@handler fn h(key: ApiKey) -> HttpResponse { ... }
+```
+
+### struct struct Bearer
+Token extracted from `Authorization: Bearer <token>`. Stripping the
+scheme prefix is mechanical so the handler can validate the token
+directly (HMAC verify, DB lookup, etc).
+
+```glide
+@handler
+fn protected(auth: Bearer) -> HttpResponse {
+    if !valid(auth.token) { return HttpResponse::with_status(403); }
+    return HttpResponse::ok().text("hi");
+}
+```
+
+### struct struct Headers
+Direct access to request headers from a handler. The wrapper just
+pins the request pointer; lookups go through `req.header(name)`
+(case-insensitive linear scan) on demand.
+
+```glide
+@handler
+fn echo_ua(headers: Headers) -> HttpResponse {
+    return HttpResponse::ok().text(headers.get("User-Agent"));
+}
+```
+
+### trait trait AuthScheme
+Parse the `Authorization` header into a typed scheme value.
+Implementors get the raw header (including the "Bearer " / "Basic "
+prefix) and decide how to validate it.
+
+### struct struct Authorization
+Generic auth wrapper. `Authorization<Bearer>` extracts a Bearer
+token; `Authorization<Basic>` extracts user+pass. The 401 status
++ "missing/wrong scheme" semantics are shared.
+
+### struct struct Basic
+Decoded user + password from `Authorization: Basic base64(user:pass)`.
+
+Note: v1 doesn't decode base64 — it treats the value after `Basic `
+as the literal `user:pass` string. Hook in `stdlib::base64::decode`
+when ready.
+
+### struct struct State
+Application state injected via `Router::state(p)`. The handler
+reaches it without closure capture or globals — just declare a
+`state: State<Db>` (or whatever T) param and let `@handler` do
+the lookup.
+
+**Special-cased by the macro.** Like `Path<T>`, the macro emits
+`State::extract(req)` and pins the let-ty so T monomorphises
+correctly. Empty state slot returns 500.
+
+```glide
+setup
+let db: *Db = open_db();
+let r: *Router = Router::new();
+r.state(db as *void);
+
+handler
+@handler
+fn list_users(state: State<Db>) -> Json<UserList> {
+    return Json::wrap(state.val.all_users());
+}
+```
+
+### trait trait FromPath
+One-byte conversion for typed path params. Reused for Query<T>
+fields too once we ship that.
+
+### struct struct Path
+Typed access to a `:name` path segment captured by the router.
+
+**Special-cased by the @handler macro.** The lookup key is the
+PARAM IDENT — `fn h(id: Path<int>)` extracts `req.param("id")` and
+converts via `int::from_path`. There's no annotation overhead.
+
+```glide
+route /users/:id
+@handler
+fn get_user(id: Path<i32>) -> HttpResponse {
+    return HttpResponse::ok().text("user #".concat(id.val.to_string()));
+}
+```
+
+### struct struct Query
+Typed access to a `?name=value` query-string param.
+
+**Special-cased by the @handler macro.** The lookup key is the
+PARAM IDENT: `fn h(page: Query<int>)` extracts `req.query("page")`
+and parses to `int`. Missing → 400.
+
+```glide
+GET /search?page=2&q=glide
+@handler
+fn search(page: Query<i32>, q: Query<string>) -> HttpResponse {
+    return HttpResponse::ok().text(
+        "page=".concat(page.val.to_string()).concat(" q=").concat(q.val));
+}
+```
+
+### struct struct Form
+Whole-form extractor for `application/x-www-form-urlencoded` POSTs.
+Wraps the parsed `FormData` so the handler can do `f.get("name")`.
+Errors with 415 if the Content-Type doesn't match, 400 if the body
+fails to parse.
+
+```glide
+@handler
+fn submit(form: Form) -> HttpResponse {
+    let user: string = form.get("user");
+    let pass: string = form.get("pass");
+    return HttpResponse::ok().text("welcome, ".concat(user));
+}
+```
+
+### struct struct Cookies
+Request-side cookie bag — wraps the `Cookie:` header so handlers
+can look up individual cookies. Read-only; setting cookies on the
+response uses `HttpResponse::cookie(name, value)`.
+
+```glide
+@handler
+fn me(cookies: Cookies) -> HttpResponse {
+    let sid: string = cookies.get("session");
+    if sid.eq("") { return HttpResponse::with_status(401).text("login"); }
+    return HttpResponse::ok().text("session=".concat(sid));
+}
+```
+
+## stdlib::http::form
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/form.glide
+package: stdlib
+
+Ordered list of (name, value) pairs. Order matters — repeating a
+
+### struct struct FormData
+Ordered list of (name, value) pairs. Order matters — repeating a
+key is legal and meaningful for some servers.
+
+### fn fn form_decode(s: string) -> !*FormData
+Decode a `k=v&k=v` body into a FormData. Mirrors `FormData.encode`.
+Returns err on malformed percent-encoding.
+
+```glide
+let r: !*FormData = form_decode("user=alice&pass=s3cret%21");
+if r.ok {
+    for let i: i32 = 0; i < r.val.len(); i++ {
+        println!(r.val.name_at(i), "=", r.val.value_at(i));
+    }
+}
+```
+
+### fn fn http_post_form(url: string, form: *FormData) -> !*HttpResponse
+One-shot form POST. Builds an HttpClient, sets Content-Type, sends.
+For repeated calls share a client (set `c.jar`, etc.) and call
+`c.post(url, form.encode(), "application/x-www-form-urlencoded")`.
+
+```glide
+let f: *FormData = FormData::new();
+f.set("user", "alice"); f.set("pass", "secret");
+let r: !*HttpResponse = http_post_form("https://api.example.com/login", f);
+if r.ok { println!(r.val.status); }
+```
+
+## stdlib::http::h2
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/h2.glide
+package: stdlib
+
+Frame type opcodes (RFC 7540 §11.2). Use these symbolic names instead
+
+### struct struct FrameType
+Frame type opcodes (RFC 7540 §11.2). Use these symbolic names instead
+of literal integers when calling `write_frame` / matching headers.
+
+```glide
+write_frame_bytes(buf, FrameType::headers(),
+                  FrameFlag::end_headers(), 1, hdr_payload);
+```
+
+### struct struct FrameFlag
+Frame flag bits (RFC 7540 §6). Combine with `|` for multi-flag frames
+(e.g. last HEADERS frame with no body sets both `end_headers` and
+`end_stream`). `ack` and `end_stream` happen to share bit `1` —
+they're never used on the same frame type.
+
+```glide
+let f: i32 = FrameFlag::end_headers() | FrameFlag::end_stream();
+write_frame_bytes(buf, FrameType::headers(), f, 1, hdr_payload);
+```
+
+### struct struct FrameHeader
+
+### fn fn write_frame(buf: *ByteBuffer, frame_type: i32, flags: i32, stream_id: i32, payload: string)
+Append a 9-byte frame header to `buf`, then `payload`. RFC 7540 §4.1.
+Use `write_frame_bytes` for binary payloads that may contain NUL —
+this entry truncates at the first NUL because Glide string is a
+cstring.
+
+```glide
+let buf: *ByteBuffer = ByteBuffer::new();  defer buf.free();
+write_frame(buf, FrameType::ping(), 0, 0, "ABCDEFGH");   // 8-byte ping
+tls.write_bytes(buf.data, buf.len);
+```
+
+### fn fn write_frame_bytes(buf: *ByteBuffer, frame_type: i32, flags: i32, stream_id: i32, payload: *ByteBuffer)
+Same as `write_frame` but pulls the payload from a ByteBuffer with
+explicit length. Use this for HPACK-encoded headers and for any
+payload that may carry NUL bytes mid-frame.
+
+```glide
+let hdrs: *ByteBuffer = ByteBuffer::new();  defer hdrs.free();
+enc.encode_header(hdrs, ":method", "GET");
+enc.encode_header(hdrs, ":path", "/");
+let buf: *ByteBuffer = ByteBuffer::new();   defer buf.free();
+let f: i32 = FrameFlag::end_headers() | FrameFlag::end_stream();
+write_frame_bytes(buf, FrameType::headers(), f, 1, hdrs);
+```
+
+### fn fn read_frame_header(raw: *ByteBuffer, pos: i32) -> !*FrameHeader
+Parse a 9-byte frame header at `pos` in `raw`. Returns the header
+and the new position (header end; payload starts here). Binary
+safe (uses ByteBuffer.at, not string indexing).
+
+```glide
+let r: !*FrameHeader = read_frame_header(rx_buf, 0);
+if r.ok {
+    let h: *FrameHeader = r.val;
+    println!("type", h.frame_type, "len", h.length, "stream", h.stream_id);
+}
+```
+
+### fn fn h2_preface() -> string
+The 24-byte HTTP/2 connection preface (RFC 7540 §3.5). Send this
+immediately after the TLS handshake (or the bare TCP connection
+for h2c). `H2Conn::over` does this for you.
+
+```glide
+let preface: string = h2_preface();
+preface is "PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n"
+```
+
+### fn fn settings_payload_empty() -> string
+Empty SETTINGS frame (acknowledges defaults). Use with flags=0 to
+announce our settings, or with FrameFlag::ack() to ack the peer's.
+
+```glide
+Acknowledge the peer's SETTINGS:
+write_frame(buf, FrameType::settings(),
+            FrameFlag::ack(), 0, settings_payload_empty());
+```
+
+### fn fn settings_pair_to(buf: *ByteBuffer, key: i32, value: i32)
+Append a single 6-byte SETTINGS entry (16-bit key + 32-bit value).
+Settings keys (RFC 7540 §6.5.2):
+  0x1 HEADER_TABLE_SIZE       0x2 ENABLE_PUSH
+  0x3 MAX_CONCURRENT_STREAMS  0x4 INITIAL_WINDOW_SIZE
+  0x5 MAX_FRAME_SIZE          0x6 MAX_HEADER_LIST_SIZE
+
+```glide
+let pl: *ByteBuffer = ByteBuffer::new();  defer pl.free();
+settings_pair_to(pl, 2, 0);          // ENABLE_PUSH = false
+settings_pair_to(pl, 4, 1048576);    // INITIAL_WINDOW_SIZE = 1 MiB
+write_frame_bytes(buf, FrameType::settings(), 0, 0, pl);
+```
+
+### fn fn window_update_to(buf: *ByteBuffer, increment: i32)
+Append a 4-byte WINDOW_UPDATE payload (31-bit increment + reserved bit).
+
+```glide
+let wu: *ByteBuffer = ByteBuffer::new();  defer wu.free();
+window_update_to(wu, 65535);   // grow stream window by 64 KiB
+write_frame_bytes(buf, FrameType::window_update(), 0, stream_id, wu);
+```
+
+### struct struct H2Conn
+
+### struct struct H2Response
+
+### struct struct H2ServerStream
+Per-stream state tracked by the server loop while a request is being
+received. Streams stay in `streams` until END_STREAM arrives on the
+inbound side; after the handler runs the entry is removed.
+
+### fn fn h2_serve(s: *TlsStream, handler: fn(*HttpRequest) -> HttpResponse)
+Run the HTTP/2 server loop on an already-handshaked TlsStream that
+negotiated ALPN h2. Reads the client preface, exchanges settings,
+then dispatches every fully-received request to `handler`.
+
+Closes the stream when the connection ends (GOAWAY, EOF, or protocol
+error). Caller does not need to call `s.close()` afterward.
+
+## stdlib::http::h3
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/h3.glide
+package: stdlib
+
+Generates an ECDSA-P256 self-signed X.509 certificate valid for the
+
+### fn fn h3_make_self_signed_cert(cert_path: string, key_path: string, cn: string, days: i32) -> !i32
+Generates an ECDSA-P256 self-signed X.509 certificate valid for the
+next `days` days and writes it as PEM to `cert_path` and `key_path`.
+The SAN extension covers `DNS:localhost` and `IP:127.0.0.1`, so it's
+usable as-is for local dev servers and loopback tests.
+
+```glide
+let r: !i32 = h3_make_self_signed_cert("cert.pem", "key.pem", "localhost", 365);
+if !r.ok { return 1; }
+http3_listen(4443, "cert.pem", "key.pem", my_handler);
+result: ok(0) on success
+```
+
+### fn fn http3_listen(port: i32, cert_path: string, key_path: string, handler: fn(*HttpRequest) -> HttpResponse) -> !i32
+Run an HTTP/3 server on `port` (UDP), accepting one connection at a
+time. Each accepted client gets its full request dispatched to
+`handler`; the returned `HttpResponse` is sent back, then the
+connection is torn down.
+
+`cert_path` + `key_path` are PEM files (same layout as `https_listen`).
+
+```glide
+fn root(req: *HttpRequest) -> HttpResponse {
+    return HttpResponse::ok().body("hello over QUIC");
+}
+
+fn main() -> i32 {
+    http3_listen(443, "cert.pem", "key.pem", root);
+    return 0;
+}
+```
+
+Concurrency: a single C reader thread owns the UDP socket and demuxes
+inbound packets across up to 64 simultaneous connections, advancing
+each via ngtcp2 + nghttp3. Each accepted connection is dispatched to
+`handler` on its own pthread, so slow handlers don't block other
+clients' handshake completion or accept dispatch. Stream-level
+concurrency within a connection (HTTP/3 PUSH, streaming response
+bodies, 0-RTT) is not supported in v1.
+
+### fn fn http3_get(url: string, tls_insecure: bool) -> !*HttpResponse
+Single-shot HTTP/3 GET. Opens a QUIC connection, performs the TLS 1.3
++ QUIC handshake (ALPN `h3`), sends one request stream and reads the
+response back. Returns the response (status, headers, body) wrapped
+in the existing `HttpResponse` shape.
+
+`tls_insecure = true` disables certificate verification — local dev
+against self-signed certs only.
+
+```glide
+let r: !*HttpResponse = http3_get("https://example.com/", false);
+if r.ok { println!(r.val.status); println!(r.val.body); }
+```
+
+### fn fn http3_request(method: string, url: string, extra_headers: string, body: string, tls_insecure: bool) -> !*HttpResponse
+Generic single-shot HTTP/3 request. `method` is `"GET"`, `"POST"`,
+`"PUT"`, etc; `extra_headers` is a CRLF-joined `Name: Value` block
+(same shape as `HttpClientRequest.headers`); `body` is the request
+payload.
+
+```glide
+let r: !*HttpResponse = http3_request(
+    "POST", "https://api.example.com/x", "Content-Type: application/json\r\n",
+    "{\"hi\":1}", false);
+```
+
+### struct struct H3SessionCache
+Caches TLS session tickets + ngtcp2 0-RTT transport params so repeat
+requests to the same host can skip a full handshake. Pass a single
+`H3SessionCache` across multiple `http3_request_cached` calls and the
+second + later connections to the same `(host, port)` will resume
+the prior TLS session and send the request as 0-RTT (saves ~1 RTT).
+
+In-memory only in v1 — the cache lives as long as the
+`H3SessionCache` does. Call `free()` to release.
+
+```glide
+let c: *H3SessionCache = H3SessionCache::new();
+defer c.free();
+let r1: !*HttpResponse = http3_request_cached("GET", url, "", "", false, c);
+r1 went through a full handshake; ticket cached.
+let r2: !*HttpResponse = http3_request_cached("GET", url, "", "", false, c);
+r2 resumed the prior session.
+```
+
+### fn fn http3_request_cached(method: string, url: string, extra_headers: string, body: string, tls_insecure: bool, cache: *H3SessionCache) -> !*HttpResponse
+Same shape as `http3_request` but threads a `H3SessionCache` for
+TLS session resumption + 0-RTT early data on repeat calls to the
+same host. Safe to call concurrently from multiple threads against
+the same cache (internal mutex serialises store/lookup).
+
+### struct struct ParsedH3Url
+
+## stdlib::http::handler
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/handler.glide
+package: stdlib
+
+Shared wrap logic used by both `@handler` and `@get/@post/etc`. Emits
+
+### fn fn _emit_handler_wrapper(s: *Stmt, wrapper_name: string, renamed_name: string) -> *Vector<Stmt>
+Shared wrap logic used by both `@handler` and `@get/@post/etc`. Emits
+the user fn renamed to `renamed_name` (preserving the original typed
+body) plus a `fn(*HttpRequest) -> HttpResponse` wrapper at
+`wrapper_name` that calls it with each param extracted from the
+request. Param dispatch table is documented above.
+
+## stdlib::http::hpack
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/hpack.glide
+package: stdlib
+
+Output of decode_block: a list of (name, value) pairs in wire order.
+
+### struct struct HpackEncoder
+
+### struct struct HpackDecoder
+
+### struct struct HpackHeader
+Output of decode_block: a list of (name, value) pairs in wire order.
+Pseudo-headers (`:method`, `:status`, etc.) are surfaced as-is —
+users sort response vs request semantics.
+
+## stdlib::http::jwt
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/jwt.glide
+package: stdlib
+
+### struct struct JwtClaims
+
+### fn fn jwt_verify(token: string, key: string) -> !JwtClaims
+
+## stdlib::http::multipart
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/multipart.glide
+package: stdlib
+
+### struct struct Multipart
+
+### struct struct UploadedFile
+
+### struct struct MultipartForm
+
+## stdlib::http::proxy
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/proxy.glide
+package: stdlib
+
+Reverse-proxy configuration. The minimal setup is an upstream
+
+### struct struct ReverseProxyConfig
+Reverse-proxy configuration. The minimal setup is an upstream
+origin such as `http://127.0.0.1:9000`; the proxy forwards the
+incoming method, path, body and safe end-to-end headers.
+
+`strip_prefix` is useful for mounting an app under a local prefix:
+with `strip_prefix = "/api"`, `/api/users?x=1` is sent upstream as
+`/users?x=1`.
+
+### fn fn reverse_proxy(cfg: *ReverseProxyConfig, req: *HttpRequest) -> HttpResponse
+Forward `req` to `cfg.upstream` and lower the upstream response
+back into the server-side `HttpResponse` shape. Network and parse
+errors become `502 Bad Gateway`.
+
+### fn fn proxy_build_upstream_request(cfg: *ReverseProxyConfig, req: *HttpRequest) -> *HttpClientRequest
+Build the client request that `reverse_proxy` will send upstream.
+Exposed for tests and for custom proxy pipelines that want to
+inspect or adjust the request before calling `HttpClient::do`.
+
+### fn fn proxy_target_url(cfg: *ReverseProxyConfig, path: string) -> string
+Compute the upstream URL for a request path.
+
+### fn fn proxy_filter_request_headers(block: string, preserve_host: bool) -> string
+Drop hop-by-hop headers from the request before proxying. `Host`
+is also dropped unless `preserve_host` is true, because the client
+transport will stamp the upstream host by default.
+
+### fn fn proxy_filter_response_headers(block: string) -> string
+Drop hop-by-hop and framing headers from an upstream response. The
+local server re-emits `Content-Length` and `Connection` itself.
+
+### fn fn proxy_rewrite_location(loc: string, upstream: string, public_base: string) -> string
+Rewrite an absolute upstream `Location` value to the public proxy
+base. Relative locations are left untouched.
+
+## stdlib::http::route
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/route.glide
+package: stdlib
+
+`/`, `/foo`, `/foo/:id`, `/static/*rest` — basic shape check. Returns
+
+### fn fn _validate_path(path: string) -> string
+`/`, `/foo`, `/foo/:id`, `/static/*rest` — basic shape check. Returns
+"" when ok, otherwise a single-line error describing the first
+offence so the diagnostic stays scannable.
+
+### fn fn _validate_path_params(path: string, params: *Vector<Param>) -> string
+For each `:name` segment in `path`, look for a matching `name: Path<T>`
+in `params`. Wildcards `*name` map to `name: Path<string>`. Mismatch
+surfaces as a compile-time diagnostic so a typo doesn't degrade to
+a runtime 400/404.
+
+Handlers that take a single `req: *HttpRequest` are opting out of the
+typed-extraction sugar — they'll read params via `req.param("id")`
+themselves. Skip the check entirely in that shape.
+
+### fn fn _is_route_attr_name(n: string) -> bool
+
+## stdlib::http::router
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/router.glide
+package: stdlib
+
+One piece of a compiled route pattern.
+
+### const const RS_LITERAL: i32
+
+### const const RS_PARAM: i32
+
+### const const RS_WILDCARD: i32
+
+### struct struct RouteSegment
+One piece of a compiled route pattern.
+
+`kind` is `RS_LITERAL` (the segment text must match), `RS_PARAM`
+(any one segment, captured under `text`), or `RS_WILDCARD` (the
+rest of the path, captured under `text`). Wildcard segments can
+only appear last; later segments after a `*` are ignored.
+
+### struct struct Route
+One row of the routing table.
+
+`local_mws` is the per-route middleware chain — populated when the
+route was mounted via `Router::scope(prefix, sub)`. Parent
+middleware runs first, then `local_mws` (in registration order),
+then the handler.
+
+### const const ANY_METHOD: string
+Wildcard sentinel for `Router::any`. `dispatch` matches any verb when
+`route.method` equals this exact string.
+
+### struct struct Router
+HTTP method router. Stores routes in declaration order; the first
+match wins. Middleware in `mw` runs before the matched handler in
+registration order. A separate "not found" handler covers
+no-match dispatches; defaults to a plain 404 with body
+`"not found"`.
+
+### struct struct Chain
+Per-dispatch chain context. Threaded through every middleware so
+each can call `chain_next(c)` to advance to the next middleware
+(or the route handler when the middleware list is exhausted).
+Middleware that returns without calling `chain_next` short-
+circuits the chain — the rest of the middleware AND the route
+handler are skipped.
+
+### fn fn chain_next(c: *Chain) -> HttpResponse
+Advance the middleware chain. The first call from inside
+middleware N runs middleware N+1; once the list is exhausted the
+route handler runs.
+
+```glide
+fn logger(req: *HttpRequest, c: *Chain) -> HttpResponse {
+    println!("[", req.method, "] ", req.path);
+    let resp: HttpResponse = chain_next(c);
+    println!("  -> ", resp.status);
+    return resp;
+}
+```
+
+## stdlib::http::sse
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/sse.glide
+package: stdlib
+
+One Server-Sent Event. Fields map directly to wire lines:
+
+### struct struct SseEvent
+One Server-Sent Event. Fields map directly to wire lines:
+  `event:` (optional name), `id:` (optional ID for Last-Event-ID),
+  `data:` (one or many lines), `retry:` (ms before client retry, 0 = omit).
+
+### fn fn sse_format(e: SseEvent) -> string
+Serialize an event to wire bytes. Multi-line data emits one
+`data: ...` per line (per spec; the client joins them on `\n`).
+Empty event = single blank line (a keepalive frame).
+
+```glide
+sse_format(SseEvent::named("tick", "1"));
+-> "event: tick\ndata: 1\n\n"
+```
+
+### fn fn sse_comment(text: string) -> string
+SSE comment line — useful as a heartbeat / keepalive so the
+connection doesn't time out on intermediaries (nginx default
+proxy_read_timeout = 60s). Pair with a timer to emit every ~15-30s.
+
+```glide
+": heartbeat\n\n"
+sse_comment("heartbeat");
+```
+
+### fn fn sse_keepalive() -> string
+Standard heartbeat frame — just a colon + double newline, no
+payload. Smaller than `sse_comment("ping")` on the wire.
+
+### fn fn sse_last_event_id(req: *HttpRequest) -> string
+Pull the client's `Last-Event-ID` header. When the browser
+reconnects after a transient drop it sends back the last `id:`
+it saw. Empty string when the header is absent.
+
+### fn fn sse_response(source: *dyn ChunkSource) -> HttpResponse
+Wrap `source` in a streaming response with the right
+Content-Type and cache-busting headers for SSE.
+
+Headers set:
+  * `Content-Type: text/event-stream`
+  * `Cache-Control: no-cache`
+  * `X-Accel-Buffering: no` — disables buffering on nginx proxies
+  * `Connection: keep-alive`
+
+### const const SSE_END: string
+Fan-out source over a chan. Each event sent into the chan becomes
+a frame on the client. To END the stream, send a sentinel event
+where `event.event` equals `SSE_END` — the source treats that as
+EOF and signals chunked transfer to close.
+
+```glide
+let events: chan<SseEvent> = make_chan(64);
+fn stream(_req: *HttpRequest) -> HttpResponse {
+    let src: *SseChannel = SseChannel::new(&events);
+    return sse_response(src as *dyn ChunkSource);
+}
+elsewhere: events.send(SseEvent::named("ping", "1"));
+close: events.send(SseEvent { event: SSE_END, ... });
+```
+
+### struct struct SseChannel
+
+## stdlib::http::static
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/static.glide
+package: stdlib
+
+Configuration for a static-file mount.
+
+### struct struct StaticOpts
+Configuration for a static-file mount.
+
+`root` is the directory on disk; `url_prefix` is the URL path
+segment under which files become reachable (e.g. `"/static"` means
+`GET /static/css/site.css` reads `<root>/css/site.css`).
+
+`cache_control` is emitted as the `Cache-Control` response header
+when non-empty — pass `"public, max-age=31536000, immutable"` for
+fingerprinted asset bundles, or `"no-cache"` to force revalidation.
+
+### fn fn serve_dir(r: *Router, opts: StaticOpts)
+Mount a directory on the router. Subsequent `GET /<url_prefix>/...`
+requests serve files from `<root>/...`. The current implementation
+supports a single mount per router (the root + cache settings live
+in process-wide statics); call `serve_dir` once at startup.
+
+```glide
+serve_dir(r, StaticOpts {
+    root:          "./public",
+    url_prefix:    "/assets",
+    cache_control: "public, max-age=86400",
+});
+```
+
+## stdlib::http::typed
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/http/typed.glide
+package: stdlib
+
+Generic wrapper around a value that should be serialised as the
+
+### struct struct Json
+Generic wrapper around a value that should be serialised as the
+JSON body of an HTTP response. The struct is intentionally a
+single-field carrier — the value gets to `into_response()` via
+the `IntoResponse` impl below, which calls `T.to_json()` (so `T`
+must implement `JsonBind`).
+
+```glide
+Build:
+let r: HttpResponse = json_respond(StructLegal { nome: "alice", idade: some(30) });
+```
+
+### fn fn json_respond(v: T) -> HttpResponse
+One-step from typed value to HttpResponse via the `IntoResponse`
+trait. Equivalent to `Json::wrap(v).into_response()` but spelt as
+a free fn so the chained dispatch monomorphizes cleanly across
+the call boundary.
+
+```glide
+fn create(req: *HttpRequest) -> HttpResponse {
+    let user: StructLegal = /* ... */;
+    return json_respond(user);
+}
+```
+
+### trait trait IntoResponse
+Convert any "response-shaped" value into a final HttpResponse the
+server loop can write to the wire. Implemented for HttpResponse
+itself (identity) and for `Json<T>` when T binds to JSON. Future
+implementors might cover `string` (text reply), `?T`, error types,
+etc.; nothing in stdlib::http::router calls `into_response`
+today, so impls are purely for handler-tail ergonomics.
+
+## stdlib::mail::imap
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/mail/imap.glide
+package: stdlib
+
+### struct struct ImapSession
+
+### struct struct ImapResponse
+
+## stdlib::mail::message
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/mail/message.glide
+package: stdlib
+
+Parse an RFC 5322 message into a Mail. Splits header block from body
+
+### struct struct Attachment
+
+### struct struct Mail
+
+### fn fn parse_mail(raw: string) -> !*Mail
+Parse an RFC 5322 message into a Mail. Splits header block from body
+and decodes the headline fields. MIME multipart bodies are kept as
+the raw body string — full MIME parsing is deferred (good enough
+for round-trip metadata access in v1).
+
+```glide
+let raw: string = pop3.retr(1).val;
+let r: !*Mail = parse_mail(raw);
+if r.ok {
+    println!("from:", r.val.from);
+    println!("subject:", r.val.subject);
+}
+```
+
+## stdlib::mail::pop3
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/mail/pop3.glide
+package: stdlib
+
+### struct struct Pop3MsgInfo
+
+### struct struct Pop3Session
+
+## stdlib::mail::smtp
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/mail/smtp.glide
+package: stdlib
+
+### struct struct SmtpClient
+
+### struct struct SmtpReply
+
+### struct struct SmtpSession
+
+## stdlib::net::dns
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/dns.glide
+package: stdlib
+
+Resolve `host` to a list of IP addresses via the system resolver.
+
+### fn fn resolve(host: string) -> !*Vector<*IpAddr>
+Resolve `host` to a list of IP addresses via the system resolver.
+Returns every A and AAAA record the resolver returns, in the order
+it returned them.
+
+```glide
+let r: !*Vector<*IpAddr> = resolve("example.com");
+if r.ok {
+    for let i: i32 = 0; i < r.val.len(); i++ {
+        println!(r.val.get(i).to_string());
+    }
+}
+```
+
+### fn fn resolve_v4(host: string) -> !*Vector<*IpAddr>
+Same as `resolve` but filters to v4 addresses only.
+
+```glide
+let r: !*Vector<*IpAddr> = resolve_v4("example.com");
+if r.ok && r.val.len() > 0 {
+    println!("first v4:", r.val.get(0).to_string());
+}
+```
+
+### fn fn resolve_v6(host: string) -> !*Vector<*IpAddr>
+Same as `resolve` but filters to v6 addresses only.
+
+```glide
+let r: !*Vector<*IpAddr> = resolve_v6("ipv6.google.com");
+if r.ok && r.val.len() > 0 {
+    println!("first v6:", r.val.get(0).to_string());
+}
+```
+
+## stdlib::net::ip
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/ip.glide
+package: stdlib
+
+A v4 or v6 address. `kind` is 4 or 6; the other fields are
+
+### fn fn _bytes_to_string(p: *u8, n: i32) -> string
+
+### struct struct IpAddr
+A v4 or v6 address. `kind` is 4 or 6; the other fields are
+meaningful only for the matching kind.
+
+V4 layout: `v4` holds the 32-bit address in host-order, e.g.
+`127.0.0.1` is `0x7F000001`.
+
+V6 layout: `v6_hi` and `v6_lo` are the upper and lower 64 bits in
+host-order. The address `::1` has `v6_hi = 0`, `v6_lo = 1`.
+
+### struct struct SocketAddr
+
+## stdlib::net::listener
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/listener.glide
+package: stdlib
+
+### struct struct Listener
+
+### struct struct Conn
+
+## stdlib::net::tcp
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/tcp.glide
+package: stdlib
+
+### struct struct TcpStream
+
+## stdlib::net::tls
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/tls.glide
+package: stdlib
+
+Configuration for an outbound TLS connection.
+
+### struct struct TlsConfig
+Configuration for an outbound TLS connection.
+
+### struct struct TlsStream
+
+### struct struct TlsListener
+Server-side listener: holds the SSL_CTX with cert+key plus the
+underlying TCP listening socket. `accept` blocks for the next
+client and returns a TlsStream after the handshake succeeds.
+
+### fn fn tls_attach_server(conn_fd: i32, cert_path: string, key_path: string) -> !*TlsStream
+Server-side counterpart to `TlsStream::attach`: wrap an already-
+accepted plain `Conn` in TLS for protocols that promote inline
+(STARTTLS, FTPS-AUTH-TLS, IMAP STARTTLS, POP3 STLS).
+
+On success the returned `TlsStream` owns the underlying socket;
+the caller MUST NOT call `conn.close()` afterwards.
+
+```glide
+In an SMTP server, after the client sends STARTTLS:
+let r: !*TlsStream = tls_attach_server(conn.fd, "cert.pem", "key.pem");
+if r.ok { defer r.val.close(); /* communicate over TLS */ }
+```
+
+## stdlib::net::udp
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/udp.glide
+package: stdlib
+
+One received datagram: payload + sender address.
+
+### struct struct UdpSocket
+
+### struct struct UdpRecv
+One received datagram: payload + sender address.
+
+## stdlib::net::ws
+source: C:\Users\bye45\Desktop\desktop\works\javascomp/src/stdlib/net/ws.glide
+package: stdlib
+
+Frame opcodes (RFC 6455 §11.8). Compare against `WsMessage.kind`.
+
+### struct struct WsOp
+Frame opcodes (RFC 6455 §11.8). Compare against `WsMessage.kind`.
+
+```glide
+match m.kind {
+    k if k == WsOp::text()  => println!("text:", m.text),
+    k if k == WsOp::ping()  => ws.pong(m.text),
+    k if k == WsOp::close() => break,
+    _ => {},
+}
+```
+
+### struct struct WsMessage
+One inbound message. `kind` is one of `WsOp::text() / binary() /
+close() / ping() / pong()`. `text` carries text-frame payload as
+a string; `data` carries binary payload (currently in the same
+`string` field — we don't have a dedicated bytes type yet).
+
+### struct struct WebSocket
+
+### struct struct WsParsedUrl
+

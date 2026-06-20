@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/js/lang.js"></script>
+  <title>Exemplos — A linguagem de programação Glide.</title>
+  <meta name="description" content="Programas reais na linguagem de programação Glide por Murillo Deolino: roteador HTTP, pool de workers, JSON tipado, percurso de arquivos, cliente WebSocket, assembly inline. Copie, execute com glide run e use em produção.">
+  <meta name="keywords" content="exemplos Glide, amostras de código glide, exemplos linguagem de programação glide, exemplos glide lang, glide HTTP, glide JSON, glide WebSocket">
+  <meta name="author" content="Murillo Deolino">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/glide-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/glide-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/icons/glide-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
+
+  <meta property="og:site_name" content="Glide Programming Language">
+  <meta property="og:title" content="Exemplos — A linguagem de programação Glide.">
+  <meta property="og:description" content="Programas reais em Glide: HTTP, JSON, canais, WebSockets, assembly inline.">
+  <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://glide-lang.org/pt/examples">
+  <meta property="og:type" content="article">
+  <meta property="article:author" content="Murillo Deolino">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="theme-color" content="#0b1020">
+
+  <link rel="canonical" href="https://glide-lang.org/pt/examples">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Exemplos — A linguagem de programação Glide.">
+  <meta name="twitter:description" content="Programas reais na linguagem de programação Glide por Murillo Deolino.">
+  <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta name="twitter:url" content="https://glide-lang.org/pt/examples">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css?v=5">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "headline": "Exemplos Glide — Amostras de Código na Linguagem de Programação Glide",
+        "description": "Programas reais na linguagem de programação Glide: roteador HTTP, pool de workers, JSON tipado, percurso de arquivos, cliente WebSocket, assembly inline.",
+        "image": "https://glide-lang.org/assets/og-cover.png",
+        "author": { "@type": "Person", "name": "Murillo Deolino", "url": "https://github.com/Murilinho145SG" },
+        "mainEntityOfPage": "https://glide-lang.org/pt/examples",
+        "inLanguage": "pt-BR",
+        "about": { "@type": "ComputerLanguage", "name": "Glide" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/pt/" },
+          { "@type": "ListItem", "position": 2, "name": "Exemplos", "item": "https://glide-lang.org/pt/examples" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="/pt/">
+    <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
+    <span>glide</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-icon"></span>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="/pt/#features">Recursos</a>
+    <a href="/pt/tutorial">Tutorial</a>
+    <a href="/book/pt/">Livro</a>
+    <a href="/pt/examples">Exemplos</a>
+    <a href="/book/pt/09-standard-library">Stdlib</a>
+    <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <a href="/examples" class="lang-opt" hreflang="en">EN</a>
+      <a href="/pt/examples" class="lang-opt active" hreflang="pt-BR">PT</a>
+    </div>
+</nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow" style="margin-bottom:12px;">Exemplos da linguagem de programação Glide</p>
+      <h1>
+        Programas reais.<br>
+        <span class="accent">Formas reais</span>.
+      </h1>
+      <p class="lede">
+        Cada card abaixo é um programa completo e autocontido na
+        <strong>linguagem de programação Glide</strong> por
+        <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>.
+        Copie, salve como <code>example.glide</code> e execute com <code>glide run example.glide</code>.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-ghost" href="https://github.com/glide-lang/Glide/tree/main/examples" rel="noopener">Todos os exemplos no GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="install">
+
+    <div class="install-grid">
+
+      <div class="install-card">
+        <h4>Roteador HTTP</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:12px;">Rotas com correspondência de padrões, parâmetros de caminho, respostas JSON — tudo na stdlib.</p>
+<pre class="code"><code><span class="kw">import</span> stdlib::http::*;
+<span class="kw">import</span> stdlib::http::router::*;
+
+<span class="kw">fn</span> <span class="fn">user</span>(req: *<span class="ty">HttpRequest</span>) -&gt; <span class="ty">HttpResponse</span> {
+    <span class="kw">let</span> id: <span class="ty">string</span> = req.param(<span class="str">"id"</span>);
+    <span class="kw">return</span> <span class="ty">HttpResponse</span>::ok()
+        .json(<span class="str">"{\"id\":\""</span>.concat(id).concat(<span class="str">"\"}"</span>));
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> r: *<span class="ty">Router</span> = <span class="ty">Router</span>::new();
+    <span class="kw">defer</span> r.free();
+    r.get(<span class="str">"/users/:id"</span>, user);
+    <span class="kw">let</span> res: !<span class="ty">int</span> = r.listen(<span class="num">8080</span>);
+    <span class="kw">if</span> !res.ok { println!(<span class="str">"listen:"</span>, res.err); <span class="kw">return</span> <span class="num">1</span>; }
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+      <div class="install-card">
+        <h4>Pool de workers</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:12px;">Quatro workers, uma fila de tarefas, resultados transmitidos de volta por um canal de resultados.</p>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">worker</span>(jobs: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;, out: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;) {
+    <span class="kw">while let</span> n = jobs.recv() { out.send(n * n); }
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> j: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">8</span>);
+    <span class="kw">let</span> o: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">8</span>);
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="num">0</span>..<span class="num">4</span> { <span class="kw">spawn</span> worker(j, o); }
+    <span class="kw">for</span> n <span class="kw">in</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>] { j.send(n); }
+    j.close();
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+      <div class="install-card">
+        <h4>JSON tipado</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:12px;"><code>@derive(JsonBind)</code> gera parse e emissão em tempo de compilação.</p>
+<pre class="code"><code><span class="kw">import</span> stdlib::json::*;
+
+@derive(<span class="ty">JsonBind</span>)
+<span class="kw">struct</span> <span class="ty">User</span> {
+    name: <span class="ty">string</span>,
+    age:  <span class="ty">int</span>,
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> u: <span class="ty">User</span> = <span class="ty">User</span> {
+        name: <span class="str">"alice"</span>, age: <span class="num">30</span>,
+    };
+    println!(u.to_json());
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+      <div class="install-card">
+        <h4>Percurso de arquivos</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:12px;">Lista recursiva de arquivos <code>.glide</code>, conta linhas e exibe os totais.</p>
+<pre class="code"><code><span class="kw">import</span> stdlib::fs::*;
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> files: *<span class="ty">Vector</span>&lt;<span class="ty">string</span>&gt; =
+        fs_list_rec(<span class="str">"src"</span>, <span class="str">".glide"</span>);
+    <span class="kw">let mut</span> total: <span class="ty">int</span> = <span class="num">0</span>;
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="num">0</span>..files.len() {
+        total = total + fs_lines_count(files.get(i));
+    }
+    println!(<span class="str">"files:"</span>, files.len(), <span class="str">"lines:"</span>, total);
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+      <div class="install-card">
+        <h4>Cliente WebSocket</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:12px;">Handshake RFC 6455, <code>match</code> no tipo do frame, envio e recepção.</p>
+<pre class="code"><code><span class="kw">import</span> stdlib::net::ws::*;
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> r: !*<span class="ty">WebSocket</span> = <span class="ty">WebSocket</span>::connect(<span class="str">"wss://echo.example/ws"</span>);
+    <span class="kw">if</span> !r.ok { println!(<span class="str">"connect:"</span>, r.err); <span class="kw">return</span> <span class="num">1</span>; }
+    <span class="kw">let</span> ws: *<span class="ty">WebSocket</span> = r.val;
+    <span class="kw">defer</span> ws.close(<span class="num">1000</span>, <span class="str">"bye"</span>);
+
+    <span class="kw">let</span> _s: !<span class="ty">int</span> = ws.send_text(<span class="str">"hello"</span>);
+    <span class="kw">let</span> m: !*<span class="ty">WsMessage</span> = ws.recv();
+    <span class="kw">if</span> m.ok { println!(<span class="str">"got:"</span>, m.val.text); }
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+      <div class="install-card">
+        <h4>Assembly inline · RDTSC</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:12px;">Lê o contador de timestamp sem passar por FFI. Restrições de operandos no estilo GCC.</p>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">read_tsc</span>() -&gt; <span class="ty">u64</span> {
+    <span class="kw">let</span> lo: <span class="ty">u32</span> = <span class="num">0</span>;
+    <span class="kw">let</span> hi: <span class="ty">u32</span> = <span class="num">0</span>;
+    <span class="kw">asm volatile</span> { <span class="str">"rdtsc"</span> : <span class="str">"=a"</span>(lo), <span class="str">"=d"</span>(hi) }
+    <span class="kw">return</span> ((hi <span class="kw">as</span> <span class="ty">u64</span>) &lt;&lt; <span class="num">32</span>) | (lo <span class="kw">as</span> <span class="ty">u64</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    println!(<span class="str">"tsc:"</span>, read_tsc());
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+      </div>
+
+    </div>
+
+    <p class="install-foot">
+      A pasta <a href="https://github.com/glide-lang/Glide/tree/main/examples" rel="noopener">examples/</a> do repositório
+      tem dezenas de outros — servidores HTTP/2, streams gzip, clientes SMTP, extratores tar e um tour completo da linguagem.
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <div class="footer-brand">
+      <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
+      <div>
+        <strong>glide-lang.org</strong>
+        <p>Uma pequena linguagem de programação de sistemas.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h5>Projeto</h5>
+        <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">Licença</a>
+      </div>
+      <div>
+        <h5>Aprender</h5>
+        <a href="/pt/tutorial">Tutorial</a>
+        <a href="/book/pt/">Livro</a>
+        <a href="/pt/examples">Exemplos</a>
+        <a href="/book/pt/09-standard-library">Stdlib</a>
+      </div>
+      <div>
+        <h5>Comparar</h5>
+        <a href="/pt/vs-rust">Glide vs Rust</a>
+        <a href="/pt/vs-go">Glide vs Go</a>
+        <a href="/pt/vs-zig">Glide vs Zig</a>
+      </div>
+      <div>
+        <h5>Comunidade</h5>
+        <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
+        <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contribuindo</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <p>© 2026 Glide Programming Language. Criado e mantido por <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. Licença MIT. v0.4.1.</p>
+  </div>
+</footer>
+
+<script defer src="/js/nav.js?v=2"></script>
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/js/lang.js"></script>
+  <title>Tutorial — A linguagem de programação Glide.</title>
+  <meta name="description" content="Aprenda a linguagem de programação Glide em cinco aulas rápidas por Murillo Deolino: hello world, erros como valores, canais e spawn, um servidor HTTP e macros. Todos os exemplos compilam com glide run.">
+  <meta name="keywords" content="tutorial Glide, aprender glide, tutorial linguagem de programação glide, tutorial glide lang, exemplos glide, primeiros passos com glide">
+  <meta name="author" content="Murillo Deolino">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/glide-logo.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/glide-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/icons/glide-64.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
+
+  <meta property="og:site_name" content="Glide Programming Language">
+  <meta property="og:title" content="Tutorial — A linguagem de programação Glide.">
+  <meta property="og:description" content="Cinco aulas rápidas cobrindo hello world, erros como valores, canais, um servidor HTTP e macros na linguagem de programação Glide.">
+  <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://glide-lang.org/pt/tutorial">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="article:author" content="Murillo Deolino">
+  <meta name="theme-color" content="#0b1020">
+
+  <link rel="canonical" href="https://glide-lang.org/pt/tutorial">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tutorial — A linguagem de programação Glide.">
+  <meta name="twitter:description" content="Cinco aulas rápidas na linguagem de programação Glide por Murillo Deolino.">
+  <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
+  <meta name="twitter:url" content="https://glide-lang.org/pt/tutorial">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css?v=5">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "headline": "Tutorial Glide — Aprenda a Linguagem de Programação Glide em 5 Aulas",
+        "description": "Cinco aulas rápidas cobrindo hello world, erros como valores, canais e spawn, um servidor HTTP e macros na linguagem de programação Glide.",
+        "image": "https://glide-lang.org/assets/og-cover.png",
+        "author": { "@type": "Person", "name": "Murillo Deolino", "url": "https://github.com/Murilinho145SG" },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Glide Programming Language",
+          "logo": { "@type": "ImageObject", "url": "https://glide-lang.org/assets/icons/glide-256.png" }
+        },
+        "mainEntityOfPage": "https://glide-lang.org/pt/tutorial",
+        "inLanguage": "pt-BR",
+        "proficiencyLevel": "Beginner",
+        "about": { "@type": "ComputerLanguage", "name": "Glide" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/pt/" },
+          { "@type": "ListItem", "position": 2, "name": "Tutorial", "item": "https://glide-lang.org/pt/tutorial" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="/pt/">
+    <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
+    <span>glide</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="nav-toggle-icon"></span>
+  </button>
+  <nav class="nav-links" id="nav-links">
+    <a href="/pt/#features">Recursos</a>
+    <a href="/pt/tutorial">Tutorial</a>
+    <a href="/book/pt/">Livro</a>
+    <a href="/pt/examples">Exemplos</a>
+    <a href="/book/pt/09-standard-library">Stdlib</a>
+    <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+      <div class="lang-switch" role="group" aria-label="Idioma / Language">
+      <a href="/tutorial" class="lang-opt" hreflang="en">EN</a>
+      <a href="/pt/tutorial" class="lang-opt active" hreflang="pt-BR">PT</a>
+    </div>
+</nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow" style="margin-bottom:12px;">Tutorial da linguagem de programação Glide</p>
+      <h1>
+        Cinco aulas.<br>
+        A <span class="accent">linguagem inteira</span><br>
+        na sua cabeça.
+      </h1>
+      <p class="lede">
+        Aprenda a <strong>linguagem de programação Glide</strong> por
+        <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>
+        em cinco aulas rápidas. Hello world, erros como valores, canais, um servidor HTTP
+        e uma macro — todos os exemplos abaixo compilam com <code>glide run</code>.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#lesson-1">Começar o tour</a>
+        <a class="btn btn-ghost" href="https://github.com/glide-lang/Glide/blob/main/TUTORIAL.md" rel="noopener">Tutorial completo no GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+
+    <article class="feature-row" id="lesson-1">
+      <div class="feature-text">
+        <span class="feature-tag">1 · hello</span>
+        <h3>Hello, world</h3>
+        <p><code>fn main() -&gt; int</code> é o ponto de entrada. <code>println!</code> escreve na stdout com uma nova linha ao final; o ponto de exclamação indica que é uma macro. O valor de retorno é o código de saída do processo.</p>
+        <p>Salve o trecho como <code>hello.glide</code> e execute com <code>glide run hello.glide</code>.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">hello.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    println!(<span class="str">"hello, glide"</span>);
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse" id="lesson-2">
+      <div class="feature-text">
+        <span class="feature-tag">2 · errors</span>
+        <h3>Erros como valores</h3>
+        <p><code>!T</code> significa "ou um <code>T</code> ou um erro". <code>ok(v)</code> e <code>err("msg")</code> os constroem. O operador pós-fixo <code>?</code> propaga: se o resultado for um erro, a função retorna imediatamente; caso contrário, <code>v</code> é desempacotado na variável local.</p>
+        <p>Sem exceções, sem tratadores de pânico — o modo de falha está na assinatura do tipo.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">errors.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">parse</span>(n: <span class="ty">int</span>) -&gt; !<span class="ty">int</span> {
+    <span class="kw">if</span> n &lt; <span class="num">0</span> { <span class="kw">return</span> err(<span class="str">"negative"</span>); }
+    <span class="kw">return</span> ok(n * <span class="num">2</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">pipeline</span>(n: <span class="ty">int</span>) -&gt; !<span class="ty">int</span> {
+    <span class="kw">let</span> v: <span class="ty">int</span> = parse(n)?;
+    <span class="kw">return</span> ok(v + <span class="num">1</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> r: !<span class="ty">int</span> = pipeline(<span class="num">10</span>);
+    <span class="kw">if</span> r.ok { println!(<span class="str">"got:"</span>, r.val); }
+    <span class="kw">else</span>   { println!(<span class="str">"err:"</span>, r.err); }
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row" id="lesson-3">
+      <div class="feature-text">
+        <span class="feature-tag">3 · channels</span>
+        <h3>Canais e spawn</h3>
+        <p><code>spawn</code> inicia uma corrotina M:N. <code>chan&lt;T&gt;</code> é um canal tipado; <code>make_chan(cap)</code> cria um com buffer. Canais são valores de primeira classe — passe-os como argumentos, armazene em structs, feche-os com <code>.close()</code>.</p>
+        <p>Para threads de SO em vez de corrotinas, use <code>spawn_thread</code> — mesma sintaxe, agendador diferente.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">channels.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">producer</span>(c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;) {
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="num">0</span>..<span class="num">3</span> { c.send(i * i); }
+    c.close();
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">2</span>);
+    <span class="kw">spawn</span> producer(c);
+    <span class="kw">while let</span> v = c.recv() { println!(<span class="str">"got:"</span>, v); }
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row reverse" id="lesson-4">
+      <div class="feature-text">
+        <span class="feature-tag">4 · http</span>
+        <h3>Um servidor HTTP</h3>
+        <p>Importe <code>stdlib::http::*</code>. Um handler é <code>fn(*HttpRequest) -&gt; HttpResponse</code>. <code>http_listen(port, handler)</code> faz o bind, aceita conexões e mantém o loop eternamente.</p>
+        <p>Para TLS, troque por <code>https_listen(port, cert, key, handler)</code> — mesma estrutura, mais os arquivos PEM. Roteadores, middlewares e servir arquivos estáticos estão em <code>stdlib::http::router</code>.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">server.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">import</span> stdlib::http::*;
+
+<span class="kw">fn</span> <span class="fn">root</span>(req: *<span class="ty">HttpRequest</span>) -&gt; <span class="ty">HttpResponse</span> {
+    <span class="kw">if</span> req.path.eq(<span class="str">"/health"</span>) {
+        <span class="kw">return</span> <span class="ty">HttpResponse</span>::ok().text(<span class="str">"ok"</span>);
+    }
+    <span class="kw">return</span> <span class="ty">HttpResponse</span>::ok().html(<span class="str">"&lt;h1&gt;hello from glide&lt;/h1&gt;"</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    http_listen(<span class="num">8080</span>, root);
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature-row" id="lesson-5">
+      <div class="feature-text">
+        <span class="feature-tag">5 · macros</span>
+        <h3>Macros declarativas</h3>
+        <p><code>macro_rules!</code> combina padrões de tokens — <code>$x:expr</code>, <code>$x:ident</code>, <code>$x:ty</code> — e expande para código em tempo de compilação. A forma variádica <code>$($x:expr),*</code> combina uma lista separada por vírgulas e permite iterar sobre as capturas com <code>$( … )*</code>.</p>
+        <p>Para metaprogramação mais avançada, <code>@derive(Name)</code> e <code>@name!(args)</code> são macros procedurais que rodam dentro do compilador.</p>
+      </div>
+      <div class="feature-code">
+        <div class="code-frame">
+          <div class="code-frame-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="code-frame-title">macros.glide</span>
+          </div>
+<pre class="code"><code><span class="kw">macro_rules!</span> sum {
+    ($($x:expr),*) =&gt; { {
+        <span class="kw">let mut</span> t: <span class="ty">int</span> = <span class="num">0</span>;
+        $( t = t + $x; )*
+        t
+    } };
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> total: <span class="ty">int</span> = sum!(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>);
+    println!(<span class="str">"sum ="</span>, total);   <span class="cmt">// 10</span>
+    <span class="kw">return</span> <span class="num">0</span>;
+}</code></pre>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="install">
+    <h2 class="section-title">O que vem a seguir</h2>
+    <p class="install-lede">Cinco aulas concluídas; você viu a maior parte da linguagem. Escolha o que precisar.</p>
+    <div class="install-grid">
+      <div class="install-card">
+        <h4>Mais exemplos</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;">Programas maiores — roteadores HTTP, JSON, percurso de arquivos, WebSockets, asm inline.</p>
+        <p><a class="btn btn-ghost" href="/pt/examples">Ver exemplos →</a></p>
+      </div>
+      <div class="install-card">
+        <h4>Referência da Stdlib</h4>
+        <p style="color:var(--text-dim);font-size:14.5px;line-height:1.6;">Todos os itens <code>pub</code> da biblioteca padrão — um capítulo por módulo no livro.</p>
+        <p><a class="btn btn-ghost" href="/book/pt/09-standard-library">Abrir a stdlib →</a></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-row">
+    <div class="footer-brand">
+      <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
+      <div>
+        <strong>glide-lang.org</strong>
+        <p>Uma linguagem de programação de sistemas pequena.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <h5>Projeto</h5>
+        <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">Licença</a>
+      </div>
+      <div>
+        <h5>Aprender</h5>
+        <a href="/pt/tutorial">Tutorial</a>
+        <a href="/book/pt/">Livro</a>
+        <a href="/pt/examples">Exemplos</a>
+        <a href="/book/pt/09-standard-library">Stdlib</a>
+      </div>
+      <div>
+        <h5>Comparar</h5>
+        <a href="/pt/vs-rust">Glide vs Rust</a>
+        <a href="/pt/vs-go">Glide vs Go</a>
+        <a href="/pt/vs-zig">Glide vs Zig</a>
+      </div>
+      <div>
+        <h5>Comunidade</h5>
+        <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
+        <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contribuindo</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <p>© 2026 Glide Programming Language. Criado e mantido por <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. Licença MIT. v0.4.1.</p>
+  </div>
+</footer>
+
+<script defer src="/js/nav.js?v=2"></script>
+
+</body>
+</html>
