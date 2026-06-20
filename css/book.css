@@ -1603,3 +1603,50 @@ body.doc-mobile-open .doc-mobile-toggle-icon {
   .lang-switch { margin-top: 8px; }
 }
 
+
+.version-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.version-switch-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+}
+.version-select {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: #c4d0ff;
+  padding: 5px 26px 5px 11px;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.03);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a93b8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+.version-select:hover {
+  border-color: var(--book-accent-line);
+  background-color: var(--book-accent-soft);
+}
+.version-select:focus-visible {
+  outline: 2px solid var(--book-accent-line);
+  outline-offset: 2px;
+}
+.version-select option {
+  color: #11151f;
+  background: #e7ebf5;
+}
+@media (max-width: 860px) {
+  .version-switch { margin-top: 8px; }
+}
+
