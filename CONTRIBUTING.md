@@ -10,11 +10,14 @@ Thanks for helping improve [glide-lang.org](https://glide-lang.org). This reposi
 
 ## Layout
 
-- Root: English pages (`index.html`, `tutorial.html`, `vs-*.html`, `examples.html`, `404.html`).
-- `pt/`: Portuguese mirror of those pages.
-- `css/`, `js/`, `assets/`: shared styles, scripts, and media.
+One folder per language, each with the same set of pages:
 
-A change to a page in one language should be mirrored in the other. If you can only do one, say so in the pull request.
+- `en/`: English (`index.html`, `tutorial.html`, `vs-*.html`, `examples.html`, `404.html`).
+- `pt-br/`: Portuguese (Brazil) mirror.
+- Adding a language = a new sibling folder (`es/`, `fr/`, …) with the same pages.
+- `css/`, `js/`, `assets/`: shared styles, scripts, and media (referenced by absolute `/css/…` paths).
+
+A change to a page in one language should be mirrored in the others. If you can only do one, say so in the pull request.
 
 ## Conventions
 

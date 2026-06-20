@@ -4,15 +4,15 @@
   <url>
     <loc>https://glide-lang.org/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/"/>
     <lastmod>2026-05-30</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/pt/</loc>
+    <loc>https://glide-lang.org/pt-br/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/"/>
     <lastmod>2026-05-30</lastmod>
     <priority>1.0</priority>
@@ -20,15 +20,15 @@
   <url>
     <loc>https://glide-lang.org/tutorial</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/tutorial"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/tutorial"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/tutorial"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/tutorial"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/pt/tutorial</loc>
+    <loc>https://glide-lang.org/pt-br/tutorial</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/tutorial"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/tutorial"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/tutorial"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/tutorial"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
@@ -36,15 +36,15 @@
   <url>
     <loc>https://glide-lang.org/examples</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/examples"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/examples"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/examples"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/examples"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/pt/examples</loc>
+    <loc>https://glide-lang.org/pt-br/examples</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/examples"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/examples"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/examples"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/examples"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.8</priority>
@@ -52,15 +52,15 @@
   <url>
     <loc>https://glide-lang.org/vs-go</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/vs-go"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/vs-go"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/vs-go"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/vs-go"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/pt/vs-go</loc>
+    <loc>https://glide-lang.org/pt-br/vs-go</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/vs-go"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/vs-go"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/vs-go"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/vs-go"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.6</priority>
@@ -68,15 +68,15 @@
   <url>
     <loc>https://glide-lang.org/vs-rust</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/vs-rust"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/vs-rust"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/vs-rust"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/vs-rust"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/pt/vs-rust</loc>
+    <loc>https://glide-lang.org/pt-br/vs-rust</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/vs-rust"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/vs-rust"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/vs-rust"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/vs-rust"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.6</priority>
@@ -84,15 +84,15 @@
   <url>
     <loc>https://glide-lang.org/vs-zig</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/vs-zig"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/vs-zig"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/vs-zig"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/vs-zig"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/pt/vs-zig</loc>
+    <loc>https://glide-lang.org/pt-br/vs-zig</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/vs-zig"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt/vs-zig"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/pt-br/vs-zig"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/vs-zig"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.6</priority>
@@ -100,15 +100,15 @@
   <url>
     <loc>https://glide-lang.org/book/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/</loc>
+    <loc>https://glide-lang.org/book/pt-br/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.9</priority>
@@ -116,15 +116,15 @@
   <url>
     <loc>https://glide-lang.org/book/01-getting-started</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/01-getting-started"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/01-getting-started"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/01-getting-started"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/01-getting-started"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/01-getting-started</loc>
+    <loc>https://glide-lang.org/book/pt-br/01-getting-started</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/01-getting-started"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/01-getting-started"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/01-getting-started"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/01-getting-started"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -132,15 +132,15 @@
   <url>
     <loc>https://glide-lang.org/book/02-types-and-bindings</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/02-types-and-bindings"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/02-types-and-bindings"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/02-types-and-bindings"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/02-types-and-bindings"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/02-types-and-bindings</loc>
+    <loc>https://glide-lang.org/book/pt-br/02-types-and-bindings</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/02-types-and-bindings"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/02-types-and-bindings"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/02-types-and-bindings"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/02-types-and-bindings"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -148,15 +148,15 @@
   <url>
     <loc>https://glide-lang.org/book/03-functions-and-control-flow</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/03-functions-and-control-flow"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/03-functions-and-control-flow"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/03-functions-and-control-flow"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/03-functions-and-control-flow"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/03-functions-and-control-flow</loc>
+    <loc>https://glide-lang.org/book/pt-br/03-functions-and-control-flow</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/03-functions-and-control-flow"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/03-functions-and-control-flow"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/03-functions-and-control-flow"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/03-functions-and-control-flow"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -164,15 +164,15 @@
   <url>
     <loc>https://glide-lang.org/book/04-errors-as-values</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/04-errors-as-values"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/04-errors-as-values"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/04-errors-as-values"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/04-errors-as-values"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/04-errors-as-values</loc>
+    <loc>https://glide-lang.org/book/pt-br/04-errors-as-values</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/04-errors-as-values"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/04-errors-as-values"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/04-errors-as-values"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/04-errors-as-values"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -180,15 +180,15 @@
   <url>
     <loc>https://glide-lang.org/book/05-memory-model</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/05-memory-model"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/05-memory-model"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/05-memory-model"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/05-memory-model"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/05-memory-model</loc>
+    <loc>https://glide-lang.org/book/pt-br/05-memory-model</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/05-memory-model"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/05-memory-model"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/05-memory-model"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/05-memory-model"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -196,15 +196,15 @@
   <url>
     <loc>https://glide-lang.org/book/06-structs-enums-traits-generics</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/06-structs-enums-traits-generics"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/06-structs-enums-traits-generics"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/06-structs-enums-traits-generics"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/06-structs-enums-traits-generics"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/06-structs-enums-traits-generics</loc>
+    <loc>https://glide-lang.org/book/pt-br/06-structs-enums-traits-generics</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/06-structs-enums-traits-generics"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/06-structs-enums-traits-generics"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/06-structs-enums-traits-generics"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/06-structs-enums-traits-generics"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -212,15 +212,15 @@
   <url>
     <loc>https://glide-lang.org/book/07-concurrency</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/07-concurrency"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/07-concurrency"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/07-concurrency"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/07-concurrency"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/07-concurrency</loc>
+    <loc>https://glide-lang.org/book/pt-br/07-concurrency</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/07-concurrency"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/07-concurrency"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/07-concurrency"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/07-concurrency"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -228,15 +228,15 @@
   <url>
     <loc>https://glide-lang.org/book/08-modules-and-packages</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/08-modules-and-packages"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/08-modules-and-packages"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/08-modules-and-packages"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/08-modules-and-packages"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/08-modules-and-packages</loc>
+    <loc>https://glide-lang.org/book/pt-br/08-modules-and-packages</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/08-modules-and-packages"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/08-modules-and-packages"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/08-modules-and-packages"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/08-modules-and-packages"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -244,15 +244,15 @@
   <url>
     <loc>https://glide-lang.org/book/09-standard-library</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/09-standard-library"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/09-standard-library"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/09-standard-library"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/09-standard-library"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/09-standard-library</loc>
+    <loc>https://glide-lang.org/book/pt-br/09-standard-library</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/09-standard-library"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/09-standard-library"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/09-standard-library"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/09-standard-library"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -260,15 +260,15 @@
   <url>
     <loc>https://glide-lang.org/book/10-prelude</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/10-prelude"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/10-prelude"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/10-prelude"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/10-prelude"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/10-prelude</loc>
+    <loc>https://glide-lang.org/book/pt-br/10-prelude</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/10-prelude"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/10-prelude"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/10-prelude"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/10-prelude"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -276,15 +276,15 @@
   <url>
     <loc>https://glide-lang.org/book/11-strings</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/11-strings"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/11-strings"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/11-strings"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/11-strings"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/11-strings</loc>
+    <loc>https://glide-lang.org/book/pt-br/11-strings</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/11-strings"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/11-strings"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/11-strings"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/11-strings"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -292,15 +292,15 @@
   <url>
     <loc>https://glide-lang.org/book/12-vectors</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/12-vectors"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/12-vectors"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/12-vectors"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/12-vectors"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/12-vectors</loc>
+    <loc>https://glide-lang.org/book/pt-br/12-vectors</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/12-vectors"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/12-vectors"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/12-vectors"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/12-vectors"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -308,15 +308,15 @@
   <url>
     <loc>https://glide-lang.org/book/13-collections</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/13-collections"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/13-collections"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/13-collections"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/13-collections"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/13-collections</loc>
+    <loc>https://glide-lang.org/book/pt-br/13-collections</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/13-collections"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/13-collections"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/13-collections"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/13-collections"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -324,15 +324,15 @@
   <url>
     <loc>https://glide-lang.org/book/14-iter</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/14-iter"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/14-iter"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/14-iter"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/14-iter"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/14-iter</loc>
+    <loc>https://glide-lang.org/book/pt-br/14-iter</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/14-iter"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/14-iter"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/14-iter"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/14-iter"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -340,15 +340,15 @@
   <url>
     <loc>https://glide-lang.org/book/15-math</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/15-math"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/15-math"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/15-math"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/15-math"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/15-math</loc>
+    <loc>https://glide-lang.org/book/pt-br/15-math</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/15-math"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/15-math"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/15-math"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/15-math"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -356,15 +356,15 @@
   <url>
     <loc>https://glide-lang.org/book/16-time</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/16-time"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/16-time"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/16-time"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/16-time"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/16-time</loc>
+    <loc>https://glide-lang.org/book/pt-br/16-time</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/16-time"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/16-time"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/16-time"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/16-time"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -372,15 +372,15 @@
   <url>
     <loc>https://glide-lang.org/book/17-fs-io</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/17-fs-io"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/17-fs-io"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/17-fs-io"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/17-fs-io"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/17-fs-io</loc>
+    <loc>https://glide-lang.org/book/pt-br/17-fs-io</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/17-fs-io"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/17-fs-io"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/17-fs-io"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/17-fs-io"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -388,15 +388,15 @@
   <url>
     <loc>https://glide-lang.org/book/18-os</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/18-os"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/18-os"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/18-os"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/18-os"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/18-os</loc>
+    <loc>https://glide-lang.org/book/pt-br/18-os</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/18-os"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/18-os"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/18-os"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/18-os"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -404,15 +404,15 @@
   <url>
     <loc>https://glide-lang.org/book/19-env</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/19-env"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/19-env"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/19-env"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/19-env"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/19-env</loc>
+    <loc>https://glide-lang.org/book/pt-br/19-env</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/19-env"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/19-env"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/19-env"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/19-env"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -420,15 +420,15 @@
   <url>
     <loc>https://glide-lang.org/book/20-process</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/20-process"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/20-process"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/20-process"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/20-process"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/20-process</loc>
+    <loc>https://glide-lang.org/book/pt-br/20-process</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/20-process"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/20-process"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/20-process"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/20-process"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -436,15 +436,15 @@
   <url>
     <loc>https://glide-lang.org/book/21-json</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/21-json"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/21-json"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/21-json"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/21-json"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/21-json</loc>
+    <loc>https://glide-lang.org/book/pt-br/21-json</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/21-json"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/21-json"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/21-json"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/21-json"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -452,15 +452,15 @@
   <url>
     <loc>https://glide-lang.org/book/22-regex</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/22-regex"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/22-regex"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/22-regex"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/22-regex"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/22-regex</loc>
+    <loc>https://glide-lang.org/book/pt-br/22-regex</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/22-regex"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/22-regex"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/22-regex"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/22-regex"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -468,15 +468,15 @@
   <url>
     <loc>https://glide-lang.org/book/23-random</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/23-random"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/23-random"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/23-random"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/23-random"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/23-random</loc>
+    <loc>https://glide-lang.org/book/pt-br/23-random</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/23-random"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/23-random"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/23-random"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/23-random"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -484,15 +484,15 @@
   <url>
     <loc>https://glide-lang.org/book/24-encoding</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/24-encoding"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/24-encoding"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/24-encoding"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/24-encoding"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/24-encoding</loc>
+    <loc>https://glide-lang.org/book/pt-br/24-encoding</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/24-encoding"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/24-encoding"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/24-encoding"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/24-encoding"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -500,15 +500,15 @@
   <url>
     <loc>https://glide-lang.org/book/25-log</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/25-log"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/25-log"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/25-log"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/25-log"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/25-log</loc>
+    <loc>https://glide-lang.org/book/pt-br/25-log</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/25-log"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/25-log"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/25-log"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/25-log"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -516,15 +516,15 @@
   <url>
     <loc>https://glide-lang.org/book/26-sync</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/26-sync"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/26-sync"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/26-sync"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/26-sync"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/26-sync</loc>
+    <loc>https://glide-lang.org/book/pt-br/26-sync</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/26-sync"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/26-sync"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/26-sync"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/26-sync"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -532,15 +532,15 @@
   <url>
     <loc>https://glide-lang.org/book/27-cli</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/27-cli"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/27-cli"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/27-cli"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/27-cli"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/27-cli</loc>
+    <loc>https://glide-lang.org/book/pt-br/27-cli</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/27-cli"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/27-cli"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/27-cli"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/27-cli"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -548,15 +548,15 @@
   <url>
     <loc>https://glide-lang.org/book/28-net</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/28-net"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/28-net"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/28-net"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/28-net"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/28-net</loc>
+    <loc>https://glide-lang.org/book/pt-br/28-net</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/28-net"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/28-net"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/28-net"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/28-net"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -564,15 +564,15 @@
   <url>
     <loc>https://glide-lang.org/book/29-mail</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/29-mail"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/29-mail"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/29-mail"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/29-mail"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/29-mail</loc>
+    <loc>https://glide-lang.org/book/pt-br/29-mail</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/29-mail"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/29-mail"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/29-mail"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/29-mail"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -580,15 +580,15 @@
   <url>
     <loc>https://glide-lang.org/book/30-system</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/30-system"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/30-system"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/30-system"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/30-system"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/30-system</loc>
+    <loc>https://glide-lang.org/book/pt-br/30-system</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/30-system"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/30-system"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/30-system"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/30-system"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -596,15 +596,15 @@
   <url>
     <loc>https://glide-lang.org/book/31-http-server</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/31-http-server"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/31-http-server"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/31-http-server"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/31-http-server"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/31-http-server</loc>
+    <loc>https://glide-lang.org/book/pt-br/31-http-server</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/31-http-server"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/31-http-server"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/31-http-server"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/31-http-server"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -612,15 +612,15 @@
   <url>
     <loc>https://glide-lang.org/book/32-testing-and-benchmarks</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/32-testing-and-benchmarks"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/32-testing-and-benchmarks"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/32-testing-and-benchmarks"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/32-testing-and-benchmarks"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/32-testing-and-benchmarks</loc>
+    <loc>https://glide-lang.org/book/pt-br/32-testing-and-benchmarks</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/32-testing-and-benchmarks"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/32-testing-and-benchmarks"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/32-testing-and-benchmarks"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/32-testing-and-benchmarks"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
@@ -628,15 +628,15 @@
   <url>
     <loc>https://glide-lang.org/book/33-ffi-and-escape-hatches</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/33-ffi-and-escape-hatches"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/33-ffi-and-escape-hatches"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/33-ffi-and-escape-hatches"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/33-ffi-and-escape-hatches"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://glide-lang.org/book/pt/33-ffi-and-escape-hatches</loc>
+    <loc>https://glide-lang.org/book/pt-br/33-ffi-and-escape-hatches</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://glide-lang.org/book/33-ffi-and-escape-hatches"/>
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt/33-ffi-and-escape-hatches"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://glide-lang.org/book/pt-br/33-ffi-and-escape-hatches"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://glide-lang.org/book/33-ffi-and-escape-hatches"/>
     <lastmod>2026-05-30</lastmod>
     <priority>0.7</priority>

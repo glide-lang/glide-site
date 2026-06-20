@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="/js/lang.js"></script>
-  <title>Glide vs Rust — A linguagem de programação Glide.</title>
-  <meta name="description" content="Glide vs Rust: como a linguagem de programação Glide, criada por Murillo Deolino, se compara ao Rust em segurança de memória, concorrência, tratamento de erros, generics e ferramentas. Exemplos de código lado a lado e uma comparação justa.">
-  <meta name="keywords" content="Glide vs Rust, Glide ou Rust, linguagem Glide vs Rust, linguagem de programação Glide vs Rust, alternativa ao Rust, comparação de linguagens de sistemas">
+  <title>Glide vs Rust — The Glide programming language.</title>
+  <meta name="description" content="Glide vs Rust: how the Glide programming language by Murillo Deolino compares to Rust on memory safety, concurrency, errors, generics, and tooling. Side-by-side code samples and a fair head-to-head.">
+  <meta name="keywords" content="Glide vs Rust, Glide or Rust, Glide language vs Rust, Glide programming language vs Rust, Rust alternative, systems language comparison">
   <meta name="author" content="Murillo Deolino">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 
@@ -16,23 +16,21 @@
   <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
 
   <meta property="og:site_name" content="Glide Programming Language">
-  <meta property="og:title" content="Glide vs Rust — A linguagem de programação Glide.">
-  <meta property="og:description" content="Como a linguagem de programação Glide se compara ao Rust em segurança de memória, concorrência, tratamento de erros, generics e ferramentas.">
+  <meta property="og:title" content="Glide vs Rust — The Glide programming language.">
+  <meta property="og:description" content="How the Glide programming language compares to Rust on memory safety, concurrency, errors, generics, and tooling.">
   <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://glide-lang.org/pt/vs-rust">
+  <meta property="og:url" content="https://glide-lang.org/vs-rust">
   <meta property="og:type" content="article">
-  <meta property="og:locale" content="pt_BR">
   <meta property="article:author" content="Murillo Deolino">
   <meta name="theme-color" content="#0b1020">
 
-  <link rel="canonical" href="https://glide-lang.org/pt/vs-rust">
+  <link rel="canonical" href="https://glide-lang.org/vs-rust">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Glide vs Rust — A linguagem de programação Glide.">
-  <meta name="twitter:description" content="Como a linguagem de programação Glide se compara ao Rust, por Murillo Deolino.">
+  <meta name="twitter:title" content="Glide vs Rust — The Glide programming language.">
+  <meta name="twitter:description" content="How the Glide programming language compares to Rust by Murillo Deolino.">
   <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
-  <meta name="twitter:url" content="https://glide-lang.org/pt/vs-rust">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,8 +44,8 @@
     "@graph": [
       {
         "@type": "TechArticle",
-        "headline": "Glide vs Rust — Comparação entre Duas Linguagens de Programação de Sistemas",
-        "description": "Como a linguagem de programação Glide, criada por Murillo Deolino, se compara ao Rust em segurança de memória, concorrência, tratamento de erros, generics e ferramentas.",
+        "headline": "Glide vs Rust — Comparison of Two Systems Programming Languages",
+        "description": "How the Glide programming language by Murillo Deolino compares to Rust on memory safety, concurrency, errors, generics, and tooling.",
         "image": "https://glide-lang.org/assets/og-cover.png",
         "author": { "@type": "Person", "name": "Murillo Deolino", "url": "https://github.com/Murilinho145SG" },
         "publisher": {
@@ -55,8 +53,8 @@
           "name": "Glide Programming Language",
           "logo": { "@type": "ImageObject", "url": "https://glide-lang.org/assets/icons/glide-256.png" }
         },
-        "mainEntityOfPage": "https://glide-lang.org/pt/vs-rust",
-        "inLanguage": "pt-BR",
+        "mainEntityOfPage": "https://glide-lang.org/vs-rust",
+        "inLanguage": "en",
         "about": [
           { "@type": "ComputerLanguage", "name": "Glide" },
           { "@type": "ComputerLanguage", "name": "Rust" }
@@ -65,8 +63,8 @@
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/pt/" },
-          { "@type": "ListItem", "position": 2, "name": "Glide vs Rust", "item": "https://glide-lang.org/pt/vs-rust" }
+          { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/" },
+          { "@type": "ListItem", "position": 2, "name": "Glide vs Rust", "item": "https://glide-lang.org/vs-rust" }
         ]
       }
     ]
@@ -76,22 +74,22 @@
 <body>
 
 <header class="nav">
-  <a class="brand" href="/pt/">
+  <a class="brand" href="/">
     <img src="/assets/glide-logo.svg" alt="" width="28" height="28">
     <span>glide</span>
   </a>
-  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-links">
+  <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
     <span class="nav-toggle-icon"></span>
   </button>
   <nav class="nav-links" id="nav-links">
-    <a href="/pt/#features">Recursos</a>
-    <a href="/pt/tutorial">Tutorial</a>
-    <a href="/pt/examples">Exemplos</a>
-    <a href="/book/pt/09-standard-library">Stdlib</a>
+    <a href="/#features">Features</a>
+    <a href="/tutorial">Tutorial</a>
+    <a href="/examples">Examples</a>
+    <a href="/book/09-standard-library">Stdlib</a>
     <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
       <div class="lang-switch" role="group" aria-label="Idioma / Language">
-      <a href="/vs-rust" class="lang-opt" hreflang="en">EN</a>
-      <a href="/pt/vs-rust" class="lang-opt active" hreflang="pt-BR">PT</a>
+      <a href="/vs-rust" class="lang-opt active" hreflang="en">EN</a>
+      <a href="/pt-br/vs-rust" class="lang-opt" hreflang="pt-BR">PT</a>
     </div>
 </nav>
 </header>
@@ -100,17 +98,17 @@
 
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow" style="margin-bottom:12px;">Comparação</p>
+      <p class="eyebrow" style="margin-bottom:12px;">Comparison</p>
       <h1>
         Glide vs <span class="accent">Rust</span>.<br>
-        Uma comparação justa.
+        A fair head-to-head.
       </h1>
       <p class="lede">
-        Ambas as linguagens oferecem segurança de memória em tempo de compilação e
-        abstrações de custo zero sobre código nativo. A <strong>linguagem de programação Glide</strong>,
-        criada por <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>,
-        faz escolhas diferentes das do Rust em cinco pontos que importam no dia a dia:
-        lifetimes, tratamento de erros, concorrência, ferramentas de build e complexidade de superfície.
+        Both languages give you compile-time memory safety and zero-cost
+        abstractions over native code. The <strong>Glide programming language</strong>
+        by <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>
+        picks different defaults from Rust in five places that matter day-to-day:
+        lifetimes, error handling, concurrency, build tooling, and surface complexity.
       </p>
     </div>
   </section>
@@ -120,8 +118,8 @@
     <article class="feature-row">
       <div class="feature-text">
         <span class="feature-tag">&amp;T</span>
-        <h3>Empréstimos sem anotações de lifetime</h3>
-        <p>O Rust garante segurança de memória com um verificador de empréstimos (borrow checker) acrescido de parâmetros de lifetime explícitos (<code>'a</code>, <code>'static</code>) quando referências cruzam fronteiras de funções. O Glide aplica as mesmas regras contra uso após liberação e mutação com aliasing, mas os lifetimes são inferidos apenas pelo escopo — você nunca escreve <code>'a</code>. O custo mental de "brigar com o borrow checker" é significativamente menor, ao preço de padrões de empréstimo ligeiramente menos expressivos (sem structs autorreferenciadas sem uma arena).</p>
+        <h3>Borrows without lifetime annotations</h3>
+        <p>Rust enforces memory safety with a borrow checker plus explicit lifetime parameters (<code>'a</code>, <code>'static</code>) once references cross function boundaries. Glide enforces the same use-after-free and aliased-mutation rules, but the lifetimes are inferred from scope alone — you never write <code>'a</code>. The mental cost of "fighting the borrow checker" is significantly lower, at the price of slightly less expressive borrow patterns (no self-referential structs without an arena).</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -131,7 +129,7 @@
           </div>
 <pre class="code"><code><span class="kw">fn</span> <span class="fn">first_word</span>(s: &amp;<span class="ty">string</span>) -&gt; &amp;<span class="ty">string</span> {
     <span class="kw">return</span> s.split(<span class="str">" "</span>).get(<span class="num">0</span>);
-}                              <span class="cmt">// sem parâmetros de lifetime</span></code></pre>
+}                              <span class="cmt">// no lifetime params</span></code></pre>
         </div>
         <div class="code-frame" style="margin-top:12px;">
           <div class="code-frame-bar">
@@ -140,7 +138,7 @@
           </div>
 <pre class="code"><code><span class="kw">fn</span> <span class="fn">first_word</span>&lt;<span class="ty">'a</span>&gt;(s: &amp;<span class="ty">'a</span> <span class="ty">str</span>) -&gt; &amp;<span class="ty">'a</span> <span class="ty">str</span> {
     s.split(<span class="str">' '</span>).next().unwrap()
-}                              <span class="cmt">// 'a explícito</span></code></pre>
+}                              <span class="cmt">// explicit 'a</span></code></pre>
         </div>
       </div>
     </article>
@@ -148,8 +146,8 @@
     <article class="feature-row reverse">
       <div class="feature-text">
         <span class="feature-tag">!T</span>
-        <h3>Erros como valores, sem importar <code>Result&lt;T, E&gt;</code></h3>
-        <p>O <code>Result&lt;T, E&gt;</code> do Rust está em <code>std::result</code>; o tipo de erro é um parâmetro genérico, e crates idiomáticas envolvem tudo em <code>Result&lt;T, Box&lt;dyn Error&gt;&gt;</code> ou em um enum de erros personalizado. O <code>!T</code> do Glide é embutido na linguagem — o canal de erros é sempre uma string (com payload estruturado opcional), o operador pós-fixado <code>?</code> funciona da mesma forma, mas você nunca importa uma trait de erro nem define um enum de 30 variantes só para propagar falhas.</p>
+        <h3>Errors are values, no <code>Result&lt;T, E&gt;</code> import</h3>
+        <p>Rust's <code>Result&lt;T, E&gt;</code> is in <code>std::result</code>; the error type is a generic parameter, and idiomatic crates wrap everything in <code>Result&lt;T, Box&lt;dyn Error&gt;&gt;</code> or a custom error enum. Glide's <code>!T</code> is built into the language — the error channel is always a string (with optional structured payload), the <code>?</code> postfix operator is the same, but you never import an error trait or define a 30-variant enum just to propagate failures.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -188,8 +186,8 @@
     <article class="feature-row">
       <div class="feature-text">
         <span class="feature-tag">spawn</span>
-        <h3>Concorrência na linguagem, não em uma crate</h3>
-        <p>A história de async do Rust está dividida entre <code>std</code>, <code>tokio</code>, <code>async-std</code>, <code>smol</code> e a trait <code>Future</code> — cada um com seu próprio runtime, executor e regras de coloração. O Glide inclui corrotinas M:N e canais no próprio compilador: <code>spawn fn(args)</code> inicia uma green thread, <code>chan&lt;T&gt;</code> é um canal tipado, <code>select!</code> os multiplexa. Nada a escolher, nada a importar, sem coloração de <code>async fn</code>.</p>
+        <h3>Concurrency in the language, not a crate</h3>
+        <p>Rust's async story is split across <code>std</code>, <code>tokio</code>, <code>async-std</code>, <code>smol</code>, and the <code>Future</code> trait — each with its own runtime, executor flavour, and colouring rules. Glide ships M:N coroutines and channels in the compiler itself: <code>spawn fn(args)</code> kicks off a green thread, <code>chan&lt;T&gt;</code> is a typed channel, <code>select!</code> multiplexes them. There's nothing to choose, nothing to import, no <code>async fn</code> colouring.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -231,8 +229,8 @@
     <article class="feature-row reverse">
       <div class="feature-text">
         <span class="feature-tag">@derive</span>
-        <h3>Macros procedurais sem crate separada</h3>
-        <p>O <code>proc_macro</code> do Rust exige um tipo de crate dedicado (<code>proc-macro = true</code>), <code>syn</code> + <code>quote</code>, e uma unidade de compilação separada que tem como alvo o host. As macros procedurais do Glide (<code>@derive(Name)</code>, <code>@attr(...)</code>) executam dentro do compilador no momento da expansão por meio de um interpretador embutido — elas manipulam os mesmos nós de AST que o compilador usa internamente, no mesmo módulo, sem toolchain separada.</p>
+        <h3>Procedural macros without a separate crate</h3>
+        <p>Rust's <code>proc_macro</code> requires a dedicated crate type (<code>proc-macro = true</code>), <code>syn</code> + <code>quote</code>, and a separate compilation unit that targets the host. Glide's procedural macros (<code>@derive(Name)</code>, <code>@attr(...)</code>) run inside the compiler at expansion time via an embedded interpreter — they manipulate the same AST nodes the compiler uses internally, in the same module, no separate toolchain.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -244,7 +242,7 @@
 <span class="kw">struct</span> <span class="ty">User</span> {
     name: <span class="ty">string</span>,
     age:  <span class="ty">int</span>,
-}                              <span class="cmt">// sem crate separada</span></code></pre>
+}                              <span class="cmt">// no separate crate</span></code></pre>
         </div>
       </div>
     </article>
@@ -252,38 +250,38 @@
     <article class="feature-row">
       <div class="feature-text">
         <span class="feature-tag">tool</span>
-        <h3>Um binário, sem <code>rustup</code> + <code>cargo</code> + <code>rust-analyzer</code></h3>
-        <p>A ergonomia do Rust está distribuída em <code>cargo</code> (build), <code>rustup</code> (gerenciador de toolchain), <code>rust-analyzer</code> (LSP), <code>rustfmt</code> (formatador) e <code>clippy</code> (linter) — cinco binários separados. O Glide é um único binário: <code>glide build</code>, <code>glide run</code>, <code>glide test</code>, <code>glide bench</code>, <code>glide doc</code>, <code>glide install</code>, <code>glide lsp</code>, <code>glide fmt</code>, tudo no mesmo executável. Instalação menor, menos bugs de incompatibilidade de versão.</p>
+        <h3>One binary, no <code>rustup</code> + <code>cargo</code> + <code>rust-analyzer</code></h3>
+        <p>Rust's ergonomics live in <code>cargo</code> (build), <code>rustup</code> (toolchain manager), <code>rust-analyzer</code> (LSP), <code>rustfmt</code> (formatter), and <code>clippy</code> (linter) — five separate binaries. Glide is one binary: <code>glide build</code>, <code>glide run</code>, <code>glide test</code>, <code>glide bench</code>, <code>glide doc</code>, <code>glide install</code>, <code>glide lsp</code>, <code>glide fmt</code>, all from the same executable. Smaller install, fewer version-skew bugs.</p>
       </div>
     </article>
 
   </section>
 
   <section class="install">
-    <h2 class="section-title">Quando escolher cada um</h2>
-    <p class="install-lede">Ambos são boas opções para código nativo; a resposta certa depende do que você valoriza.</p>
+    <h2 class="section-title">When to pick which</h2>
+    <p class="install-lede">Both are good choices for native code; the right answer depends on what you value.</p>
     <div class="install-grid">
       <div class="install-card">
-        <h4>Escolha Rust se…</h4>
+        <h4>Pick Rust if…</h4>
         <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
-          Você precisar do ecossistema maduro (crates.io tem ~150k crates).
-          Você estiver fazendo deploy em targets embarcados com restrições rígidas de <code>no_std</code> hoje.
-          Sua equipe já domina lifetimes e você quer o controle mais preciso possível
-          sobre alocação e aliasing.
+          You need the mature ecosystem (crates.io has ~150k crates).
+          You're shipping to embedded targets with strict <code>no_std</code> constraints today.
+          Your team already knows lifetimes and you want the tightest possible
+          control over allocation and aliasing.
         </p>
       </div>
       <div class="install-card">
-        <h4>Escolha Glide se…</h4>
+        <h4>Pick Glide if…</h4>
         <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
-          Você quiser segurança de memória no nível do Rust sem o custo de lifetimes.
-          Você quiser concorrência no nível do Go embutida na linguagem, não em uma crate de runtime.
-          Você valoriza uma superfície pequena e ferramentas em um único binário.
-          Você está começando do zero e quer erros como valores sem enums de erro de 30 linhas.
+          You want Rust-grade memory safety without the lifetime tax.
+          You want Go-grade concurrency built into the language, not a runtime crate.
+          You value a small surface area and one-binary tooling.
+          You're starting fresh and want errors-as-values without 30-line error enums.
         </p>
       </div>
     </div>
 
-    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Experimente o Glide</h3>
+    <h3 class="section-title" style="font-size:22px;margin-top:48px;">Try Glide</h3>
     <div class="install-grid">
       <div class="install-card">
         <h4>Linux / macOS</h4>
@@ -304,38 +302,38 @@
       <img src="/assets/glide-logo.svg" alt="" width="32" height="32" style="color: var(--accent)">
       <div>
         <strong>glide-lang.org</strong>
-        <p>Uma pequena linguagem de programação de sistemas.</p>
+        <p>A small systems programming language.</p>
       </div>
     </div>
     <div class="footer-cols">
       <div>
-        <h5>Projeto</h5>
+        <h5>Project</h5>
         <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
         <a href="https://github.com/glide-lang/Glide/blob/main/CHANGELOG.md" rel="noopener">Changelog</a>
-        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">Licença</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/LICENSE" rel="noopener">License</a>
       </div>
       <div>
-        <h5>Aprender</h5>
-        <a href="/pt/tutorial">Tutorial</a>
-        <a href="/pt/examples">Exemplos</a>
-        <a href="/book/pt/09-standard-library">Stdlib</a>
+        <h5>Learn</h5>
+        <a href="/tutorial">Tutorial</a>
+        <a href="/examples">Examples</a>
+        <a href="/book/09-standard-library">Stdlib</a>
       </div>
       <div>
-        <h5>Comparar</h5>
-        <a href="/pt/vs-rust">Glide vs Rust</a>
-        <a href="/pt/vs-go">Glide vs Go</a>
-        <a href="/pt/vs-zig">Glide vs Zig</a>
+        <h5>Compare</h5>
+        <a href="/vs-rust">Glide vs Rust</a>
+        <a href="/vs-go">Glide vs Go</a>
+        <a href="/vs-zig">Glide vs Zig</a>
       </div>
       <div>
-        <h5>Comunidade</h5>
+        <h5>Community</h5>
         <a href="https://discord.gg/8NM8pGfCUa" rel="noopener">Discord</a>
         <a href="https://github.com/glide-lang/Glide/issues" rel="noopener">Issues</a>
-        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contribuindo</a>
+        <a href="https://github.com/glide-lang/Glide/blob/main/CONTRIBUTING.md" rel="noopener">Contributing</a>
       </div>
     </div>
   </div>
   <div class="footer-base">
-    <p>© 2026 Glide Programming Language. Criado e mantido por <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. Licença MIT. v0.4.1.</p>
+    <p>© 2026 Glide Programming Language. Created and maintained by <a href="https://github.com/Murilinho145SG" rel="author noopener" style="color:inherit;">Murillo Deolino</a>. MIT licensed. v0.4.1.</p>
   </div>
 </footer>
 

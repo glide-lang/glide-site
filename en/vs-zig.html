@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="/js/lang.js"></script>
-  <title>Glide vs Go — The Glide programming language.</title>
-  <meta name="description" content="Glide vs Go: how the Glide programming language by Murillo Deolino compares to Go on memory model, concurrency, generics, errors, and tooling. Side-by-side code samples and a fair head-to-head.">
-  <meta name="keywords" content="Glide vs Go, Glide or Go, Glide language vs Go, Glide programming language vs Go, Go alternative, Golang alternative, systems language comparison">
+  <title>Glide vs Zig — The Glide programming language.</title>
+  <meta name="description" content="Glide vs Zig: how the Glide programming language by Murillo Deolino compares to Zig on memory safety, concurrency, errors, generics, and tooling. Side-by-side code samples and a fair head-to-head.">
+  <meta name="keywords" content="Glide vs Zig, Glide or Zig, Glide language vs Zig, Glide programming language vs Zig, Zig alternative, systems language comparison">
   <meta name="author" content="Murillo Deolino">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 
@@ -16,20 +16,20 @@
   <link rel="apple-touch-icon" sizes="256x256" href="/assets/icons/glide-256.png">
 
   <meta property="og:site_name" content="Glide Programming Language">
-  <meta property="og:title" content="Glide vs Go — The Glide programming language.">
-  <meta property="og:description" content="How the Glide programming language compares to Go on memory model, concurrency, generics, errors, and tooling.">
+  <meta property="og:title" content="Glide vs Zig — The Glide programming language.">
+  <meta property="og:description" content="How the Glide programming language compares to Zig on memory safety, concurrency, errors, generics, and tooling.">
   <meta property="og:image" content="https://glide-lang.org/assets/og-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:url" content="https://glide-lang.org/vs-go">
+  <meta property="og:url" content="https://glide-lang.org/vs-zig">
   <meta property="og:type" content="article">
   <meta property="article:author" content="Murillo Deolino">
   <meta name="theme-color" content="#0b1020">
 
-  <link rel="canonical" href="https://glide-lang.org/vs-go">
+  <link rel="canonical" href="https://glide-lang.org/vs-zig">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Glide vs Go — The Glide programming language.">
-  <meta name="twitter:description" content="How the Glide programming language compares to Go by Murillo Deolino.">
+  <meta name="twitter:title" content="Glide vs Zig — The Glide programming language.">
+  <meta name="twitter:description" content="How the Glide programming language compares to Zig by Murillo Deolino.">
   <meta name="twitter:image" content="https://glide-lang.org/assets/og-cover.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,8 +44,8 @@
     "@graph": [
       {
         "@type": "TechArticle",
-        "headline": "Glide vs Go — Comparison of Two Systems Programming Languages",
-        "description": "How the Glide programming language by Murillo Deolino compares to Go on memory model, concurrency, generics, errors, and tooling.",
+        "headline": "Glide vs Zig — Comparison of Two Systems Programming Languages",
+        "description": "How the Glide programming language by Murillo Deolino compares to Zig on memory safety, concurrency, errors, generics, and tooling.",
         "image": "https://glide-lang.org/assets/og-cover.png",
         "author": { "@type": "Person", "name": "Murillo Deolino", "url": "https://github.com/Murilinho145SG" },
         "publisher": {
@@ -53,18 +53,18 @@
           "name": "Glide Programming Language",
           "logo": { "@type": "ImageObject", "url": "https://glide-lang.org/assets/icons/glide-256.png" }
         },
-        "mainEntityOfPage": "https://glide-lang.org/vs-go",
+        "mainEntityOfPage": "https://glide-lang.org/vs-zig",
         "inLanguage": "en",
         "about": [
           { "@type": "ComputerLanguage", "name": "Glide" },
-          { "@type": "ComputerLanguage", "name": "Go" }
+          { "@type": "ComputerLanguage", "name": "Zig" }
         ]
       },
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "Glide", "item": "https://glide-lang.org/" },
-          { "@type": "ListItem", "position": 2, "name": "Glide vs Go", "item": "https://glide-lang.org/vs-go" }
+          { "@type": "ListItem", "position": 2, "name": "Glide vs Zig", "item": "https://glide-lang.org/vs-zig" }
         ]
       }
     ]
@@ -88,8 +88,8 @@
     <a href="/book/09-standard-library">Stdlib</a>
     <a href="https://github.com/glide-lang/Glide" rel="noopener">GitHub</a>
       <div class="lang-switch" role="group" aria-label="Idioma / Language">
-      <a href="/vs-go" class="lang-opt active" hreflang="en">EN</a>
-      <a href="/pt/vs-go" class="lang-opt" hreflang="pt-BR">PT</a>
+      <a href="/vs-zig" class="lang-opt active" hreflang="en">EN</a>
+      <a href="/pt-br/vs-zig" class="lang-opt" hreflang="pt-BR">PT</a>
     </div>
 </nav>
 </header>
@@ -100,16 +100,17 @@
     <div class="hero-copy">
       <p class="eyebrow" style="margin-bottom:12px;">Comparison</p>
       <h1>
-        Glide vs <span class="accent">Go</span>.<br>
+        Glide vs <span class="accent">Zig</span>.<br>
         A fair head-to-head.
       </h1>
       <p class="lede">
-        Both languages give you M:N coroutines, channels, and a one-binary
-        toolchain. The <strong>Glide programming language</strong>
-        by <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>
-        picks different defaults from Go in four places: memory safety
-        (compile-time vs GC), generics + traits, errors-as-values, and the
-        type system's expressiveness.
+        Both languages compile to native code through portable C-like
+        infrastructure and ship one binary toolchain. The
+        <strong>Glide programming language</strong> by
+        <a href="https://github.com/Murilinho145SG" rel="author noopener">Murillo Deolino</a>
+        diverges from Zig on three big axes: memory safety (compile-time
+        checks vs explicit allocator passing), concurrency (built-in coroutines
+        vs none), and macro / trait systems.
       </p>
     </div>
   </section>
@@ -118,9 +119,9 @@
 
     <article class="feature-row">
       <div class="feature-text">
-        <span class="feature-tag">gc</span>
-        <h3>No garbage collector</h3>
-        <p>Go relies on a concurrent tracing GC — easy on the developer, but with steady CPU overhead and occasional latency spikes that matter in tight loops, low-latency systems, and small-memory targets. Glide uses scope-bound borrows and arenas: the compiler tracks ownership at compile time, freeing happens at block exit, no runtime tracing. The mental model is closer to Rust than Go, but with no lifetime annotations to write.</p>
+        <span class="feature-tag">&amp;T</span>
+        <h3>A borrow checker, not allocator plumbing</h3>
+        <p>Zig's memory story is "pass an allocator everywhere". Functions that allocate take an <code>Allocator</code> parameter; you decide where memory comes from at every call site. It's explicit and powerful, but it means every helper has an allocator argument, and use-after-free is your problem at runtime. Glide tracks ownership at compile time: scope-bound borrows catch use-after-free and aliased mutation before the program runs. You still get arenas when you want them, just without an allocator parameter on every fn.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -128,32 +129,27 @@
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
             <span class="code-frame-title">glide.glide</span>
           </div>
-<pre class="code"><code><span class="kw">fn</span> <span class="fn">parse_tree</span>() {
-    <span class="kw">let</span> arena: *<span class="ty">Arena</span> = <span class="ty">Arena</span>::new(<span class="num">4096</span>);
-    <span class="kw">defer</span> arena.free();
-    <span class="kw">let</span> n1: *<span class="ty">Node</span> = arena.create(<span class="ty">Node</span>);
-    <span class="kw">let</span> n2: *<span class="ty">Node</span> = arena.create(<span class="ty">Node</span>);
-}                              <span class="cmt">// arena freed in one shot</span></code></pre>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">load</span>(path: <span class="ty">string</span>) -&gt; !<span class="ty">string</span> {
+    <span class="kw">return</span> ok(fs_read(path)?);
+}                              <span class="cmt">// no allocator arg</span></code></pre>
         </div>
         <div class="code-frame" style="margin-top:12px;">
           <div class="code-frame-bar">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="code-frame-title">go.go</span>
+            <span class="code-frame-title">zig.zig</span>
           </div>
-<pre class="code"><code><span class="kw">func</span> <span class="fn">parseTree</span>() {
-    n1 := &amp;<span class="ty">Node</span>{}
-    n2 := &amp;<span class="ty">Node</span>{}
-    _ = n1; _ = n2
-}                              <span class="cmt">// GC collects whenever</span></code></pre>
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">load</span>(alloc: Allocator, path: []<span class="kw">const</span> <span class="ty">u8</span>) ![]<span class="ty">u8</span> {
+    <span class="kw">return</span> std.fs.cwd().readFileAlloc(alloc, path, <span class="num">1</span>&lt;&lt;<span class="num">20</span>);
+}                              <span class="cmt">// alloc threaded through</span></code></pre>
         </div>
       </div>
     </article>
 
     <article class="feature-row reverse">
       <div class="feature-text">
-        <span class="feature-tag">!T</span>
-        <h3>Errors as values, but typed</h3>
-        <p>Go's error model is "return a value and an error, check <code>if err != nil</code> on every line". The pattern works but is verbose, and the type system doesn't enforce it — you can ignore an error and the compiler stays silent. Glide's <code>!T</code> is a single value, the postfix <code>?</code> propagates failures in one character, and the compiler treats an unhandled <code>!T</code> as a hard error. Same semantics, third the boilerplate.</p>
+        <span class="feature-tag">spawn</span>
+        <h3>Concurrency in the language</h3>
+        <p>Zig's async/await was removed from the language ahead of 0.11 and is still being redesigned — for the moment, concurrency is OS threads or std.Thread.Pool plus manual coordination. Glide ships M:N coroutines, typed channels, and <code>select!</code> in the compiler itself. <code>spawn fn()</code> kicks off a green thread; the runtime is a small work-stealing scheduler that's been the language design from day one.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -161,23 +157,14 @@
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
             <span class="code-frame-title">glide.glide</span>
           </div>
-<pre class="code"><code><span class="kw">fn</span> <span class="fn">read_all</span>(p: <span class="ty">string</span>) -&gt; !<span class="ty">string</span> {
-    <span class="kw">let</span> data: <span class="ty">string</span> = fs_read(p)?;
-    <span class="kw">let</span> trimmed: <span class="ty">string</span> = data.trim();
-    <span class="kw">return</span> ok(trimmed);
-}</code></pre>
-        </div>
-        <div class="code-frame" style="margin-top:12px;">
-          <div class="code-frame-bar">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            <span class="code-frame-title">go.go</span>
-          </div>
-<pre class="code"><code><span class="kw">func</span> <span class="fn">readAll</span>(p <span class="ty">string</span>) (<span class="ty">string</span>, <span class="ty">error</span>) {
-    data, err := os.ReadFile(p)
-    <span class="kw">if</span> err != nil {
-        <span class="kw">return</span> <span class="str">""</span>, err
-    }
-    <span class="kw">return</span> strings.TrimSpace(string(data)), nil
+<pre class="code"><code><span class="kw">fn</span> <span class="fn">worker</span>(c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;) {
+    c.send(<span class="num">42</span>);
+}
+
+<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
+    <span class="kw">let</span> c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">1</span>);
+    <span class="kw">spawn</span> worker(c);
+    <span class="kw">return</span> c.recv();
 }</code></pre>
         </div>
       </div>
@@ -185,9 +172,9 @@
 
     <article class="feature-row">
       <div class="feature-text">
-        <span class="feature-tag">&lt;T&gt;</span>
-        <h3>Real generics + traits, monomorphised</h3>
-        <p>Go added generics in 1.18, but they're limited (no method-level type parameters, no associated types, no specialisation), and the implementation uses dictionary-passing for non-shape-compatible types — runtime overhead. Glide's generics are monomorphised at compile time (one C fn per concrete type) with traits, supertraits, default methods, associated types, and <code>*dyn Trait</code> vtable dispatch — closer to Rust than Go, with full type-level expressiveness.</p>
+        <span class="feature-tag">trait</span>
+        <h3>Traits, not <code>comptime</code> duck typing</h3>
+        <p>Zig's generics work via <code>comptime</code> — a function that takes a <code>type</code> parameter and uses it. There's no formal interface; constraints are checked by attempting compilation. Glide uses explicit traits with method signatures, default bodies, supertraits, and <code>*dyn Trait</code> for vtable dispatch. The compiler enforces bounds at the call site, before monomorphisation — fewer surprises, cleaner errors, better LSP completions.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -199,14 +186,14 @@
     <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Self</span>) -&gt; <span class="ty">string</span>;
 }
 
-<span class="kw">impl</span> <span class="ty">Render</span> <span class="kw">for</span> <span class="ty">Box</span> {
+<span class="kw">impl</span> <span class="ty">Render</span> <span class="kw">for</span> <span class="ty">Box</span>    {
     <span class="kw">fn</span> <span class="fn">render</span>(self: *<span class="ty">Box</span>) -&gt; <span class="ty">string</span> {
         <span class="kw">return</span> <span class="str">"Box"</span>;
     }
 }
 
-<span class="kw">fn</span> <span class="fn">show</span>&lt;<span class="ty">T</span>: <span class="ty">Render</span>&gt;(v: *<span class="ty">T</span>) {
-    println!(v.render());
+<span class="kw">fn</span> <span class="fn">show</span>(r: *<span class="kw">dyn</span> <span class="ty">Render</span>) {
+    println!(r.render());
 }</code></pre>
         </div>
       </div>
@@ -214,9 +201,9 @@
 
     <article class="feature-row reverse">
       <div class="feature-text">
-        <span class="feature-tag">chan</span>
-        <h3>Concurrency, the same shape you know</h3>
-        <p>This is where Glide leaned hardest on Go: M:N coroutines via <code>spawn</code> (Go's <code>go</code> keyword), typed channels via <code>chan&lt;T&gt;</code>, multi-channel multiplexing via <code>select!</code> (Go's <code>select</code>), close-aware receives via <code>while let v = c.recv()</code>. If you're a Go programmer, the concurrency surface will feel familiar — only the syntax is slightly different.</p>
+        <span class="feature-tag">@derive</span>
+        <h3>Macros + procedural derives</h3>
+        <p>Zig uses <code>comptime</code> for compile-time programming — powerful but limited to evaluating regular Zig code at build time. Glide has both <code>macro_rules!</code>-style declarative macros (with <code>$x:expr</code>, <code>$x:ident</code>, <code>$x:ty</code> matchers, variadics) AND procedural macros (<code>@derive(Name)</code>, <code>@attr(...)</code>, <code>@name!(args)</code>) that run inside the compiler at expansion time. The proc-macro interpreter manipulates the same AST the compiler uses internally.</p>
       </div>
       <div class="feature-code">
         <div class="code-frame">
@@ -224,18 +211,20 @@
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
             <span class="code-frame-title">glide.glide</span>
           </div>
-<pre class="code"><code><span class="kw">fn</span> <span class="fn">producer</span>(c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt;) {
-    <span class="kw">for</span> i <span class="kw">in</span> <span class="num">0</span>..<span class="num">3</span> { c.send(i); }
-    c.close();
-}
-
-<span class="kw">fn</span> <span class="fn">main</span>() -&gt; <span class="ty">int</span> {
-    <span class="kw">let</span> c: <span class="ty">chan</span>&lt;<span class="ty">int</span>&gt; = make_chan(<span class="num">2</span>);
-    <span class="kw">spawn</span> producer(c);
-    <span class="kw">while let</span> v = c.recv() { println!(v); }
-    <span class="kw">return</span> <span class="num">0</span>;
-}</code></pre>
+<pre class="code"><code>@derive(<span class="ty">JsonBind</span>)
+<span class="kw">struct</span> <span class="ty">User</span> {
+    name: <span class="ty">string</span>,
+    age:  <span class="ty">int</span>,
+}                              <span class="cmt">// parse + emit generated</span></code></pre>
         </div>
+      </div>
+    </article>
+
+    <article class="feature-row">
+      <div class="feature-text">
+        <span class="feature-tag">tool</span>
+        <h3>Shared lineage on the C backend</h3>
+        <p>Zig's most famous feature outside the language itself is the bundled C/C++ toolchain — <code>zig cc</code> is genuinely useful as a cross-compiler. Glide uses the same Zig-based toolchain under the hood to compile its C output, so cross-compilation, libc selection (glibc/musl), and target triples work the same way. <code>--target=x86_64-linux-musl</code> works on both, with the same toolchain underneath.</p>
       </div>
     </article>
 
@@ -243,24 +232,24 @@
 
   <section class="install">
     <h2 class="section-title">When to pick which</h2>
-    <p class="install-lede">Both deliver fast iteration loops and good concurrency. Pick by what hurts you in production.</p>
+    <p class="install-lede">Two languages with similar goals and different opinions about safety.</p>
     <div class="install-grid">
       <div class="install-card">
-        <h4>Pick Go if…</h4>
+        <h4>Pick Zig if…</h4>
         <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
-          You need the massive ecosystem (Kubernetes, Docker, every CNCF tool).
-          You're staffing a team that has to ramp in days, not weeks.
-          GC pauses are fine for your workload (~99% of services).
-          You value tooling stability over language expressiveness.
+          You want absolute control over allocation — every byte, every call site.
+          You're replacing C in an existing codebase and need seamless C interop.
+          You enjoy explicit allocator passing and prefer it to a borrow checker.
+          You don't need built-in concurrency primitives.
         </p>
       </div>
       <div class="install-card">
         <h4>Pick Glide if…</h4>
         <p style="color:var(--text-dim);font-size:14.5px;line-height:1.7;">
-          You want Go-shaped concurrency without GC pauses or runtime overhead.
-          You need real generics and traits, not just type-parameterised funcs.
-          You want <code>if err != nil</code> ergonomics without the verbosity.
-          You're targeting smaller binaries and lower memory footprint.
+          You want compile-time memory safety without passing allocators around.
+          You need M:N coroutines and channels in the language, not the OS layer.
+          You want traits + procedural macros, not <code>comptime</code> duck typing.
+          You like Zig's toolchain ergonomics and want the same on a higher-level surface.
         </p>
       </div>
     </div>
